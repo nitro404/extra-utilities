@@ -379,7 +379,7 @@ utilities.parseBoolean = function(value, defaultValue) {
 		defaultValue = null;
 	}
 
-	if(value === undefined || value === null) {
+	if(utilities.isInvalid(value)) {
 		return defaultValue;
 	}
 
@@ -1189,6 +1189,163 @@ utilities.matchAttribute = function(element, attribute, value) {
 	}
 
 	return element[attribute.trim()] === value;
+};
+
+utilities.generateVersions = function(version, prefix, suffix) {
+	if(!Array.isArray(version)) {
+		return null;
+	}
+
+	var versions = [];
+	var value = null;
+
+	for(var i = 0; i < version.length; i++) {
+		value = "";
+
+		if(utilities.isValid(prefix)) {
+			value += prefix;
+		}
+
+		for(var j = 0; j <= i; j++) {
+			if(j > 0) {
+				value += "_";
+			}
+
+			value += version[j];
+		}
+
+		if(utilities.isValid(suffix)) {
+			value += suffix;
+		}
+
+		versions.push(value);
+	}
+
+	return versions;
+};
+
+utilities.parseVersion = function(value, trimTrailingZeroes) {
+	const formattedValue = typeof value === "number" ? value.toString() : value;
+
+	if(typeof formattedValue !== "string") {
+		return null;
+	}
+
+	let version = [];
+	const versionData = formattedValue.match(/[^. \t]+/g);
+
+	if(versionData === null || versionData.length === 0) {
+		return null;
+	}
+
+	let part = null;
+
+	for(var i = 0; i < versionData.length; i++) {
+		if(validator.isInt(versionData[i])) {
+			part = utilities.parseInteger(versionData[i]);
+
+			if(utilities.isInvalidNumber(part) || part < 0) {
+				continue;
+			}
+
+			version.push(part.toString());
+		}
+		else {
+			version.push(versionData[i]);
+		}
+	}
+
+	if(utilities.parseBoolean(trimTrailingZeroes, false)) {
+		while(true) {
+			if(version.length <= 1) {
+				break;
+			}
+
+			if(version[version.length - 1] === "0") {
+				version.pop();
+			}
+			else {
+				break;
+			}
+		}
+	}
+
+	return version;
+};
+
+utilities.compareVersions = function(v1, v2, throwErrors) {
+	throwErrors =  utilities.parseBoolean(throwErrors, false);
+
+	if(utilities.isEmptyString(v1) || utilities.isEmptyString(v2)) {
+		if(throwErrors) {
+			throw new Error("Cannot compare invalid or empty versions.");
+		}
+
+		return null;
+	}
+
+	v1 = v1.trim();
+	v2 = v2.trim();
+
+	if(!v1.match(/([0-9]\.?)+/) || !v2.match(/([0-9]\.?)+/)) {
+		if(throwErrors) {
+			throw new Error("Cannot compare improperly formatted versions.");
+		}
+
+		return null;
+	}
+
+	let a = null;
+	let b = null;
+	let index = 0;
+	const v1data = v1.split(/[\. \t]+/g);
+	const v2data = v2.split(/[\. \t]+/g);
+
+	while(true) {
+		if(index >= v1data.length) {
+			if(v1data.length === v2data.length) {
+				return 0;
+			}
+
+			for(var i = index; i < v2data.length; i++) {
+				b = utilities.parseInteger(v2data[i]);
+
+				if(b !== 0) {
+					return -1;
+				}
+			}
+
+			return 0;
+		}
+
+		if(index >= v2data.length) {
+			if(v2data.length === v1data.length) {
+				return 0;
+			}
+
+			for(var i = index; i < v1data.length; i++) {
+				a = utilities.parseInteger(v1data[i]);
+
+				if(a !== 0) {
+					return 1;
+				}
+			}
+
+			return 0;
+		}
+
+		a = utilities.parseInteger(v1data[index]);
+		b = utilities.parseInteger(v2data[index]);
+
+		if(a > b) {
+			return  1;
+		}
+		else if(a < b) {
+			return -1;
+		}
+
+		index++;
+	}
 };
 
 utilities.clamp = function(value, min, max) {
