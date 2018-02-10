@@ -1,14 +1,10 @@
 if(typeof require !== "undefined") {
 	if(typeof validator === "undefined") {
 		global.validator = require("validator");
-	} 
+	}
 }
 
 let utilities = { };
-
-utilities.HalfPI = 1.57079632679489661923;
-utilities.QuarterPI = 0.78539816339744830962;
-utilities.TwoPI = 6.28318530717958647693;
 
 const postalCodeValidators = {
 	UK: /^([A-Z]){1}([0-9][0-9]|[0-9]|[A-Z][0-9][A-Z]|[A-Z][0-9][0-9]|[A-Z][0-9]|[0-9][A-Z]){1}([ ])?([0-9][A-z][A-z]){1}$/i,
@@ -1346,72 +1342,6 @@ utilities.compareVersions = function(v1, v2, throwErrors) {
 
 		index++;
 	}
-};
-
-utilities.clamp = function(value, min, max) {
-	return utilities.isInvalidNumber(value) || utilities.isInvalidNumber(min) || utilities.isInvalidNumber(max) ? NaN : value < min ? min : value > max ? max : value;
-};
-
-utilities.distance = function(a, b) {
-	return utilities.isInvalidNumber(a) || utilities.isInvalidNumber(b) ? NaN : Math.abs(b - a);
-};
-
-utilities.radiansToDegrees = function(value) {
-	return utilities.isInvalidNumber(value) ? NaN : value * (180 / Math.PI);
-};
-
-utilities.degreesToRadians = function(value) {
-	return utilities.isInvalidNumber(value) ? NaN : value * (Math.PI / 180);
-};
-
-utilities.compareAnglesDegrees = function(a, b) {
-	if(utilities.isInvalidNumber(a) || utilities.isInvalidNumber(b)) {
-		return NaN;
-	}
-
-	if(a == b) {
-		return 0;
-	}
-
-	let c = a % 360;
-	let d = b % 360;
-
-	if(c < 0) {
-		c += 360;
-	}
-
-	if(d < 0) {
-		d += 360;
-	}
-
-	if(c === d) {
-		return 0;
-	}
-
-	return Math.cos(utilities.degreesToRadians(a - b) + (Math.PI / 2)) < 0 ? -1 : 1;
-};
-
-utilities.compareAnglesRadians = function(a, b) {
-	return utilities.isInvalidNumber(a) || utilities.isInvalidNumber(b) ? NaN : utilities.compareAnglesDegrees(utilities.radiansToDegrees(a), utilities.radiansToDegrees(b));
-};
-
-utilities.lerp = function(a, b, amount) {
-	if(utilities.isInvalidNumber(a) || utilities.isInvalidNumber(b) || utilities.isInvalidNumber(amount)) {
-		return NaN;
-	}
-
-	if(amount === 0) {
-		return a;
-	}
-	else if(amount === 1) {
-		return b;
-	}
-
-	return a + (b - a) * amount;
-};
-
-utilities.normalize = function(value, min, max) {
-	return utilities.isInvalidNumber(value) || utilities.isInvalidNumber(min) || utilities.isInvalidNumber(max) ? NaN : (value - min) / (max - min);
 };
 
 utilities.hasPostalCodeValidator = function(country) {
