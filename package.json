@@ -1,0 +1,27 @@
+{
+  "name": "extra-utilities",
+  "version": "1.0.0",
+  "description": "A collection of useful helper functions.",
+  "main": "dist/extra-utilities.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nitro404/extra-utilities.git"
+  },
+  "keywords": [
+    "extra",
+    "helper",
+    "utilities"
+  ],
+  "author": "Kevin Scroggins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nitro404/extra-utilities/issues"
+  },
+  "homepage": "https://github.com/nitro404/extra-utilities#readme",
+  "dependencies": {
+    "validator": "^9.4.0"
+  }
+}
