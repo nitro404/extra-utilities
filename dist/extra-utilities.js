@@ -12,9 +12,9 @@
 		}
 	}
 
-	let utilities = { };
+	var utilities = { };
 
-	const postalCodeValidators = {
+	var postalCodeValidators = {
 		UK: /^([A-Z]){1}([0-9][0-9]|[0-9]|[A-Z][0-9][A-Z]|[A-Z][0-9][0-9]|[A-Z][0-9]|[0-9][A-Z]){1}([ ])?([0-9][A-z][A-z]){1}$/i,
 		JE: /^JE\d[\dA-Z]?[ ]?\d[ABD-HJLN-UW-Z]{2}$/,
 		GG: /^GY\d[\dA-Z]?[ ]?\d[ABD-HJLN-UW-Z]{2}$/,
@@ -253,7 +253,7 @@
 			comment = "//";
 		}
 
-		let commentStartIndex = -1;
+		var commentStartIndex = -1;
 
 		for(var i = 0; i < value.length; i++) {
 			if(value[i] === " " || value[i] == "\t") {
@@ -398,14 +398,14 @@
 			return defaultValue;
 		}
 
-		const formattedValue = value.trim().toLowerCase();
+		var formattedValue = value.trim().toLowerCase();
 
 		if(formattedValue.length === 0) {
 			return defaultValue;
 		}
 
 		if(formattedValue.length === 1) {
-			const character = formattedValue.charAt(0);
+			var character = formattedValue.charAt(0);
 
 			if(character === "t" || character === "y") {
 				return true;
@@ -435,7 +435,7 @@
 	};
 
 	utilities.parseInteger = function(value, defaultValue) {
-		let newValue = NaN;
+		var newValue = NaN;
 
 		if(typeof value === "number") {
 			newValue = parseInt(value);
@@ -454,7 +454,7 @@
 	};
 
 	utilities.parseFloatingPointNumber = function(value, defaultValue) {
-		let newValue = NaN;
+		var newValue = NaN;
 
 		if(typeof value === "number") {
 			newValue = value;
@@ -481,13 +481,13 @@
 			return new Date(parseInt(value));
 		}
 		else if(typeof value === "string") {
-			const formattedValue = value.trim();
+			var formattedValue = value.trim();
 
 			if(formattedValue.length === 0) {
 				return null;
 			}
 
-			let timestamp = null;
+			var timestamp = null;
 
 			if(validator.isInt(formattedValue)) {
 				timestamp = parseInt(formattedValue);
@@ -514,7 +514,7 @@
 			return null;
 		}
 
-		const postalCodeData = value.match(/[ \t]*([A-Z][0-9][A-Z])[_\- \t]?([0-9][A-Z][0-9])[ \t]*/i);
+		var postalCodeData = value.match(/[ \t]*([A-Z][0-9][A-Z])[_\- \t]?([0-9][A-Z][0-9])[ \t]*/i);
 
 		if(!postalCodeData) {
 			return null;
@@ -528,7 +528,7 @@
 			return null;
 		}
 
-		const emailData = value.trim().toLowerCase().match(/([^+@]+)(\+.*)?(@.+\..+)/);
+		var emailData = value.trim().toLowerCase().match(/([^+@]+)(\+.*)?(@.+\..+)/);
 
 		if(utilities.isInvalid(emailData) || emailData.length < 4) {
 			return null;
@@ -542,7 +542,7 @@
 			return null;
 		}
 
-		const emailDomainData = value.trim().toLowerCase().match(/([^+@]+)(\+.*)?@(.+\..+)/);
+		var emailDomainData = value.trim().toLowerCase().match(/([^+@]+)(\+.*)?@(.+\..+)/);
 
 		if(utilities.isInvalid(emailDomainData) || emailDomainData.length < 4) {
 			return null;
@@ -560,9 +560,9 @@
 			return [];
 		}
 
-		const data = value.split(/[;,]+/);
-		let formattedList = [];
-		let formattedValue = null;
+		var data = value.split(/[;,]+/);
+		var formattedList = [];
+		var formattedValue = null;
 
 		for(var i = 0; i < data.length; i++) {
 			formattedValue = data[i].trim();
@@ -586,7 +586,7 @@
 			return null;
 		}
 
-		const regExpData = value.match(/\s*\/(.*)\/(.*)\s*/);
+		var regExpData = value.match(/\s*\/(.*)\/(.*)\s*/);
 
 		if(!regExpData) {
 			return null;
@@ -600,8 +600,8 @@
 			return null;
 		}
 
-		const formattedValue = value.trim();
-		const linkData = formattedValue.match(/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/i);
+		var formattedValue = value.trim();
+		var linkData = formattedValue.match(/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/i);
 
 		if(linkData && linkData[1].length >= 11) {
 			return linkData[1];
@@ -615,7 +615,7 @@
 	};
 
 	utilities.formatStringList = function(value, stringify) {
-		let data = null;
+		var data = null;
 
 		if(utilities.isNonEmptyString(value)) {
 			data = utilities.parseStringList(value);
@@ -630,8 +630,8 @@
 			return null;
 		}
 
-		let formattedList = "";
-		let formattedValue = null;
+		var formattedList = "";
+		var formattedValue = null;
 
 		stringify = utilities.parseBoolean(stringify);
 
@@ -675,7 +675,7 @@
 			return null;
 		}
 
-		let trimmedString = value.replace(/^[ \t]+|[ \t]+$/gm, "");
+		var trimmedString = value.replace(/^[ \t]+|[ \t]+$/gm, "");
 
 		if(utilities.parseBoolean(trimNewlines, false)) {
 			trimmedString = trimmedString.replace(/\r\n?|\n/g, "");
@@ -693,14 +693,14 @@
 			return null;
 		}
 
-		let formattedAmount = utilities.parseInteger(amount, 1);
+		var formattedAmount = utilities.parseInteger(amount, 1);
 
 		if(formattedAmount < 0) {
 			formattedAmount = 1;
 		}
 
-		const formattedIndent = typeof indent === "string" ? indent : "\t";
-		let indentation = "";
+		var formattedIndent = typeof indent === "string" ? indent : "\t";
+		var indentation = "";
 
 		for(var i = 0; i < formattedAmount; i++) {
 			indentation += formattedIndent;
@@ -710,9 +710,9 @@
 			return value.replace(/^/gm, indentation);
 		}
 
-		let line = null;
-		let lines = value.split(/\r\n?|\n/g);
-		let indentedParagraph = "";
+		var line = null;
+		var lines = value.split(/\r\n?|\n/g);
+		var indentedParagraph = "";
 
 		for(var i = 0; i < lines.length; i++) {
 			line = lines[i];
@@ -732,7 +732,7 @@
 			return value;
 		}
 
-		let formattedValue = value.trim();
+		var formattedValue = value.trim();
 
 		if(formattedValue.length === 0) {
 			return formattedValue;
@@ -749,14 +749,14 @@
 			return null;
 		}
 
-		let formattedValue = value.toString();
-		const formattedExpectedLength = utilities.parseInteger(expectedLength);
+		var formattedValue = value.toString();
+		var formattedExpectedLength = utilities.parseInteger(expectedLength);
 
 		if(utilities.isInvalidNumber(formattedExpectedLength) || formattedExpectedLength < 0) {
 			return formattedValue;
 		}
 
-		const numberOfZeroes = formattedExpectedLength - formattedValue.length;
+		var numberOfZeroes = formattedExpectedLength - formattedValue.length;
 
 		for(var i = 0; i < numberOfZeroes; i++) {
 			formattedValue = "0" + formattedValue;
@@ -818,13 +818,13 @@
 			return 0;
 		}
 
-		let c = null;
-		let upper = 0;
-		let lower = 0;
-		const lowerA = "a".charCodeAt();
-		const lowerZ = "z".charCodeAt();
-		const upperA = "A".charCodeAt();
-		const upperZ = "Z".charCodeAt();
+		var c = null;
+		var upper = 0;
+		var lower = 0;
+		var lowerA = "a".charCodeAt();
+		var lowerZ = "z".charCodeAt();
+		var upperA = "A".charCodeAt();
+		var upperZ = "Z".charCodeAt();
 
 		for(var i = 0; i < value.length; i++) {
 			c = value.charCodeAt(i);
@@ -845,7 +845,7 @@
 			return null;
 		}
 
-		let reverse = "";
+		var reverse = "";
 
 		for(var i = 0; i < value.length; i++) {
 			reverse += value[value.length - i - 1];
@@ -865,13 +865,13 @@
 			return value;
 		}
 		else if(value instanceof Date) {
-			let copy = new Date();
+			var copy = new Date();
 			copy.setTime(value.getTime());
 
 			return copy;
 		}
 		else if(value instanceof Array) {
-			let copy = [];
+			var copy = [];
 
 			for(var i = 0, length = value.length; i < length; i++) {
 				copy[i] = utilities.clone(value[i]);
@@ -889,7 +889,7 @@
 			return new Buffer(value);
 		}
 		else if(value instanceof Object) {
-			let copy = null;
+			var copy = null;
 
 			if(value instanceof Error) {
 				copy = new Error(value.message);
@@ -915,7 +915,7 @@
 			return null;
 		}
 
-		let newObject = null;
+		var newObject = null;
 
 		copy = utilities.parseBoolean(copy, true);
 
@@ -930,10 +930,10 @@
 			return newObject;
 		}
 
-		let attribute = null;
-		let value = null;
-		let newValue = null;
-		const attributes = Object.keys(b);
+		var attribute = null;
+		var value = null;
+		var newValue = null;
+		var attributes = Object.keys(b);
 
 		deepMerge = utilities.parseBoolean(deepMerge, true);
 
@@ -960,8 +960,8 @@
 	};
 
 	utilities.calculateAge = function(value) {
-		const currentDate = new Date();
-		let formattedDate = utilities.parseDate(value);
+		var currentDate = new Date();
+		var formattedDate = utilities.parseDate(value);
 
 		if(formattedDate === null || formattedDate > currentDate) {
 			return -1;
@@ -975,7 +975,7 @@
 			return null;
 		}
 
-		let formattedValue = value.trim();
+		var formattedValue = value.trim();
 
 		if(formattedValue.length === 0) { return formattedValue; }
 
@@ -989,7 +989,7 @@
 	utilities.appendSlash = function(value) {
 		if(typeof value !== "string") { return null; }
 
-		let formattedValue = value.trim();
+		var formattedValue = value.trim();
 
 		if(formattedValue.length === 0) {
 			return formattedValue;
@@ -1003,9 +1003,9 @@
 	};
 
 	utilities.joinPaths = function(base, path) {
-		const formattedBase = typeof base === "string" ? base.trim().replace(/[\/\\]+$/, "") : null;
-		const formattedPath = typeof path === "string" ? path.trim().replace(/^[\/\\]+/, "") : null;
-		let newPath = "";
+		var formattedBase = typeof base === "string" ? base.trim().replace(/[\/\\]+$/, "") : null;
+		var formattedPath = typeof path === "string" ? path.trim().replace(/^[\/\\]+/, "") : null;
+		var newPath = "";
 
 		if(utilities.isNonEmptyString(formattedBase)) {
 			newPath += formattedBase;
@@ -1029,8 +1029,8 @@
 	};
 
 	utilities.createRange = function(start, end) {
-		let formattedStart = utilities.parseInteger(start);
-		let formattedEnd = utilities.parseInteger(end);
+		var formattedStart = utilities.parseInteger(start);
+		var formattedEnd = utilities.parseInteger(end);
 
 		if(utilities.isInvalidNumber(formattedEnd)) {
 			formattedEnd = formattedStart;
@@ -1041,7 +1041,7 @@
 			return [];
 		}
 
-		let range = [];
+		var range = [];
 
 		for(var i = formattedStart; i <= formattedEnd; i++) {
 			range.push(i);
@@ -1057,14 +1057,14 @@
 			return null;
 		}
 
-		const currentDate = new Date();
-		let month = 0;
+		var currentDate = new Date();
+		var month = 0;
 
 		if(date.getFullYear() == currentDate.getFullYear()) {
 			month = currentDate.getMonth();
 		}
 
-		let months = [];
+		var months = [];
 
 		prependZero = utilities.parseBoolean(prependZero, true);
 
@@ -1087,7 +1087,7 @@
 			return [];
 		}
 
-		let visibleElements = [];
+		var visibleElements = [];
 
 		for(var i = 0; i < elements.length; i++) {
 			if(utilities.isVisible(elements[i])) {
@@ -1103,7 +1103,7 @@
 			return [];
 		}
 
-		let hiddenElements = [];
+		var hiddenElements = [];
 
 		for(var i = 0; i < elements.length; i++) {
 			if(utilities.isHidden(elements[i])) {
@@ -1119,7 +1119,7 @@
 			return [];
 		}
 
-		let enabledElements = [];
+		var enabledElements = [];
 
 		for(var i = 0; i < elements.length; i++) {
 			if(utilities.isEnabled(elements[i])) {
@@ -1135,7 +1135,7 @@
 			return [];
 		}
 
-		let disabledElements = [];
+		var disabledElements = [];
 
 		for(var i = 0; i < elements.length; i++) {
 			if(utilities.isDisabled(elements[i])) {
@@ -1151,8 +1151,8 @@
 			return [];
 		}
 
-		let element = null;
-		let filteredElements = [];
+		var element = null;
+		var filteredElements = [];
 
 		attribute = attribute.trim();
 		hasAttribute = utilities.parseBoolean(hasAttribute, true);
@@ -1229,20 +1229,20 @@
 	};
 
 	utilities.parseVersion = function(value, trimTrailingZeroes) {
-		const formattedValue = typeof value === "number" ? value.toString() : value;
+		var formattedValue = typeof value === "number" ? value.toString() : value;
 
 		if(typeof formattedValue !== "string") {
 			return null;
 		}
 
-		let version = [];
-		const versionData = formattedValue.match(/[^. \t]+/g);
+		var version = [];
+		var versionData = formattedValue.match(/[^. \t]+/g);
 
 		if(versionData === null || versionData.length === 0) {
 			return null;
 		}
 
-		let part = null;
+		var part = null;
 
 		for(var i = 0; i < versionData.length; i++) {
 			if(validator.isInt(versionData[i])) {
@@ -1299,11 +1299,11 @@
 			return null;
 		}
 
-		let a = null;
-		let b = null;
-		let index = 0;
-		const v1data = v1.split(/[\. \t]+/g);
-		const v2data = v2.split(/[\. \t]+/g);
+		var a = null;
+		var b = null;
+		var index = 0;
+		var v1data = v1.split(/[\. \t]+/g);
+		var v2data = v2.split(/[\. \t]+/g);
 
 		while(true) {
 			if(index >= v1data.length) {
@@ -1357,7 +1357,7 @@
 			return false;
 		}
 
-		const formattedCountry = country.trim().toUpperCase();
+		var formattedCountry = country.trim().toUpperCase();
 
 		if(formattedCountry.length === 0) {
 			return false;
@@ -1371,7 +1371,7 @@
 			return false;
 		}
 
-		const formattedCountry = country.trim().toUpperCase();
+		var formattedCountry = country.trim().toUpperCase();
 
 		if(formattedCountry.length === 0 || !utilities.isRegularExpression(postalCodeValidators[formattedCountry])) {
 			return false;
