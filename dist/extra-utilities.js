@@ -517,6 +517,105 @@
 		return null;
 	};
 
+	utilities.parseTime = function(value) {
+		if(utilities.isEmptyString(value)) {
+			return null;
+		}
+
+		var formattedValue = value.trim();
+		var hour = null;
+		var minutes = null;
+		var regularTime = formattedValue.match(/^[ \t]*(([2-9]|[1][0-2]?)(:([0-5][0-9]))?[ \t]*([ap]m))[ \t]*$/i);
+
+		if(regularTime) {
+			var regularHour = utilities.parseInteger(utilities.trimLeadingZeroes(regularTime[2]));
+
+			if(utilities.isInvalidNumber(regularHour)) {
+				throw new Error("Invalid regular hour: \"" + regularTime[2] + "\".");
+			}
+
+			minutes = utilities.parseInteger(utilities.trimLeadingZeroes(regularTime[4]));
+
+			if(utilities.isInvalidNumber(minutes)) {
+				minutes = 0;
+			}
+
+			var period = regularTime[5].toUpperCase();
+			var morning = period === "AM" ? true : (period === "PM" ? false : null);
+
+			if(morning === null) {
+				throw new Error("Invalid period: \"" + regularTime[5] + "\".");
+			}
+
+			hour = morning ? regularHour + (regularHour === 12 ? 12 : 0) : regularHour + (regularHour === 12 ? 0 : 12);
+
+			if(hour === 24) {
+				hour = 0;
+			}
+		}
+		else {
+			var militaryTime = formattedValue.match(/^[ \t]*(((([0-1][0-9])|(2[0-3])):?([0-5][0-9]))|((24):?(00)))[ \t]*$/i);
+
+			if(militaryTime) {
+				var militaryHour = militaryTime[3];
+				var militaryMinutes = militaryTime[6];
+
+				if(utilities.isInvalid(militaryHour) || utilities.isInvalid(militaryMinutes)) {
+					militaryHour = militaryTime[8];
+					militaryMinutes = militaryTime[9];
+				}
+
+				if(utilities.isInvalid(militaryHour) || utilities.isInvalid(militaryMinutes)) {
+					throw new Error("Invalid military time: \"" + formattedValue + "\".");
+				}
+
+				hour = utilities.parseInteger(utilities.trimLeadingZeroes(militaryHour));
+
+				if(utilities.isInvalidNumber(hour)) {
+					throw new Error("Invalid military time hour: \"" + militaryHour + "\".");
+				}
+
+				minutes = utilities.parseInteger(utilities.trimLeadingZeroes(militaryMinutes));
+
+				if(utilities.isInvalidNumber(minutes)) {
+					throw new Error("Invalid military time minutes: \"" + militaryMinutes + "\".");
+				}
+
+				if(hour === 24 && minutes === 0) {
+					hour = 0;
+				}
+			}
+			else {
+				throw new Error("Invalid time: \"" + formattedValue + "\".");
+			}
+		}
+
+		if(hour < 0 || hour > 23) {
+			throw new Error("Time hour is out of range (0 - 23): \"" + hour + "\".");
+		}
+		else if(minutes < 0 || minutes > 59) {
+			throw new Error("Time minutes is out of range (0 - 59): \"" + minutes + "\".");
+		}
+
+		var regularHour = hour === 0 ? 12 : (hour <= 12 ? hour : hour - 12);
+		var period = hour < 12 ? "AM" : "PM";
+
+		return {
+			regular: {
+				raw: regularHour + ":" + utilities.addLeadingZeroes(minutes, 2) + " " + period,
+				hour: regularHour,
+				minutes: minutes,
+				period: period,
+				morning: hour < 12
+			},
+			military: {
+				raw: utilities.addLeadingZeroes(hour, 2) + utilities.addLeadingZeroes(minutes, 2),
+				hour: hour,
+				minutes: minutes
+			}
+		};
+	};
+
 	utilities.parsePostalCode = function(value) {
 		if(utilities.isEmptyString(value)) {
 			return null;
