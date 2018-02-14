@@ -236,6 +236,10 @@
 		return Array.isArray(value) && value.length !== 0;
 	};
 
+	utilities.isDate = function(value) {
+		return value instanceof Date;
+	};
+
 	utilities.isRegularExpression = function(value) {
 		return value instanceof RegExp;
 	};
