@@ -614,6 +614,675 @@ utilities.parseYouTubeLink = function(value) {
 	return null;
 };
 
+utilities.formatValue = function(value, format, options) {
+	if(utilities.isObjectStrict(options)) {
+		options = {
+			throwErrors: utilities.parseBoolean(options.throwErrors, false),
+			verbose: utilities.parseBoolean(options.verbose, true)
+		};
+	}
+	else {
+		options = {
+			throwErrors: false,
+			verbose: true
+		};
+	}
+
+	if(!utilities.isObjectStrict(format)) {
+		return utilities.clone(value);
+	}
+
+	format = utilities.clone(format);
+
+	var formatTypes = ["boolean", "integer", "float", "number", "string", "object", "array", "date", "function"];
+
+	var stringCaseFunctions = {
+		camel: changeCase.camelCase,
+		constant: changeCase.constantCase,
+		dot: changeCase.dotCase,
+		header: changeCase.headerCase,
+		lower: changeCase.lowerCase,
+		lowerFirst: changeCase.lowerCaseFirst,
+		no: changeCase.noCase,
+		param: changeCase.paramCase,
+		pascal: changeCase.pascalCase,
+		path: changeCase.pathCase,
+		sentence: changeCase.sentenceCase,
+		snake: changeCase.snakeCase,
+		swap: changeCase.swapCase,
+		title: changeCase.titleCase,
+		upper: changeCase.upperCase,
+		upperFirst: changeCase.upperCaseFirst
+	};
+
+	var errorMessage = null;
+
+	if(utilities.isEmptyString(format.type)) {
+		errorMessage = "Invalid required type format value - expected non-empty string.";
+	}
+	else {
+		var originalType = format.type;
+
+		format.type = format.type.trim().toLowerCase();
+
+		var validFormatType = false;
+
+		for(var i = 0; i < formatTypes.length; i++) {
+			if(format.type === formatTypes[i]) {
+				validFormatType = true;
+				break;
+			}
+		}
+
+		if(!validFormatType) {
+			errorMessage = "Invalid required type format value - expected one of " + formatTypes.join(", ") + ", received \"" + utilities.toString(originalType) + "\".";
+		}
+		else {
+			if(format.type === "number") {
+				format.type = "float";
+			}
+			else if(format.type === "string") {
+				if(format.trim !== undefined) {
+					var originalTrim = format.trim;
+
+					format.trim = utilities.parseBoolean(format.trim);
+
+					if(format.trim === null) {
+						errorMessage = "Invalid optional trim format value - expected boolean, received \"" + utilities.toString(originalTrim) + "\".";
+					}
+				}
+
+				if(utilities.isInvalid(errorMessage)) {
+					if(format.case !== undefined) {
+						if(utilities.isEmptyString(format.case)) {
+							errorMessage = "Invalid optional case format value - expected non-empty string.";
+						}
+						else {
+							var originalCase = format.case;
+
+							format.case = changeCase.camel(format.case.trim());
+
+							if(!utilities.isFunction(stringCaseFunctions[format.case])) {
+								errorMessage = "Invalid optional case format value - expected one of " + Object.keys(stringCaseFunctions).join(", ") + ", received \"" + utilities.toString(originalCase) + "\".";
+							}
+						}
+					}
+				}
+			}
+			else if(format.type === "object") {
+				if(format.strict !== undefined) {
+					var originalStrict = format.strict;
+
+					format.strict = utilities.parseBoolean(format.strict);
+
+					if(format.strict === null) {
+						errorMessage = "Invalid optional strict format value - expected boolean, received \"" + utilities.toString(originalStrict) + "\".";
+					}
+				}
+
+				if(utilities.isInvalid(errorMessage)) {
+					if(format.order !== undefined) {
+						var originalOrder = format.order;
+
+						format.order = utilities.parseBoolean(format.order);
+
+						if(format.order === null) {
+							errorMessage = "Invalid optional order format value - expected boolean, received \"" + utilities.toString(originalOrder) + "\".";
+						}
+					}
+				}
+
+				if(utilities.isInvalid(errorMessage)) {
+					if(format.removeExtra !== undefined) {
+						var originalRemoveExtra = format.removeExtra;
+
+						format.removeExtra = utilities.parseBoolean(format.removeExtra);
+
+						if(format.removeExtra === null) {
+							errorMessage = "Invalid optional removeExtra format value - expected boolean, received \"" + utilities.toString(originalRemoveExtra) + "\".";
+						}
+					}
+				}
+			}
+
+			if(utilities.isInvalid(errorMessage)) {
+				if(format.type === "object" || format.type === "array") {
+					if(format.format !== undefined && !utilities.isObjectStrict(format.format)) {
+						errorMessage = "Invalid optional format format value - expected object, received \"" + utilities.toString(format.format) + "\".";
+					}
+				}
+			}
+
+			if(utilities.isInvalid(errorMessage)) {
+				if(format.type === "string" || format.type === "object" || format.type === "array") {
+					if(format.nonEmpty !== undefined) {
+						var originalNonEmpty = format.nonEmpty;
+
+						format.nonEmpty = utilities.parseBoolean(format.nonEmpty);
+
+						if(format.nonEmpty === null) {
+							errorMessage = "Invalid optional nonEmpty format value - expected boolean, received \"" + utilities.toString(originalNonEmpty) + "\".";
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if(utilities.isInvalid(errorMessage)) {
+		if(format.nullable !== undefined) {
+			var originalNullable = format.nullable;
+
+			format.nullable = utilities.parseBoolean(format.nullable);
+
+			if(format.nullable === null) {
+				errorMessage = "Invalid optional nullable format value - expected boolean, received \"" + utilities.toString(originalNullable) + "\".";
+			}
+		}
+	}
+
+	if(utilities.isInvalid(errorMessage)) {
+		if(format.required !== undefined) {
+			var originalRequired = format.required;
+
+			format.required = utilities.parseBoolean(format.required);
+
+			if(format.required === null) {
+				errorMessage = "Invalid optional required format value - expected boolean, received \"" + utilities.toString(format.required) + "\".";
+			}
+		}
+	}
+
+	if(utilities.isInvalid(errorMessage)) {
+		if(format.parser !== undefined) {
+			if(!utilities.isFunction(format.parser)) {
+				errorMessage = "Invalid optional parser format value - expected function, received \"" + utilities.toString(format.parser) + "\".";
+			}
+		}
+	}
+
+	if(utilities.isInvalid(errorMessage)) {
+		if(format.validator !== undefined) {
+			if(!utilities.isFunction(format.validator)) {
+				errorMessage = "Invalid optional validator format value - expected function, received \"" + utilities.toString(format.validator) + "\".";
+			}
+		}
+	}
+
+	if(utilities.isInvalid(errorMessage)) {
+		if(format.formatter !== undefined) {
+			if(!utilities.isFunction(format.formatter)) {
+				errorMessage = "Invalid optional formatter format value - expected function, received \"" + utilities.toString(format.formatter) + "\".";
+			}
+		}
+	}
+
+	if(utilities.isValid(errorMessage)) {
+		if(options.throwErrors) {
+			throw new Error(errorMessage);
+		}
+		else if(options.verbose) {
+			console.error(errorMessage);
+		}
+
+		return null;
+	}
+
+	if(utilities.isFunction(format.parser)) {
+		if(options.throwErrors) {
+			value = format.parser(value, format, options);
+		}
+		else {
+			try {
+				value = format.parser(value, format, options);
+			}
+			catch(error) {
+				if(options.verbose) {
+					console.error(error.message);
+				}
+
+				return null;
+			}
+		}
+	}
+
+	var formattedValue = undefined;
+
+	if(value === undefined) {
+		formattedValue = utilities.clone(format.default);
+	}
+	else if(value === null) {
+		if(format.nullable) {
+			formattedValue = null;
+		}
+		else if(format.default !== undefined) {
+			formattedValue = utilities.clone(format.default);
+		}
+		else {
+			errorMessage = "Value cannot be null!";
+		}
+	}
+	else if(format.type === "boolean") {
+		formattedValue = utilities.parseBoolean(value);
+
+		if(formattedValue === null) {
+			errorMessage = "Invalid boolean value: \"" + utilities.toString(value) + "\".";
+		}
+	}
+	else if(format.type === "integer") {
+		formattedValue = utilities.parseInteger(value);
+
+		if(utilities.isInvalidNumber(formattedValue)) {
+			errorMessage = "Invalid integer value: \"" + utilities.toString(value) + "\".";
+		}
+	}
+	else if(format.type === "float") {
+		formattedValue = utilities.parseFloatingPointNumber(value);
+
+		if(utilities.isInvalidNumber(formattedValue)) {
+			errorMessage = "Invalid float value: \"" + utilities.toString(value) + "\".";
+		}
+	}
+	else if(format.type === "string") {
+		formattedValue = typeof value === "string" ? value : utilities.toString(value);
+
+		if(format.trim) {
+			formattedValue = formattedValue.trim();
+		}
+
+		if(format.case !== undefined) {
+			formattedValue = stringCaseFunctions[format.case](formattedValue);
+		}
+
+		if(format.nonEmpty && formattedValue.length === 0) {
+			var message = "String value cannot be empty.";
+
+			if(options.throwErrors) {
+				throw new Error(message);
+			}
+			else if(options.verbose) {
+				console.error(message);
+			}
+
+			return null;
+		}
+	}
+	else if(format.type === "object") {
+		if(typeof value === "string") {
+			try {
+				formattedValue = JSON.parse(value);
+
+				if(!utilities.isObject(formattedValue, format.strict)) {
+					errorMessage = "Invalid stringified object value type - expected " + (format.strict ? "strict " : "") + "object: \"" + utilities.toString(value) + "\"."
+				}
+			}
+			catch(error) {
+				errorMessage = "Invalid stringified object value: \"" + utilities.toString(value) + "\".";
+			}
+		}
+		else if(utilities.isObject(value, format.strict)) {
+			formattedValue = utilities.clone(value);
+		}
+		else {
+			errorMessage = "Invalid value type - expected " + (format.strict ? "strict " : "") + "object or stringified object: \"" + utilities.toString(value) + "\".";
+		}
+
+		if(utilities.isInvalid(errorMessage)) {
+			if(utilities.isObjectStrict(format.format)) {
+				var attribute = null;
+				var attributes = Object.keys(format.format);
+
+				for(var i = 0; i < attributes.length; i++) {
+					attribute = attributes[i];
+
+					if(options.throwErrors) {
+						var formattedAttribute = utilities.formatValue(formattedValue[attribute], format.format[attribute], options);
+
+						if(formattedAttribute !== undefined) {
+							formattedValue[attribute] = formattedAttribute;
+						}
+					}
+					else {
+						var subOptions = utilities.clone(options);
+
+						subOptions.throwErrors = true;
+
+						try {
+							var formattedAttribute = utilities.formatValue(formattedValue[attribute], format.format[attribute], subOptions);
+
+							if(formattedAttribute !== undefined) {
+								formattedValue[attribute] = formattedAttribute;
+							}
+						}
+						catch(error) {
+							if(options.verbose) {
+								console.error(error.message);
+							}
+
+							return null;
+						}
+					}
+				}
+
+				if(format.removeExtra) {
+					var newValue = { };
+
+					attributes = Object.keys(formattedValue);
+
+					for(var i = 0; i < attributes.length; i++) {
+						attribute = attributes[i];
+
+						if(utilities.isValid(format.format[attribute])) {
+							newValue[attribute] = formattedValue[attribute];
+						}
+					}
+
+					formattedValue = newValue;
+				}
+
+				if(format.order) {
+					var orderedObject = { };
+
+					attributes = Object.keys(format.format);
+
+					for(var i = 0; i < attributes.length; i++) {
+						attribute = attributes[i];
+
+						if(formattedValue[attribute] !== undefined) {
+							orderedObject[attribute] = formattedValue[attribute];
+
+							delete formattedValue[attribute];
+						}
+					}
+
+					var extraAttributes = Object.keys(formattedValue);
+
+					for(var i = 0; i < extraAttributes.length; i++) {
+						attribute = extraAttributes[i];
+
+						orderedObject[attribute] = formattedValue[attribute];
+					}
+
+					formattedValue = orderedObject;
+				}
+			}
+
+			if(format.nonEmpty && utilities.isEmptyObject(formattedValue)) {
+				var message = "Object value must contain at least one attribute.";
+
+				if(options.throwErrors) {
+					throw new Error(message);
+				}
+				else if(options.verbose) {
+					console.error(message);
+				}
+
+				return null;
+			}
+		}
+	}
+	else if(format.type === "array") {
+		if(typeof value === "string") {
+			try {
+				formattedValue = JSON.parse(value);
+
+				if(!Array.isArray(formattedValue)) {
+					errorMessage = "Invalid stringified array value type - expected array: \"" + utilities.toString(value) + "\"."
+				}
+			}
+			catch(error) {
+				errorMessage = "Invalid stringified array value: \"" + utilities.toString(value) + "\".";
+			}
+		}
+		else if(Array.isArray(value)) {
+			formattedValue = utilities.clone(value);
+		}
+		else {
+			errorMessage = "Invalid value type - expected array or stringified array: \"" + utilities.toString(value) + "\".";
+		}
+
+		if(utilities.isInvalid(errorMessage)) {
+			if(Array.isArray(formattedValue)) {
+				var formattedArray = [];
+
+				if(utilities.isObjectStrict(format.format)) {
+					var formattedElement = null;
+
+					for(var i = 0; i < formattedValue.length; i++) {
+						if(formattedValue[i] === undefined) {
+							continue;
+						}
+
+						if(options.throwErrors) {
+							formattedElement = utilities.formatValue(formattedValue[i], format.format, options);
+						}
+						else {
+							var subOptions = utilities.clone(options);
+
+							subOptions.throwErrors = true;
+
+							try {
+								formattedElement = utilities.formatValue(formattedValue[i], format.format, subOptions);
+							}
+							catch(error) {
+								if(options.verbose) {
+									console.error(error.message);
+								}
+
+								return null;
+							}
+						}
+
+						formattedArray.push(formattedElement);
+					}
+				}
+				else {
+					for(var i = 0; i < formattedValue.length; i++) {
+						if(formattedValue[i] === undefined) {
+							continue;
+						}
+
+						formattedArray.push(utilities.clone(formattedValue[i]));
+					}
+				}
+
+				formattedValue = formattedArray;
+
+				if(format.nonEmpty && formattedValue.length === 0) {
+					var message = "Array value cannot be empty.";
+
+					if(options.throwErrors) {
+						throw new Error(message);
+					}
+					else if(options.verbose) {
+						console.error(message);
+					}
+
+					return null;
+				}
+			}
+		}
+	}
+	else if(format.type === "date") {
+		formattedValue = utilities.parseDate(value);
+
+		if(!utilities.isDate(formattedValue)) {
+			errorMessage = "Invalid date value: \"" + utilities.toString(value) + "\".";
+		}
+	}
+	else if(format.type === "function") {
+		formattedValue = value;
+
+		if(!utilities.isFunction(formattedValue)) {
+			errorMessage = "Invalid function value: \"" + utilities.toString(value) + "\".";
+		}
+	}
+
+	if(utilities.isValid(errorMessage)) {
+		if(options.throwErrors) {
+			throw new Error(errorMessage);
+		}
+		else if(options.verbose) {
+			console.error(errorMessage);
+		}
+
+		return null;
+	}
+
+	if(formattedValue === undefined) {
+		if(format.required) {
+			var message = "Missing required value!";
+
+			if(options.throwErrors) {
+				throw new Error(message);
+			}
+			else if(options.verbose) {
+				console.error(message);
+			}
+
+			return null;
+		}
+
+		if(format.default !== undefined) {
+			formattedValue = utilities.clone(format.default);
+		}
+	}
+
+	if(utilities.isFunction(format.validator)) {
+		if(options.throwErrors) {
+			if(!format.validator(formattedValue, format, options)) {
+				var message = "Validation check failed!";
+
+				if(options.throwErrors) {
+					throw new Error(message);
+				}
+				else if(options.verbose) {
+					console.error(message);
+				}
+
+				return null;
+			}
+		}
+		else {
+			try {
+				if(!format.validator(formattedValue, format, options)) {
+					var message = "Validation check failed!";
+
+					if(options.verbose) {
+						console.error(message);
+					}
+
+					return null;
+				}
+			}
+			catch(error) {
+				if(options.verbose) {
+					console.error(error.message);
+				}
+
+				return null;
+			}
+		}
+	}
+
+	if(utilities.isFunction(format.formatter)) {
+		if(options.throwErrors) {
+			formattedValue = format.formatter(formattedValue, format, options);
+		}
+		else {
+			try {
+				formattedValue = format.formatter(formattedValue, format, options);
+			}
+			catch(error) {
+				if(options.verbose) {
+					console.error(error.message);
+				}
+
+				return null;
+			}
+		}
+	}
+
+	return formattedValue;
+};
+
+utilities.formatObject = function(object, format, removeExtra, throwErrors) {
+	if(!utilities.isObjectStrict(object) && (!utilities.isObjectStrict(removeExtra) || !utilities.isFunction(removeExtra.parser))) {
+		return { };
+	}
+
+	var options = null;
+
+	if(utilities.isObjectStrict(removeExtra)) {
+		options = {
+			throwErrors: utilities.parseBoolean(removeExtra.throwErrors, utilities.parseBoolean(throwErrors, false)),
+			verbose: utilities.parseBoolean(removeExtra.verbose, false)
+		};
+	}
+	else {
+		options = {
+			throwErrors: utilities.parseBoolean(throwErrors, false),
+			verbose: false
+		};
+	}
+
+	var subFormat = {
+		type: "object",
+		strict: false,
+		order: utilities.isObjectStrict(removeExtra) ? utilities.parseBoolean(removeExtra.order, false) : false,
+		removeExtra: utilities.isObjectStrict(removeExtra) ? utilities.parseBoolean(removeExtra.removeExtra, utilities.parseBoolean(removeExtra, false)) : utilities.parseBoolean(removeExtra, false),
+		nullable: true,
+		required: false,
+		format: format
+	};
+
+	if(utilities.isObjectStrict(removeExtra)) {
+		if(utilities.isFunction(removeExtra.parser)) {
+			subFormat.parser = removeExtra.parser;
+		}
+
+		if(utilities.isFunction(removeExtra.validator)) {
+			subFormat.validator = removeExtra.validator;
+		}
+
+		if(utilities.isFunction(removeExtra.formatter)) {
+			subFormat.formatter = removeExtra.formatter;
+		}
+	}
+
+	var formattedObject = null;
+
+	if(options.throwErrors) {
+		formattedObject = utilities.formatValue(
+			object,
+			subFormat,
+			options
+		);
+	}
+	else {
+		var subOptions = utilities.clone(options);
+
+		subOptions.throwErrors = true;
+
+		try {
+			formattedObject = utilities.formatValue(
+				object,
+				subFormat,
+				subOptions
+			);
+		}
+		catch(error) {
+			if(options.verbose) {
+				console.error(error.message);
+			}
+
+			return null;
+		}
+	}
+
+	return utilities.isObjectStrict(formattedObject) || (utilities.isObjectStrict(removeExtra) && utilities.isFunction(removeExtra.parser)) ? formattedObject : { };
+};
+
 utilities.formatStringList = function(value, stringify) {
 	var data = null;
 
@@ -863,6 +1532,9 @@ utilities.createError = function(message, status) {
 utilities.clone = function(value) {
 	if(!utilities.isObject(value)) {
 		return value;
+	}
+	else if(value instanceof Boolean) {
+		return new Boolean(value.valueOf());
 	}
 	else if(value instanceof Date) {
 		var copy = new Date();
