@@ -2,6 +2,10 @@ if(typeof require !== "undefined") {
 	if(typeof validator === "undefined") {
 		global.validator = require("validator");
 	}
+
+	if(typeof changeCase === "undefined") {
+		global.changeCase = require("change-case-bundled");
+	}
 }
 
 var utilities = { };

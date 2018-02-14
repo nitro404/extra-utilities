@@ -13,15 +13,20 @@
   "keywords": [
     "extra",
     "helper",
-    "utilities"
+    "utility",
+    "utilities",
+    "function"
   ],
-  "author": "Kevin Scroggins",
+  "author": {
+    "name": "Kevin Scroggins"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/nitro404/extra-utilities/issues"
   },
   "homepage": "https://github.com/nitro404/extra-utilities#readme",
   "dependencies": {
+    "change-case-bundled": "^1.0.0",
     "validator": "^9.4.0"
   }
 }
