@@ -180,6 +180,14 @@
 		INTL: /^(?:[A-Z0-9]+([- ]?[A-Z0-9]+)*)?$/i
 	};
 
+	var regExpFlags = {
+		global: "g",
+		multiline: "m",
+		ignoreCase: "i",
+		sticky: "y",
+		unicode: "u"
+	};
+
 	utilities.isValid = function(value) {
 		return value !== undefined && value !== null;
 	};
@@ -1663,6 +1671,17 @@
 		}
 		else if(value instanceof Map) {
 			return new Map(value);
+		}
+		else if(value instanceof RegExp) {
+			var flags = "";
+
+			for(var flag in regExpFlags) {
+				if(value[flag]) {
+					flags += regExpFlags[flag]
+				}
+			}
+
+			return new RegExp(value.source, flags);
 		}
 		else if(typeof Buffer !== "undefined" && value instanceof Buffer) {
 			return new Buffer(value);
