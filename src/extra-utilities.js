@@ -1512,7 +1512,7 @@ utilities.replaceNonBreakingSpaces = function(value) {
 	return typeof value === "string" ? value.replace(/&nbsp;/gi, " ") : value;
 };
 
-utilities.indentText = function(value, amount, indent, clearEmptyLines) {
+utilities.indentText = function(value, amount, indentation, clearEmptyLines) {
 	if(typeof value !== "string") {
 		return null;
 	}
@@ -1523,15 +1523,15 @@ utilities.indentText = function(value, amount, indent, clearEmptyLines) {
 		formattedAmount = 1;
 	}
 
-	var formattedIndent = typeof indent === "string" ? indent : "\t";
-	var indentation = "";
+	var formattedIndentation = typeof indentation === "string" ? indentation : "\t";
+	var totalIndentation = "";
 
 	for(var i = 0; i < formattedAmount; i++) {
-		indentation += formattedIndent;
+		totalIndentation += formattedIndentation;
 	}
 
 	if(!utilities.parseBoolean(clearEmptyLines, true)) {
-		return value.replace(/^/gm, indentation);
+		return value.replace(/^/gm, totalIndentation);
 	}
 
 	var line = null;
@@ -1541,7 +1541,7 @@ utilities.indentText = function(value, amount, indent, clearEmptyLines) {
 	for(var i = 0; i < lines.length; i++) {
 		line = lines[i];
 
-		indentedParagraph += (utilities.isEmptyString(line) ? "" : indentation + line) + ((i < lines.length - 1) ? "\n" : "");
+		indentedParagraph += (utilities.isEmptyString(line) ? "" : totalIndentation + line) + ((i < lines.length - 1) ? "\n" : "");
 	}
 
 	return indentedParagraph;
