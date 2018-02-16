@@ -1508,6 +1508,14 @@ utilities.trimWhitespace = function(value, trimNewlines) {
 	return trimmedString;
 };
 
+utilities.trimTrailingNewlines = function(value) {
+	if(utilities.isEmptyString(value)) {
+		return value;
+	}
+
+	return value.replace(/[ \t\r\n]+$/, "");
+};
+
 utilities.replaceNonBreakingSpaces = function(value) {
 	return typeof value === "string" ? value.replace(/&nbsp;/gi, " ") : value;
 };
