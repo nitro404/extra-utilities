@@ -741,7 +741,7 @@ utilities.formatValue = function(value, format, options) {
 
 	format = utilities.clone(format);
 
-	var formatTypes = ["boolean", "integer", "float", "number", "string", "object", "array", "date", "function"];
+	var formatTypes = ["boolean", "bool", "integer", "int", "float", "number", "string", "object", "array", "date", "regex", "regexp", "regularexpression", "function", "func"];
 
 	var stringCaseFunctions = {
 		camel: changeCase.camelCase,
@@ -785,7 +785,13 @@ utilities.formatValue = function(value, format, options) {
 			errorMessage = "Invalid required type format value - expected one of " + formatTypes.join(", ") + ", received \"" + utilities.toString(originalType) + "\".";
 		}
 		else {
-			if(format.type === "number") {
+			if(format.type === "bool") {
+				format.type = "boolean";
+			}
+			else if(format.type === "int") {
+				format.type = "integer";
+			}
+			else if(format.type === "number") {
 				format.type = "float";
 			}
 			else if(format.type === "string") {
@@ -795,14 +801,14 @@ utilities.formatValue = function(value, format, options) {
 					format.trim = utilities.parseBoolean(format.trim);
 
 					if(format.trim === null) {
-						errorMessage = "Invalid optional trim format value - expected boolean, received \"" + utilities.toString(originalTrim) + "\".";
+						errorMessage = "Invalid optional trim string format value - expected boolean, received \"" + utilities.toString(originalTrim) + "\".";
 					}
 				}
 
 				if(utilities.isInvalid(errorMessage)) {
 					if(format.case !== undefined) {
 						if(utilities.isEmptyString(format.case)) {
-							errorMessage = "Invalid optional case format value - expected non-empty string.";
+							errorMessage = "Invalid optional string case format value - expected non-empty string.";
 						}
 						else {
 							var originalCase = format.case;
@@ -823,7 +829,19 @@ utilities.formatValue = function(value, format, options) {
 					format.strict = utilities.parseBoolean(format.strict);
 
 					if(format.strict === null) {
-						errorMessage = "Invalid optional strict format value - expected boolean, received \"" + utilities.toString(originalStrict) + "\".";
+						errorMessage = "Invalid optional strict object format value - expected boolean, received \"" + utilities.toString(originalStrict) + "\".";
+					}
+				}
+
+				if(utilities.isInvalid(errorMessage)) {
+					if(format.autopopulate !== undefined) {
+						var originalAutopopulate = format.autopopulate;
+
+						format.autopopulate = utilities.parseBoolean(format.autopopulate);
+
+						if(format.autopopulate === null) {
+							errorMessage = "Invalid optional autopopulate object format value - expected boolean, received \"" + utilities.toString(originalAutopopulate) + "\".";
+						}
 					}
 				}
 
@@ -834,7 +852,7 @@ utilities.formatValue = function(value, format, options) {
 						format.order = utilities.parseBoolean(format.order);
 
 						if(format.order === null) {
-							errorMessage = "Invalid optional order format value - expected boolean, received \"" + utilities.toString(originalOrder) + "\".";
+							errorMessage = "Invalid optional order object format value - expected boolean, received \"" + utilities.toString(originalOrder) + "\".";
 						}
 					}
 				}
@@ -846,10 +864,16 @@ utilities.formatValue = function(value, format, options) {
 						format.removeExtra = utilities.parseBoolean(format.removeExtra);
 
 						if(format.removeExtra === null) {
-							errorMessage = "Invalid optional removeExtra format value - expected boolean, received \"" + utilities.toString(originalRemoveExtra) + "\".";
+							errorMessage = "Invalid optional removeExtra object format value - expected boolean, received \"" + utilities.toString(originalRemoveExtra) + "\".";
 						}
 					}
 				}
+			}
+			else if(format.type === "regexp" || format.type === "regularexpression") {
+				format.type = "regex";
+			}
+			else if(format.type === "func") {
+				format.type = "function";
 			}
 
 			if(utilities.isInvalid(errorMessage)) {
@@ -1014,120 +1038,6 @@ utilities.formatValue = function(value, format, options) {
 			return null;
 		}
 	}
-	else if(format.type === "object") {
-		if(typeof value === "string") {
-			try {
-				formattedValue = JSON.parse(value);
-
-				if(!utilities.isObject(formattedValue, format.strict)) {
-					errorMessage = "Invalid stringified object value type - expected " + (format.strict ? "strict " : "") + "object: \"" + utilities.toString(value) + "\"."
-				}
-			}
-			catch(error) {
-				errorMessage = "Invalid stringified object value: \"" + utilities.toString(value) + "\".";
-			}
-		}
-		else if(utilities.isObject(value, format.strict)) {
-			formattedValue = utilities.clone(value);
-		}
-		else {
-			errorMessage = "Invalid value type - expected " + (format.strict ? "strict " : "") + "object or stringified object: \"" + utilities.toString(value) + "\".";
-		}
-
-		if(utilities.isInvalid(errorMessage)) {
-			if(utilities.isObjectStrict(format.format)) {
-				var attribute = null;
-				var attributes = Object.keys(format.format);
-
-				for(var i = 0; i < attributes.length; i++) {
-					attribute = attributes[i];
-
-					if(options.throwErrors) {
-						var formattedAttribute = utilities.formatValue(formattedValue[attribute], format.format[attribute], options);
-
-						if(formattedAttribute !== undefined) {
-							formattedValue[attribute] = formattedAttribute;
-						}
-					}
-					else {
-						var subOptions = utilities.clone(options);
-
-						subOptions.throwErrors = true;
-
-						try {
-							var formattedAttribute = utilities.formatValue(formattedValue[attribute], format.format[attribute], subOptions);
-
-							if(formattedAttribute !== undefined) {
-								formattedValue[attribute] = formattedAttribute;
-							}
-						}
-						catch(error) {
-							if(options.verbose) {
-								console.error(error.message);
-							}
-
-							return null;
-						}
-					}
-				}
-
-				if(format.removeExtra) {
-					var newValue = { };
-
-					attributes = Object.keys(formattedValue);
-
-					for(var i = 0; i < attributes.length; i++) {
-						attribute = attributes[i];
-
-						if(utilities.isValid(format.format[attribute])) {
-							newValue[attribute] = formattedValue[attribute];
-						}
-					}
-
-					formattedValue = newValue;
-				}
-
-				if(format.order) {
-					var orderedObject = { };
-
-					attributes = Object.keys(format.format);
-
-					for(var i = 0; i < attributes.length; i++) {
-						attribute = attributes[i];
-
-						if(formattedValue[attribute] !== undefined) {
-							orderedObject[attribute] = formattedValue[attribute];
-
-							delete formattedValue[attribute];
-						}
-					}
-
-					var extraAttributes = Object.keys(formattedValue);
-
-					for(var i = 0; i < extraAttributes.length; i++) {
-						attribute = extraAttributes[i];
-
-						orderedObject[attribute] = formattedValue[attribute];
-					}
-
-					formattedValue = orderedObject;
-				}
-			}
-
-			if(format.nonEmpty && utilities.isEmptyObject(formattedValue)) {
-				var message = "Object value must contain at least one attribute.";
-
-				if(options.throwErrors) {
-					throw new Error(message);
-				}
-				else if(options.verbose) {
-					console.error(message);
-				}
-
-				return null;
-			}
-		}
-	}
 	else if(format.type === "array") {
 		if(typeof value === "string") {
 			try {
@@ -1217,11 +1127,148 @@ utilities.formatValue = function(value, format, options) {
 			errorMessage = "Invalid date value: \"" + utilities.toString(value) + "\".";
 		}
 	}
+	else if(format.type === "regex") {
+		if(utilities.isRegularExpression(value)) {
+			formattedValue = utilities.clone(value);
+		}
+		else {
+			formattedValue = utilities.parseRegularExpression(value);
+		}
+
+		if(utilities.isInvalid(formattedValue)) {
+			errorMessage = "Invalid regular expression value: \"" + utilities.toString(value) + "\".";
+		}
+	}
 	else if(format.type === "function") {
 		formattedValue = value;
 
 		if(!utilities.isFunction(formattedValue)) {
 			errorMessage = "Invalid function value: \"" + utilities.toString(value) + "\".";
+		}
+	}
+
+	if(utilities.isInvalid(errorMessage)) {
+		if(format.type === "object") {
+			if(utilities.isValid(value)) {
+				if(typeof value === "string") {
+					try {
+						formattedValue = JSON.parse(value);
+
+						if(!utilities.isObject(formattedValue, format.strict)) {
+							errorMessage = "Invalid stringified object value type - expected " + (format.strict ? "strict " : "") + "object: \"" + utilities.toString(value) + "\"."
+						}
+					}
+					catch(error) {
+						errorMessage = "Invalid stringified object value: \"" + utilities.toString(value) + "\".";
+					}
+				}
+				else if(utilities.isObject(value, format.strict)) {
+					formattedValue = utilities.clone(value);
+				}
+				else {
+					errorMessage = "Invalid value type - expected " + (format.strict ? "strict " : "") + "object or stringified object: \"" + utilities.toString(value) + "\".";
+				}
+			}
+
+			if(utilities.isInvalid(errorMessage)) {
+				if(utilities.isInvalid(formattedValue)) {
+					if(format.autopopulate && !utilities.isObject(formattedValue, format.strict)) {
+						formattedValue = { };
+					}
+				}
+
+				if(utilities.isObjectStrict(format.format) && utilities.isObject(formattedValue)) {
+					var attribute = null;
+					var attributes = Object.keys(format.format);
+
+					for(var i = 0; i < attributes.length; i++) {
+						attribute = attributes[i];
+
+						if(options.throwErrors) {
+							var formattedAttribute = utilities.formatValue(formattedValue[attribute], format.format[attribute], options);
+
+							if(formattedAttribute !== undefined) {
+								formattedValue[attribute] = formattedAttribute;
+							}
+						}
+						else {
+							var subOptions = utilities.clone(options);
+
+							subOptions.throwErrors = true;
+
+							try {
+								var formattedAttribute = utilities.formatValue(formattedValue[attribute], format.format[attribute], subOptions);
+
+								if(formattedAttribute !== undefined) {
+									formattedValue[attribute] = formattedAttribute;
+								}
+							}
+							catch(error) {
+								if(options.verbose) {
+									console.error(error.message);
+								}
+
+								return null;
+							}
+						}
+					}
+
+					if(format.removeExtra) {
+						var newValue = { };
+
+						attributes = Object.keys(formattedValue);
+
+						for(var i = 0; i < attributes.length; i++) {
+							attribute = attributes[i];
+
+							if(utilities.isValid(format.format[attribute])) {
+								newValue[attribute] = formattedValue[attribute];
+							}
+						}
+
+						formattedValue = newValue;
+					}
+
+					if(format.order) {
+						var orderedObject = { };
+
+						attributes = Object.keys(format.format);
+
+						for(var i = 0; i < attributes.length; i++) {
+							attribute = attributes[i];
+
+							if(formattedValue[attribute] !== undefined) {
+								orderedObject[attribute] = formattedValue[attribute];
+
+								delete formattedValue[attribute];
+							}
+						}
+
+						var extraAttributes = Object.keys(formattedValue);
+
+						for(var i = 0; i < extraAttributes.length; i++) {
+							attribute = extraAttributes[i];
+
+							orderedObject[attribute] = formattedValue[attribute];
+						}
+
+						formattedValue = orderedObject;
+					}
+				}
+
+				if(format.nonEmpty && utilities.isEmptyObject(formattedValue)) {
+					var message = "Object value must contain at least one attribute.";
+
+					if(options.throwErrors) {
+						throw new Error(message);
+					}
+					else if(options.verbose) {
+						console.error(message);
+					}
+
+					return null;
+				}
+			}
 		}
 	}
 
@@ -1336,6 +1383,7 @@ utilities.formatObject = function(object, format, removeExtra, throwErrors) {
 	var subFormat = {
 		type: "object",
 		strict: false,
+		autopopulate: utilities.isObjectStrict(removeExtra) ? utilities.parseBoolean(removeExtra.autopopulate, false) : false,
 		order: utilities.isObjectStrict(removeExtra) ? utilities.parseBoolean(removeExtra.order, false) : false,
 		removeExtra: utilities.isObjectStrict(removeExtra) ? utilities.parseBoolean(removeExtra.removeExtra, utilities.parseBoolean(removeExtra, false)) : utilities.parseBoolean(removeExtra, false),
 		nullable: true,
@@ -1560,10 +1608,21 @@ utilities.toString = function(value) {
 	else if(typeof value === "number" && isNaN(value)) {
 		return "NaN";
 	}
-	else if(utilities.isFunction(value)) {
+	else if(utilities.isDate(value)) {
 		return value.toString();
 	}
-	else if(value instanceof Date) {
+	else if(utilities.isRegularExpression(value)) {
+		var flags = "";
+
+		for(var flag in regExpFlags) {
+			if(value[flag]) {
+				flags += regExpFlags[flag]
+			}
+		}
+
+		return "/" + value.source + "/" + flags;
+	}
+	else if(utilities.isFunction(value)) {
 		return value.toString();
 	}
 
