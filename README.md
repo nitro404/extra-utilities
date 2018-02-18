@@ -3,7 +3,7 @@
 [![NPM version][npm-version-image]][npm-url]
 [![Build Status][build-status-image]][build-status-url]
 [![Coverage Status][coverage-image]][coverage-url]
-[![Known Vulnerabilities][snyk-image]][snyk-url]
+[![Known Vulnerabilities][vulnerabilities-image]][vulnerabilities-url]
 [![Downloads][npm-downloads-image]][npm-url]
 
 A collection of useful helper functions.
@@ -43,5 +43,5 @@ npm install extra-utilities
 [coverage-url]: https://coveralls.io/github/nitro404/extra-utilities?branch=master
 [coverage-image]: https://coveralls.io/repos/github/nitro404/extra-utilities/badge.svg?branch=master
 
-[snyk-url]: https://snyk.io/test/github/nitro404/extra-utilities?targetFile=package.json
-[snyk-image]: https://snyk.io/test/github/nitro404/extra-utilities/badge.svg?targetFile=package.json
+[vulnerabilities-url]: https://snyk.io/test/github/nitro404/extra-utilities?targetFile=package.json
+[vulnerabilities-image]: https://snyk.io/test/github/nitro404/extra-utilities/badge.svg?targetFile=package.json
