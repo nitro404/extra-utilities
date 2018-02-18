@@ -5,10 +5,43 @@ var utilities = require("../dist/extra-utilities.js");
 var chai = require("chai");
 var expect = chai.expect;
 
+var testData = [
+	undefined,
+	null,
+	false,
+	true,
+	new Boolean(false),
+	new Boolean(true),
+	0,
+	1,
+	3.141592654,
+	NaN,
+	Infinity,
+	-Infinity,
+	"",
+	"test",
+	" trim\t",
+	{ },
+	{ nice: "meme" },
+	[ ],
+	[0],
+	new Date(),
+	function() { },
+	new RegExp(".+")
+];
+
 describe("Utilities", function() {
 	describe("isValid", function() {
 		it("should be a function", function() {
 			expect(utilities.isValid instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true];
+
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.isValid(testData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
@@ -16,11 +49,35 @@ describe("Utilities", function() {
 		it("should be a function", function() {
 			expect(utilities.isInvalid instanceof Function).to.equal(true);
 		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.isInvalid(testData[i])).to.equal(results[i]);
+			}
+		});
 	});
 
 	describe("isBoolean", function() {
 		it("should be a function", function() {
 			expect(utilities.isBoolean instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.isBoolean(testData[i])).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value when objects are allowed", function() {
+			var results = [false, false, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.isBoolean(testData[i], true)).to.equal(results[i]);
+			}
 		});
 	});
 
@@ -28,35 +85,145 @@ describe("Utilities", function() {
 		it("should be a function", function() {
 			expect(utilities.isValidNumber instanceof Function).to.equal(true);
 		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false];
+
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.isValidNumber(testData[i])).to.equal(results[i]);
+			}
+		});
 	});
 
 	describe("isInvalidNumber", function() {
 		it("should be a function", function() {
 			expect(utilities.isInvalidNumber instanceof Function).to.equal(true);
 		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [true, true, true, true, true, true, false, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true];
+
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.isInvalidNumber(testData[i])).to.equal(results[i]);
+			}
+		});
 	});
 
 	describe("isEmptyString", function() {
+		var newTestData = testData.concat(" ", "\t", " \t");
+
 		it("should be a function", function() {
 			expect(utilities.isEmptyString instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value with trim disabled", function() {
+			var results = [true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, true, true, true, true, true, true, true, false, false, false];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isEmptyString(newTestData[i], false)).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with trim enabled", function() {
+			var results = [true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, true, true, true, true, true, true, true, true, true, true];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isEmptyString(newTestData[i], true)).to.equal(results[i]);
+			}
 		});
 	});
 
 	describe("isNonEmptyString", function() {
+		var newTestData = testData.concat(" ", "\t", " \t");
+
 		it("should be a function", function() {
 			expect(utilities.isNonEmptyString instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value with trim disabled", function() {
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, true, true, true];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isNonEmptyString(newTestData[i], false)).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with trim enabled", function() {
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isNonEmptyString(newTestData[i], true)).to.equal(results[i]);
+			}
 		});
 	});
 
 	describe("isObject", function() {
+		function Aunty(donna) { this.donna = donna; }
+
+		var newTestData = testData.concat(
+			new Boolean(),
+			new Number(),
+			new Number(-1.1),
+			new String(),
+			new String("Corporate Spy"),
+			new Object(),
+			new Map(),
+			new Array(),
+			new Error(),
+			new Error("2pidgeons.exe"),
+			new Aunty(),
+			(function() { return function() { }; })
+		);
+
 		it("should be a function", function() {
 			expect(utilities.isObject instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value with strict disabled", function() {
+			var results = [false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, true, true, true, true, true, false, true, true, true, true, true, true, true, true, true, true, true, false];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isObject(newTestData[i], false)).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with strict enabled", function() {
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isObject(newTestData[i], true)).to.equal(results[i]);
+			}
 		});
 	});
 
 	describe("isObjectStrict", function() {
+		function Aunty(donna) { this.donna = donna; }
+
+		var newTestData = testData.concat(
+			new Boolean(),
+			new Number(),
+			new Number(-1.1),
+			new String(),
+			new String("Corporate Spy"),
+			new Object(),
+			new Map(),
+			new Array(),
+			new Error(),
+			new Error("2pidgeons.exe"),
+			new Aunty(),
+			(function() { return function() { }; })
+		);
+
 		it("should be a function", function() {
 			expect(utilities.isObjectStrict instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isObjectStrict(newTestData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
@@ -64,11 +231,27 @@ describe("Utilities", function() {
 		it("should be a function", function() {
 			expect(utilities.isEmptyObject instanceof Function).to.equal(true);
 		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false];
+
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.isEmptyObject(testData[i])).to.equal(results[i]);
+			}
+		});
 	});
 
 	describe("isNonEmptyObject", function() {
 		it("should be a function", function() {
 			expect(utilities.isNonEmptyObject instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false];
+
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.isNonEmptyObject(testData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
@@ -76,11 +259,27 @@ describe("Utilities", function() {
 		it("should be a function", function() {
 			expect(utilities.isEmptyArray instanceof Function).to.equal(true);
 		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false];
+
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.isEmptyArray(testData[i])).to.equal(results[i]);
+			}
+		});
 	});
 
 	describe("isNonEmptyArray", function() {
 		it("should be a function", function() {
 			expect(utilities.isNonEmptyArray instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false];
+
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.isNonEmptyArray(testData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
@@ -88,11 +287,27 @@ describe("Utilities", function() {
 		it("should be a function", function() {
 			expect(utilities.isDate instanceof Function).to.equal(true);
 		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false];
+
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.isDate(testData[i])).to.equal(results[i]);
+			}
+		});
 	});
 
 	describe("isRegularExpression", function() {
 		it("should be a function", function() {
 			expect(utilities.isRegularExpression instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true];
+
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.isRegularExpression(testData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
@@ -100,41 +315,169 @@ describe("Utilities", function() {
 		it("should be a function", function() {
 			expect(utilities.isFunction instanceof Function).to.equal(true);
 		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false];
+
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.isFunction(testData[i])).to.equal(results[i]);
+			}
+		});
 	});
 
 	describe("isComment", function() {
+		var newTestData = testData.concat("/", "//", "//a", " // b", "\t \t//cd", " e // f", "l/o/l", "/l/m/a/o/", "#", " # x", "\t\t # y z", "hash # tag");
+
 		it("should be a function", function() {
 			expect(utilities.isComment instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, false, false, false, false, false, false, false];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isComment(newTestData[i])).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with custom comment type", function() {
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, false];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isComment(newTestData[i], "#")).to.equal(results[i]);
+			}
 		});
 	});
 
 	describe("isVisible", function() {
+		var newTestData = testData.concat(
+			{ visible: "nope" },
+			{ visible: false },
+			{ visible: true },
+			{ visible: function() { return false; } },
+			{ visible: function() { return true; } },
+			{ hidden: "avi" },
+			{ hidden: false },
+			{ hidden: true },
+			{ hidden: function() { return false; } },
+			{ hidden: function() { return true; } }
+		);
+
 		it("should be a function", function() {
 			expect(utilities.isVisible instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, true, true, true, true, true, false, true, true, false, true, false, true, true, true, false, true, false];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isVisible(newTestData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
 	describe("isHidden", function() {
+		var newTestData = testData.concat(
+			{ visible: "nice" },
+			{ visible: false },
+			{ visible: true },
+			{ visible: function() { return false; } },
+			{ visible: function() { return true; } },
+			{ hidden: "meme" },
+			{ hidden: false },
+			{ hidden: true },
+			{ hidden: function() { return false; } },
+			{ hidden: function() { return true; } }
+		);
+
 		it("should be a function", function() {
 			expect(utilities.isHidden instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [true, true, true, true, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false, false, true, false, false, true, false, true, false, false, false, true, false, true];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isHidden(newTestData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
 	describe("isEnabled", function() {
+		var newTestData = testData.concat(
+			{ enabled: "door" },
+			{ enabled: false },
+			{ enabled: true },
+			{ enabled: function() { return false; } },
+			{ enabled: function() { return true; } },
+			{ disabled: "stuck" },
+			{ disabled: false },
+			{ disabled: true },
+			{ disabled: function() { return false; } },
+			{ disabled: function() { return true; } }
+		);
+
 		it("should be a function", function() {
 			expect(utilities.isEnabled instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, true, true, true, true, true, false, true, true, false, true, false, true, true, true, false, true, false];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isEnabled(newTestData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
 	describe("isDisabled", function() {
+		var newTestData = testData.concat(
+			{ enabled: "ayy" },
+			{ enabled: false },
+			{ enabled: true },
+			{ enabled: function() { return false; } },
+			{ enabled: function() { return true; } },
+			{ disabled: "lmao" },
+			{ disabled: false },
+			{ disabled: true },
+			{ disabled: function() { return false; } },
+			{ disabled: function() { return true; } }
+		);
+
 		it("should be a function", function() {
 			expect(utilities.isDisabled instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [true, true, true, true, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false, false, true, false, false, true, false, true, false, false, false, true, false, true];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isDisabled(newTestData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
 	describe("parseBoolean", function() {
+		var newTestData = testData.concat(" ", "\t", "f", "T", "N", "y", "0", "1", "fALSE", "True", "no", "YES", "Off", "ON", "x");
+
 		it("should be a function", function() {
 			expect(utilities.parseBoolean instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [null, null, false, true, false, true, false, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, false, true, false, true, false, true, false, true, false, true, false, true, null];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.parseBoolean(newTestData[i])).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with a custom default", function() {
+			var results = [true, true, false, true, false, true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, false, true, false, true, false, true, false, true, false, true, true];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.parseBoolean(newTestData[i], true)).to.equal(results[i]);
+			}
 		});
 	});
 
