@@ -33,6 +33,17 @@ To install this module:
 npm install extra-utilities
 ```
 
+## Building
+
+To build the distribution files for this module:
+```bash
+npm run build
+```
+or
+```bash
+gulp build
+```
+
 [npm-url]: https://www.npmjs.com/package/extra-utilities
 [npm-version-image]: https://img.shields.io/npm/v/extra-utilities.svg
 [npm-downloads-image]: http://img.shields.io/npm/dm/extra-utilities.svg
