@@ -298,15 +298,17 @@ describe("Utilities", function() {
 	});
 
 	describe("isRegularExpression", function() {
+		var newTestData = testData.concat(/v/im, new RegExp("la", "g"));
+
 		it("should be a function", function() {
 			expect(utilities.isRegularExpression instanceof Function).to.equal(true);
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true];
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true];
 
-			for(var i = 0; i < testData.length; i++) {
-				expect(utilities.isRegularExpression(testData[i])).to.equal(results[i]);
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isRegularExpression(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
@@ -482,20 +484,99 @@ describe("Utilities", function() {
 	});
 
 	describe("parseInteger", function() {
+		var newTestData = testData.concat(-69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828");
+
 		it("should be a function", function() {
 			expect(utilities.parseInteger instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [NaN, NaN, NaN, NaN, NaN, NaN, 0, 1, 3, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -69, -3, 88, -32, -1, 0, 1, 64, -1, 0, 2];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				if(isNaN(results[i])) {
+					expect(isNaN(utilities.parseInteger(newTestData[i]))).to.equal(true);
+				}
+				else {
+					expect(utilities.parseInteger(newTestData[i])).to.equal(results[i]);
+				}
+			}
+		});
+
+		it("should produce the correct result for each test value with a custom default", function() {
+			var defaultInteger = 420;
+			var results = [defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, 0, 1, 3, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, -69, -3, 88, -32, -1, 0, 1, 64, -1, 0, 2];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.parseInteger(newTestData[i], defaultInteger)).to.equal(results[i]);
+			}
 		});
 	});
 
 	describe("parseFloatingPointNumber", function() {
+		var newTestData = testData.concat(-69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828");
+
 		it("should be a function", function() {
 			expect(utilities.parseFloatingPointNumber instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [NaN, NaN, NaN, NaN, NaN, NaN, 0, 1, 3.141592654, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -69, -3.33333, 88, -32, -1, 0, 1, 64, -1.1, 0.48, 2.71828];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				if(isNaN(results[i])) {
+					expect(isNaN(utilities.parseFloatingPointNumber(newTestData[i]))).to.equal(true);
+				}
+				else {
+					expect(utilities.parseFloatingPointNumber(newTestData[i])).to.equal(results[i]);
+				}
+			}
+		});
+
+		it("should produce the correct result for each test value with a custom default", function() {
+			var defaultFloat = 6.9;
+			var results = [defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, 0, 1, 3.141592654, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, -69, -3.33333, 88, -32, -1, 0, 1, 64, -1.1, 0.48, 2.71828];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.parseFloatingPointNumber(newTestData[i], defaultFloat)).to.equal(results[i]);
+			}
 		});
 	});
 
 	describe("parseDate", function() {
+		var testDate = new Date();
+		var newTestData = testData.concat("June 5, 2012", "June 18, 1987 3:30 PM", "2018-02-19T06:19:33Z", testDate.getTime(), testDate.toString(), testDate.getTime().toString());
+
+		for(var i = 0; i < newTestData.length; i++) {
+			if(utilities.isDate(newTestData[i])) {
+				newTestData[i] = testDate;
+			}
+		}
+
 		it("should be a function", function() {
 			expect(utilities.parseDate instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [null, null, null, null, null, null, new Date(0), new Date(1), null, null, null, null, null, null, null, null, null, null, null, testDate, null, null, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, testDate, testDate];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				if(results[i] === null) {
+					expect(utilities.parseDate(newTestData[i])).to.equal(null);
+				}
+				else {
+					expect(utilities.parseDate(newTestData[i]).toString()).to.equal(results[i].toString());
+				}
+			}
+		});
+
+		it("should produce the correct result for each test value with a custom default", function() {
+			var defaultDate = new Date("October 21, 2015 4:29 PM");
+			var results = [defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, new Date(0), new Date(1), defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, testDate, defaultDate, defaultDate, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, testDate, testDate];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.parseDate(newTestData[i], defaultDate).toString()).to.equal(results[i].toString());
+			}
 		});
 	});
 
