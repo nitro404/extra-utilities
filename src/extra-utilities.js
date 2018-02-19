@@ -454,8 +454,10 @@ utilities.parseInteger = function(value, defaultValue) {
 		}
 	}
 
-	if(utilities.isInvalidNumber(newValue) && utilities.isValidNumber(defaultValue)) {
-		return parseInt(defaultValue);
+	if(utilities.isInvalidNumber(newValue)) {
+		defaultValue = parseInt(defaultValue);
+
+		return utilities.isValidNumber(defaultValue) ? defaultValue : NaN;
 	}
 
 	return newValue;
@@ -473,17 +475,21 @@ utilities.parseFloatingPointNumber = function(value, defaultValue) {
 		}
 	}
 
-	if(utilities.isInvalidNumber(newValue) && utilities.isValidNumber(defaultValue)) {
-		return defaultValue;
+	if(utilities.isInvalidNumber(newValue)) {
+		return utilities.isValidNumber(defaultValue) ? defaultValue : NaN;
 	}
 
 	return newValue;
 };
 
-utilities.parseDate = function(value) {
+utilities.parseDate = function(value, defaultValue) {
+	if(!utilities.isDate(defaultValue)) {
+		defaultValue = null;
+	}
+
 	if(typeof value === "number") {
-		if(utilities.isInvalidNumber(value)) {
-			return null;
+		if(utilities.isInvalidNumber(value) || !Number.isInteger(value)) {
+			return defaultValue;
 		}
 
 		return new Date(parseInt(value));
@@ -492,7 +498,7 @@ utilities.parseDate = function(value) {
 		var formattedValue = value.trim();
 
 		if(formattedValue.length === 0) {
-			return null;
+			return defaultValue;
 		}
 
 		var timestamp = null;
@@ -505,7 +511,7 @@ utilities.parseDate = function(value) {
 		}
 
 		if(utilities.isInvalidNumber(timestamp)) {
-			return null;
+			return defaultValue;
 		}
 
 		return new Date(timestamp);
@@ -514,7 +520,7 @@ utilities.parseDate = function(value) {
 		return value;
 	}
 
-	return null;
+	return defaultValue;
 };
 
 utilities.parseTime = function(value) {
