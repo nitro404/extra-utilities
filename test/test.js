@@ -962,6 +962,14 @@ describe("Utilities", function() {
 			}
 		});
 
+		it("should produce the correct result for each test value with negative amount", function() {
+			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim\t", null, null, null, null, null, null, null, "lol \n", "door\n\tstuck ", "\tcant\nmake\nit\t"];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.indentText(newTestData[i], -420)).to.equal(results[i]);
+			}
+		});
+
 		it("should produce the correct result for each test value with custom amount and indentation", function() {
 			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "?!?!test", "?!?! trim\t", null, null, null, null, null, null, null, "?!?!lol \n", "?!?!door\n?!?!\tstuck ", "?!?!\tcant\n?!?!make\n?!?!it\t"];
 
