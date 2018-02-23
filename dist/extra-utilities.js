@@ -1587,8 +1587,8 @@
 
 		amount = utilities.parseInteger(amount, 1);
 
-		if(utilities.isInvalidNumber(amount) || amount < 0) {
-			amount = 1;
+		if(amount < 0) {
+			amount = 0;
 		}
 
 		indentation = typeof indentation === "string" ? indentation : "\t";
