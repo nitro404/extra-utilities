@@ -523,8 +523,14 @@ utilities.parseDate = function(value, defaultValue) {
 	return defaultValue;
 };
 
-utilities.parseTime = function(value) {
+utilities.parseTime = function(value, throwErrors) {
+	throwErrors = utilities.parseBoolean(throwErrors);
+
 	if(utilities.isEmptyString(value)) {
+		if(throwErrors) {
+			throw new Error("Invalid or empty time value.");
+		}
+
 		return null;
 	}
 
@@ -537,7 +543,11 @@ utilities.parseTime = function(value) {
 		var regularHour = utilities.parseInteger(utilities.trimLeadingZeroes(regularTime[2]));
 
 		if(utilities.isInvalidNumber(regularHour)) {
-			throw new Error("Invalid regular hour: \"" + regularTime[2] + "\".");
+			if(throwErrors) {
+				throw new Error("Invalid regular hour: \"" + regularTime[2] + "\".");
+			}
+
+			return null;
 		}
 
 		minutes = utilities.parseInteger(utilities.trimLeadingZeroes(regularTime[4]));
@@ -550,7 +560,11 @@ utilities.parseTime = function(value) {
 		var morning = period === "AM" ? true : (period === "PM" ? false : null);
 
 		if(morning === null) {
-			throw new Error("Invalid period: \"" + regularTime[5] + "\".");
+			if(throwErrors) {
+				throw new Error("Invalid period: \"" + regularTime[5] + "\".");
+			}
+
+			return null;
 		}
 
 		hour = morning ? regularHour + (regularHour === 12 ? 12 : 0) : regularHour + (regularHour === 12 ? 0 : 12);
@@ -568,23 +582,38 @@ utilities.parseTime = function(value) {
 
 			if(utilities.isInvalid(militaryHour) || utilities.isInvalid(militaryMinutes)) {
 				militaryHour = militaryTime[8];
-				militaryMinutes = militaryTime[9];
+
+				if(utilities.isNonEmptyString(militaryTime[9])) {
+					militaryMinutes = militaryTime[9];
+				}
 			}
 
 			if(utilities.isInvalid(militaryHour) || utilities.isInvalid(militaryMinutes)) {
-				throw new Error("Invalid military time: \"" + formattedValue + "\".");
+				if(throwErrors) {
+					throw new Error("Invalid military time: \"" + formattedValue + "\".");
+				}
+
+				return null;
 			}
 
 			hour = utilities.parseInteger(utilities.trimLeadingZeroes(militaryHour));
 
 			if(utilities.isInvalidNumber(hour)) {
-				throw new Error("Invalid military time hour: \"" + militaryHour + "\".");
+				if(throwErrors) {
+					throw new Error("Invalid military time hour: \"" + militaryHour + "\".");
+				}
+
+				return null;
 			}
 
 			minutes = utilities.parseInteger(utilities.trimLeadingZeroes(militaryMinutes));
 
 			if(utilities.isInvalidNumber(minutes)) {
-				throw new Error("Invalid military time minutes: \"" + militaryMinutes + "\".");
+				if(throwErrors) {
+					throw new Error("Invalid military time minutes: \"" + militaryMinutes + "\".");
+				}
+
+				return null;
 			}
 
 			if(hour === 24 && minutes === 0) {
@@ -592,15 +621,27 @@ utilities.parseTime = function(value) {
 			}
 		}
 		else {
-			throw new Error("Invalid time: \"" + formattedValue + "\".");
+			if(throwErrors) {
+				throw new Error("Invalid time: \"" + formattedValue + "\".");
+			}
+
+			return null;
 		}
 	}
 
 	if(hour < 0 || hour > 23) {
-		throw new Error("Time hour is out of range (0 - 23): \"" + hour + "\".");
+		if(throwErrors) {
+			throw new Error("Time hour is out of range (0 - 23): \"" + hour + "\".");
+		}
+
+		return null;
 	}
 	else if(minutes < 0 || minutes > 59) {
-		throw new Error("Time minutes is out of range (0 - 59): \"" + minutes + "\".");
+		if(throwErrors) {
+			throw new Error("Time minutes is out of range (0 - 59): \"" + minutes + "\".");
+		}
+
+		return null;
 	}
 
 	var regularHour = hour === 0 ? 12 : (hour <= 12 ? hour : hour - 12);
@@ -1467,7 +1508,6 @@ utilities.formatStringList = function(value, stringify) {
 
 	for(var i = 0; i < data.length; i++) {
 		if(typeof data[i] !== "string") {
-
 			if(stringify === null) {
 				continue;
 			}
@@ -1515,6 +1555,10 @@ utilities.trimWhitespace = function(value, trimNewlines) {
 };
 
 utilities.trimTrailingNewlines = function(value) {
+	if(typeof value !== "string") {
+		return null;
+	}
+
 	if(utilities.isEmptyString(value)) {
 		return value;
 	}
@@ -1523,7 +1567,7 @@ utilities.trimTrailingNewlines = function(value) {
 };
 
 utilities.replaceNonBreakingSpaces = function(value) {
-	return typeof value === "string" ? value.replace(/&nbsp;/gi, " ") : value;
+	return typeof value === "string" ? value.replace(/&nbsp;/gi, " ") : null;
 };
 
 utilities.indentText = function(value, amount, indentation, clearEmptyLines) {
@@ -1531,21 +1575,20 @@ utilities.indentText = function(value, amount, indentation, clearEmptyLines) {
 		return null;
 	}
 
-	var formattedAmount = utilities.parseInteger(amount, 1);
+	clearEmptyLines = utilities.parseBoolean(clearEmptyLines, true);
 
-	if(formattedAmount < 0) {
-		formattedAmount = 1;
+	amount = utilities.parseInteger(amount, 1);
+
+	if(utilities.isInvalidNumber(amount) || amount < 0) {
+		amount = 1;
 	}
 
-	var formattedIndentation = typeof indentation === "string" ? indentation : "\t";
+	indentation = typeof indentation === "string" ? indentation : "\t";
+
 	var totalIndentation = "";
 
-	for(var i = 0; i < formattedAmount; i++) {
-		totalIndentation += formattedIndentation;
-	}
-
-	if(!utilities.parseBoolean(clearEmptyLines, true)) {
-		return value.replace(/^/gm, totalIndentation);
+	for(var i = 0; i < amount; i++) {
+		totalIndentation += indentation;
 	}
 
 	var line = null;
@@ -1555,7 +1598,7 @@ utilities.indentText = function(value, amount, indentation, clearEmptyLines) {
 	for(var i = 0; i < lines.length; i++) {
 		line = lines[i];
 
-		indentedParagraph += (utilities.isEmptyString(line) ? "" : totalIndentation + line) + ((i < lines.length - 1) ? "\n" : "");
+		indentedParagraph += (utilities.isEmptyString(line) && clearEmptyLines ? "" : totalIndentation + line) + ((i < lines.length - 1) ? "\n" : "");
 	}
 
 	return indentedParagraph;
@@ -1587,20 +1630,20 @@ utilities.addLeadingZeroes = function(value, expectedLength) {
 		return null;
 	}
 
-	var formattedValue = value.toString();
-	var formattedExpectedLength = utilities.parseInteger(expectedLength);
+	value = value.toString();
+	expectedLength = utilities.parseInteger(expectedLength);
 
-	if(utilities.isInvalidNumber(formattedExpectedLength) || formattedExpectedLength < 0) {
-		return formattedValue;
+	if(utilities.isInvalidNumber(expectedLength) || expectedLength < 0) {
+		return value;
 	}
 
-	var numberOfZeroes = formattedExpectedLength - formattedValue.length;
+	var numberOfZeroes = expectedLength - value.length;
 
 	for(var i = 0; i < numberOfZeroes; i++) {
-		formattedValue = "0" + formattedValue;
+		value = "0" + value;
 	}
 
-	return formattedValue;
+	return value;
 };
 
 utilities.toString = function(value) {
