@@ -299,6 +299,22 @@ describe("Utilities", function() {
 		});
 	});
 
+	describe("isError", function() {
+		var newTestData = testData.concat(new Error("The following advertisement is intended for Jim Boonie only."), utilities.createError("We're giving you land, it's free.", 420), { error: true, message: "Two bedrooms, no rugs, it's got a pool in the back." });
+
+		it("should be a function", function() {
+			expect(utilities.isError instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.isError(newTestData[i])).to.equal(results[i]);
+			}
+		});
+	});
+
 	describe("isRegularExpression", function() {
 		var newTestData = testData.concat(/v/im, new RegExp("la", "g"));
 
@@ -1068,14 +1084,65 @@ describe("Utilities", function() {
 	});
 
 	describe("toString", function() {
+		var newTestData = testData.concat(new Error("There are tales of pots."), utilities.createError("A watched pot never boils.", 69), function() { console.log("All this talk of tea is getting me thirsty, shall I pop the kettle on?"); });
+
 		it("should be a function", function() {
 			expect(utilities.toString instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = ["undefined", "null", "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), "function () { }", "/.+/", "{\"message\":\"There are tales of pots.\"}", "{\"message\":\"A watched pot never boils.\",\"status\":69}", "function () { console.log(\"All this talk of tea is getting me thirsty, shall I pop the kettle on?\"); }"];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(newTestData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
 	describe("compareDates", function() {
+		var newTestData = testData.concat("June 5, 2012", "June 18, 1987 3:30 PM", "2018-02-19T06:19:33Z", testDate.getTime(), testDate.toString(), testDate.getTime().toString());
+
 		it("should be a function", function() {
 			expect(utilities.compareDates instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[1, 1, 1, 1, 1, 1, 0, -1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 - testDate.getTime(), 1, 1, -1338868800000, -551043000000, -1519021173000, 0 - testDate.getTime(), 0 - new Date(testDate.toString()).getTime(), 0 - testDate.getTime()],
+				[1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 - testDate.getTime(), 1, 1, -1338868799999, -551042999999, -1519021172999, 1 - testDate.getTime(), 1 - new Date(testDate.toString()).getTime(), 1 - testDate.getTime()],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[1, 1, 1, 1, 1, 1, testDate.getTime(), testDate.getTime() - 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, testDate.getTime() - new Date(newTestData[22]).getTime(), testDate.getTime() - new Date(newTestData[23]).getTime(), testDate.getTime() - new Date(newTestData[24]).getTime(), 0, testDate.getTime() - new Date(testDate.toString()).getTime(), 0],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
+				[1, 1, 1, 1, 1, 1, 1338868800000, 1338868799999, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, new Date(newTestData[22]).getTime() - testDate.getTime(), 1, 1, 0, 787825800000, -180152373000, new Date(newTestData[22]).getTime() - testDate.getTime(), new Date(newTestData[22]).getTime() - new Date(testDate.toString()).getTime(), new Date(newTestData[22]).getTime() - testDate.getTime()],
+				[1, 1, 1, 1, 1, 1, 551043000000, 551042999999, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, new Date(newTestData[23]).getTime() - testDate.getTime(), 1, 1, -787825800000, 0, -967978173000, new Date(newTestData[23]).getTime() - testDate.getTime(), new Date(newTestData[23]).getTime() - new Date(testDate.toString()).getTime(), new Date(newTestData[23]).getTime() - testDate.getTime()],
+				[1, 1, 1, 1, 1, 1, 1519021173000, 1519021172999, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, new Date(newTestData[24]).getTime() - testDate.getTime(), 1, 1, 180152373000, 967978173000, 0, new Date(newTestData[24]).getTime() - testDate.getTime(), new Date(newTestData[24]).getTime() - new Date(testDate.toString()).getTime(), new Date(newTestData[24]).getTime() - testDate.getTime()],
+				[1, 1, 1, 1, 1, 1, testDate.getTime(), testDate.getTime() - 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, testDate.getTime() - new Date(newTestData[22]).getTime(), testDate.getTime() - new Date(newTestData[23]).getTime(), testDate.getTime() - new Date(newTestData[24]).getTime(), 0, testDate.getTime() - new Date(testDate.toString()).getTime(), 0],
+				[1, 1, 1, 1, 1, 1, new Date(testDate.toString()).getTime(), new Date(testDate.toString()).getTime() - 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, new Date(testDate.toString()).getTime() - testDate.getTime(), 1, 1, new Date(testDate.toString()).getTime() - new Date(newTestData[22]).getTime(), new Date(testDate.toString()).getTime() - new Date(newTestData[23]).getTime(), new Date(testDate.toString()).getTime() - new Date(newTestData[24]).getTime(), new Date(testDate.toString()).getTime() - testDate.getTime(), 0, new Date(testDate.toString()).getTime() - testDate.getTime()],
+				[1, 1, 1, 1, 1, 1, testDate.getTime(), testDate.getTime() - 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, testDate.getTime() - new Date(newTestData[22]).getTime(), testDate.getTime() - new Date(newTestData[23]).getTime(), testDate.getTime() - new Date(newTestData[24]).getTime(), 0, testDate.getTime() - new Date(testDate.toString()).getTime(), 0],
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				for(var j = 0; j < newTestData.length; j++) {
+					expect(utilities.compareDates(newTestData[i], newTestData[j])).to.equal(results[i][j]);
+				}
+			}
 		});
 	});
 
