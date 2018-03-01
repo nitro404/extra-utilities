@@ -244,6 +244,10 @@ utilities.isDate = function(value) {
 	return value instanceof Date;
 };
 
+utilities.isError = function(value) {
+	return value instanceof Error;
+};
+
 utilities.isRegularExpression = function(value) {
 	return value instanceof RegExp;
 };
@@ -1682,6 +1686,15 @@ utilities.toString = function(value) {
 	else if(utilities.isFunction(value)) {
 		return value.toString();
 	}
+	else if(utilities.isError(value)) {
+		var error = { message: value.message };
+
+		for(var attribute in value) {
+			error[attribute] = value[attribute];
+		}
+
+		return JSON.stringify(error);
+	}
 
 	return JSON.stringify(value);
 };
@@ -1697,8 +1710,7 @@ utilities.compareDates = function(a, b) {
 	if(a === null) {
 		return -1;
 	}
-
-	if(b === null) {
+	else if(b === null) {
 		return 1;
 	}
 
