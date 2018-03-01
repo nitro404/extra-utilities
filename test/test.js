@@ -1241,6 +1241,53 @@ describe("Utilities", function() {
 		it("should be a function", function() {
 			expect(utilities.createError instanceof Function).to.equal(true);
 		});
+
+		it("should produce the correct result for each test value", function() {
+			var error = null;
+
+			for(var i = 0; i < testData.length; i++) {
+				error = utilities.createError(testData[i]);
+
+				expect(utilities.isError(error)).to.equal(true);
+
+				if(testData[i] === undefined) {
+					expect(error.message).to.equal("");
+				}
+				else if(testData[i] === null) {
+					expect(error.message).to.equal("null");
+				}
+				else {
+					expect(error.message).to.equal(testData[i].toString());
+				}
+
+				expect(error.status).to.equal(500);
+			}
+		});
+
+		it("should produce the correct result for each test value and custom status code", function() {
+			var error = null;
+			var testStatusCodes = [-420, -1, 0, 1, 201, 422, 500, 9000, 3.50, NaN, -Infinity, Infinity];
+
+			for(var i = 0; i < testData.length; i++) {
+				for(var j = 0; j < testStatusCodes.length; j++) {
+					error = utilities.createError(testData[i], testStatusCodes[j]);
+
+					expect(utilities.isError(error)).to.equal(true);
+
+					if(testData[i] === undefined) {
+						expect(error.message).to.equal("");
+					}
+					else if(testData[i] === null) {
+						expect(error.message).to.equal("null");
+					}
+					else {
+						expect(error.message).to.equal(testData[i].toString());
+					}
+
+					expect(error.status).to.equal(utilities.isValidNumber(testStatusCodes[j]) ? parseInt(testStatusCodes[j]) : 500);
+				}
+			}
+		});
 	});
 
 	describe("clone", function() {
