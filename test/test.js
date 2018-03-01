@@ -1206,14 +1206,34 @@ describe("Utilities", function() {
 	});
 
 	describe("compareCasePercentage", function() {
+		var newTestData = testData.concat("X", "y", "Ab", "cD", "if it's out there, i'll find it.", "NEED SOMETHING DESTROYED?", "xX_YoLo_420_SwAg_MaSt3r_Xx");
+
 		it("should be a function", function() {
 			expect(utilities.compareCasePercentage instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -4, -4, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, -22, 22, -1];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.compareCasePercentage(newTestData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
 	describe("reverseString", function() {
+		var newTestData = testData.concat("Take it back a little.", "XotoX");
+
 		it("should be a function", function() {
 			expect(utilities.reverseString instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "tset", "\tmirt ", null, null, null, null, null, null, null, ".elttil a kcab ti ekaT", "XotoX"];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.reverseString(newTestData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
