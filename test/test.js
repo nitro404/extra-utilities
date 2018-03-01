@@ -735,15 +735,74 @@ describe("Utilities", function() {
 	});
 
 	describe("parseRegularExpression", function() {
-		var newTestData = testData.concat("/pop[ ]*the[ ]kettle/gmiyu", "/corporate/gmiy", "/spy/gmi", "/ayy/gm", "/lmao/g", "/muggachini/", /a/gmiyu, /b/gmiy, /c/gmi, /d/gm, /e/g, /f/, new RegExp("1", "gmiyu"), new RegExp("2", "gmiy"), new RegExp("3", "gmi"), new RegExp("4", "gm"), new RegExp("5", "g"), new RegExp("6"));
+		var newTestData = testData.concat("/pop[ ]*the[ ]kettle/gmi", "/corporate/m", "/spy/i", "/ayy/gm", "/lmao/g", "/muggachini/");
 		var invalidTestData = ["/door/stuck", "/y/x"];
+
+		var regExpFlagSupported = {
+			sticky: true,
+			unicode: true
+		};
+
+		try {
+			new RegExp("", "y");
+		}
+		catch(error) {
+			regExpFlagSupported.sticky = false;
+		}
+
+		try {
+			new RegExp("", "u");
+		}
+		catch(error) {
+			regExpFlagSupported.unicode = false;
+		}
+
+		if(regExpFlagSupported.unicode) {
+			newTestData.push(/a/gmiu);
+		}
+
+		if(regExpFlagSupported.sticky) {
+			newTestData.push(/b/gmiy);
+		}
+
+		newTestData.push(/c/gmi, /d/gm, /e/g, /f/);
+
+		if(regExpFlagSupported.unicode) {
+			newTestData.push(new RegExp("1", "gmiu"));
+		}
+
+		if(regExpFlagSupported.sticky) {
+			newTestData.push(new RegExp("2", "gmiy"));
+		}
+
+		newTestData.push(new RegExp("3", "gmi"), new RegExp("4", "gm"), new RegExp("5", "g"), new RegExp("6"));
 
 		it("should be a function", function() {
 			expect(utilities.parseRegularExpression instanceof Function).to.equal(true);
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, /.+/, /pop[ ]*the[ ]kettle/gmiyu, /corporate/gmiy, /spy/gmi, /ayy/gm, /lmao/g, /muggachini/, /a/gmiyu, /b/gmiy, /c/gmi, /d/gm, /e/g, /f/, /1/gmiyu, /2/gmiy, /3/gmi, /4/gm, /5/g, /6/];
+			var results = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, /.+/, /pop[ ]*the[ ]kettle/gmi, /corporate/m, /spy/i, /ayy/gm, /lmao/g, /muggachini/];
+
+			if(regExpFlagSupported.unicode) {
+				results.push(/a/gmiu);
+			}
+
+			if(regExpFlagSupported.sticky) {
+				results.push(/b/gmiy);
+			}
+
+			results.push(/c/gmi, /d/gm, /e/g, /f/);
+
+			if(regExpFlagSupported.unicode) {
+				results.push(/1/gmiu);
+			}
+
+			if(regExpFlagSupported.sticky) {
+				results.push(/2/gmiy);
+			}
+
+			results.push(/3/gmi, /4/gm, /5/g, /6/);
 
 			for(var i = 0; i < newTestData.length; i++) {
 				expect(utilities.toString(utilities.parseRegularExpression(newTestData[i]))).to.equal(utilities.toString(results[i]));
