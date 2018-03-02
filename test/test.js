@@ -1291,8 +1291,159 @@ describe("Utilities", function() {
 	});
 
 	describe("clone", function() {
+		var newTestData = testData.concat();
+
 		it("should be a function", function() {
 			expect(utilities.clone instanceof Function).to.equal(true);
+		});
+
+		it("should result in primitive types being equal", function() {
+			var clone = null;
+
+			for(var i = 0; i < newTestData.length; i++) {
+				if(!utilities.isObject(newTestData[i])) {
+					clone = utilities.clone(newTestData[i]);
+
+					if(typeof newTestData[i] === "number" && newTestData[i] !== Infinity && newTestData[i] !== -Infinity && isNaN(newTestData[i])) {
+						expect(isNaN(clone)).to.equal(true);
+					}
+					else {
+						expect(newTestData[i]).to.equal(clone);
+					}
+				}
+			}
+		});
+
+		it("should result in non-primitive types not being equal", function() {
+			var clone = null;
+
+			for(var i = 0; i < newTestData.length; i++) {
+				if(utilities.isObject(newTestData[i])) {
+					clone = utilities.clone(newTestData[i]);
+
+					expect(newTestData[i]).to.not.equal(clone);
+				}
+			}
+		});
+
+		it("should produce values that are equal by stringified comparison", function() {
+			var clone = null;
+
+			for(var i = 0; i < newTestData.length; i++) {
+				clone = utilities.clone(newTestData[i]);
+
+				expect(utilities.toString(newTestData[i])).to.equal(utilities.toString(clone));
+			}
+		});
+
+		it("should retain object classes for cloned values", function() {
+			expect(utilities.clone(new Boolean()) instanceof Boolean).to.equal(true);
+			expect(utilities.clone(new Date()) instanceof Date).to.equal(true);
+			expect(utilities.clone([]) instanceof Array).to.equal(true);
+			expect(utilities.clone(new Array()) instanceof Array).to.equal(true);
+			expect(utilities.clone(new Set()) instanceof Set).to.equal(true);
+			expect(utilities.clone(new Map()) instanceof Map).to.equal(true);
+			expect(utilities.clone(/./) instanceof RegExp).to.equal(true);
+			expect(utilities.clone(new RegExp()) instanceof RegExp).to.equal(true);
+			expect(utilities.clone(new Error()) instanceof Error).to.equal(true);
+			expect(utilities.clone({ }) instanceof Object).to.equal(true);
+			expect(utilities.clone(new Object()) instanceof Object).to.equal(true);
+		});
+
+		it("should successfully clone a complex object", function() {
+			var subObject = {
+				nice: "meme"
+			};
+
+			var object = [
+				null,
+				"2pigons.exe",
+				function() {
+					return 420;
+				},
+				{
+					door: "stuck",
+					stuff: subObject
+				},
+				[6, 9]
+			];
+
+			var clone = utilities.clone(object);
+
+			expect(object).to.not.equal(clone);
+			expect(utilities.toString(object)).to.equal(utilities.toString(clone));
+
+			for(var index in object) {
+				if(utilities.isObject(object[index])) {
+					expect(object[index]).to.not.equal(clone[index]);
+				}
+				else {
+					expect(object[index]).to.equal(clone[index]);
+				}
+			}
+		});
+
+		it("should successfully clone a complex regular expression", function() {
+			var regExpFlagSupported = {
+				sticky: true,
+				unicode: true
+			};
+
+			try {
+				new RegExp("", "y");
+			}
+			catch(error) {
+				regExpFlagSupported.sticky = false;
+			}
+
+			try {
+				new RegExp("", "u");
+			}
+			catch(error) {
+				regExpFlagSupported.unicode = false;
+			}
+
+			var regExp = new RegExp("([A-Za-z]*)([0-9]+)", "gmi" + (regExpFlagSupported.sticky ? "y" : "") + (regExpFlagSupported.unicode ? "u" : ""));
+			var clone = utilities.clone(regExp);
+
+			expect(regExp).to.not.equal(clone);
+			expect(utilities.toString(regExp)).to.equal(utilities.toString(clone));
+
+			for(var attribute in ["source", "global", "multiline", "ignoreCase", "sticky", "unicode"]) {
+				expect(regExp[attribute]).to.equal(clone[attribute]);
+			}
+		});
+
+		it("should successfully clone a complex error", function() {
+			var error = utilities.createError("Pickle surprise!", 420);
+			var clone = utilities.clone(error);
+
+			expect(error).to.not.equal(clone);
+			expect(utilities.toString(error)).to.equal(utilities.toString(clone));
+
+			for(var attribute in error) {
+				expect(error[attribute]).to.equal(clone[attribute]);
+			}
+
+			for(var attribute in ["fileName", "lineNumber", "columnNumber", "stack"]) {
+				expect(error[attribute]).to.equal(clone[attribute]);
+			}
+		});
+
+		it("should successfully clone a buffer", function() {
+			var buffer = new Buffer("I'm making a note here: HUGE SUCCESS!");
+			var clone = utilities.clone(buffer);
+
+			expect(buffer).to.not.equal(clone);
+			expect(buffer.toString()).to.equal(clone.toString());
+		});
+
+		it("should successfully clone an object with an undefined attribute value", function() {
+			var object = { undefined: undefined };
+			var clone = utilities.clone(object);
+
+			expect(object).to.not.equal(clone);
+			expect(utilities.toString(object)).to.equal(utilities.toString(clone));
 		});
 	});
 
