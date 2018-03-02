@@ -1811,6 +1811,11 @@ utilities.clone = function(value) {
 
 		if(value instanceof Error) {
 			copy = new Error(value.message);
+
+			copy.fileName = value.fileName;
+			copy.lineNumber = value.lineNumber;
+			copy.columnNumber = value.columnNumber;
+			copy.stack = value.stack;
 		}
 		else {
 			copy = { };
