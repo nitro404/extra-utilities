@@ -1474,8 +1474,34 @@ describe("Utilities", function() {
 	});
 
 	describe("prependSlash", function() {
+		var newTestData = testData.concat(
+			" ",
+			"\t",
+			"/ ",
+			" /",
+			" / ",
+			"\\",
+			"\\ ",
+			" \\",
+			" \\ ",
+			"/ocean/man",
+			" /no/u",
+			"habib/tahktar/",
+			"\\goliath\\online",
+			" \\im\\in\\a\\pickle",
+			"finally\\"
+		);
+
 		it("should be a function", function() {
 			expect(utilities.prependSlash instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "/test", "/trim", null, null, null, null, null, null, null, "", "", "/", "/", "/", "\\", "\\", "\\", "\\", "/ocean/man", "/no/u", "/habib/tahktar/", "\\goliath\\online", "\\im\\in\\a\\pickle", "/finally\\"];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.prependSlash(newTestData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
