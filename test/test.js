@@ -1506,8 +1506,33 @@ describe("Utilities", function() {
 	});
 
 	describe("appendSlash", function() {
+		var newTestData = testData.concat(
+			" ",
+			"\t",
+			"/ ",
+			" /",
+			" / ",
+			"\\",
+			"\\ ",
+			" \\",
+			" \\ ",
+			"/take/me/by/the/hand",
+			" /ayy/lmao",
+			"northern/petrol/",
+			"\\door\\stuck",
+			" \\do\\u\\kno\\da\\wae",
+			"wau\\"
+		);
+
 		it("should be a function", function() {
 			expect(utilities.appendSlash instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test/", "trim/", null, null, null, null, null, null, null, "", "", "/", "/", "/", "\\", "\\", "\\", "\\", "/take/me/by/the/hand/", "/ayy/lmao/", "northern/petrol/", "\\door\\stuck/", "\\do\\u\\kno\\da\\wae/", "wau\\"];
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.appendSlash(newTestData[i])).to.equal(results[i]);
+			}
 		});
 	});
 
