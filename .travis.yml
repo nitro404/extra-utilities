@@ -8,6 +8,7 @@ node_js:
   - "4"
 
 before_install:
+  - npm cache clean --force
   - npm install -g mocha coveralls
 
 after_success:
