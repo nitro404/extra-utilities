@@ -1537,8 +1537,97 @@ describe("Utilities", function() {
 	});
 
 	describe("joinPaths", function() {
+		var newTestData = [
+			{
+				left: null,
+				right: null,
+				result: ""
+			},
+			{
+				left: null,
+				right: "readme.txt",
+				result: "readme.txt"
+			},
+			{
+				left: "http://www.nitro404.com",
+				right: null,
+				result: "http://www.nitro404.com"
+			},
+			{
+				left: "https://api.test.com",
+				right: "status",
+				result: "https://api.test.com/status"
+			},
+			{
+				left: "https://www.youtube.com/",
+				right: "watch?v=TBsdWW7MOew",
+				result: "https://www.youtube.com/watch?v=TBsdWW7MOew"
+			},
+			{
+				left: "https://www.reddit.com",
+				right: "/r/circlejerk",
+				result: "https://www.reddit.com/r/circlejerk"
+			},
+			{
+				left: "https://steamcommunity.com/id/",
+				right: "/gabelogannewell",
+				result: "https://steamcommunity.com/id/gabelogannewell"
+			},
+			{
+				left: "https://www.youtube.com\\",
+				right: "watch?v=FuraQCCsKgE",
+				result: "https://www.youtube.com/watch?v=FuraQCCsKgE"
+			},
+			{
+				left: "https://www.youtube.com",
+				right: "\\watch?v=eOrMzdXEfhA",
+				result: "https://www.youtube.com/watch?v=eOrMzdXEfhA"
+			},
+			{
+				left: "https://www.youtube.com\\",
+				right: "\\watch?v=6HFw8TNexyU",
+				result: "https://www.youtube.com/watch?v=6HFw8TNexyU"
+			},
+			{
+				left: "https://www.youtube.com//",
+				right: "watch?v=NgWn7zbgxZ4",
+				result: "https://www.youtube.com/watch?v=NgWn7zbgxZ4"
+			},
+			{
+				left: "https://www.youtube.com",
+				right: "//watch?v=0tdyU_gW6WE",
+				result: "https://www.youtube.com/watch?v=0tdyU_gW6WE"
+			},
+			{
+				left: "https://www.youtube.com//",
+				right: "//watch?v=ygI-2F8ApUM",
+				result: "https://www.youtube.com/watch?v=ygI-2F8ApUM"
+			},
+			{
+				left: "https://www.youtube.com\\/",
+				right: "watch?v=nxg4C365LbQ",
+				result: "https://www.youtube.com/watch?v=nxg4C365LbQ"
+			},
+			{
+				left: "https://www.youtube.com",
+				right: "\\/watch?v=1wl5BbUg05M",
+				result: "https://www.youtube.com/watch?v=1wl5BbUg05M"
+			},
+			{
+				left: "https://www.youtube.com\\/",
+				right: "\\/watch?v=JjJ90jhS84A",
+				result: "https://www.youtube.com/watch?v=JjJ90jhS84A"
+			}
+		];
+
 		it("should be a function", function() {
 			expect(utilities.joinPaths instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.joinPaths(newTestData[i].left, newTestData[i].right)).to.equal(newTestData[i].result);
+			}
 		});
 	});
 
