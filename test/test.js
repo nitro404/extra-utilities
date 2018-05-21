@@ -1431,7 +1431,16 @@ describe("Utilities", function() {
 		});
 
 		it("should successfully clone a buffer", function() {
-			var buffer = new Buffer("I'm making a note here: HUGE SUCCESS!");
+			var buffer = null;
+			var message = "I'm making a note here: HUGE SUCCESS!";
+
+			if(Buffer.from instanceof Function) {
+				buffer = Buffer.from(message)
+			}
+			else {
+				buffer = new Buffer(message);
+			}
+
 			var clone = utilities.clone(buffer);
 
 			expect(buffer).to.not.equal(clone);

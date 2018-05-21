@@ -1804,7 +1804,7 @@ utilities.clone = function(value) {
 		return new RegExp(value.source, flags);
 	}
 	else if(typeof Buffer !== "undefined" && value instanceof Buffer) {
-		return new Buffer(value);
+		return Buffer.from instanceof Function ? Buffer.from(value) : new Buffer(value);
 	}
 	else if(value instanceof Object) {
 		var copy = null;
