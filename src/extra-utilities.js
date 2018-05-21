@@ -2112,7 +2112,7 @@ utilities.elementsWithAttribute = function(elements, attribute, hasAttribute) {
 	return filteredElements;
 };
 
-utilities.elementsWithoutAttribute = function(elements, attribute, hasAttribute) {
+utilities.elementsWithoutAttribute = function(elements, attribute) {
 	return utilities.elementsWithAttribute(elements, attribute, false);
 };
 
