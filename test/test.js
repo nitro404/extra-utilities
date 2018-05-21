@@ -7,6 +7,8 @@ var expect = chai.expect;
 
 var testDate = new Date();
 
+var functionString = utilities.toString(function() { });
+
 var testData = [
 	undefined,
 	null,
@@ -1118,7 +1120,7 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "[object Object]", "[object Object]", "", "0", testDate.toString(), "function () { }", "/.+/", " ", "\t", "0", "007", "Corporate Spy"];
+			var results = [null, null, "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "[object Object]", "[object Object]", "", "0", testDate.toString(), functionString, "/.+/", " ", "\t", "0", "007", "Corporate Spy"];
 
 			for(var i = 0; i < newTestData.length; i++) {
 				expect(utilities.addLeadingZeroes(newTestData[i])).to.equal(results[i]);
@@ -1126,7 +1128,7 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value with an expected length of 5", function() {
-			var results = [null, null, "false", "0true", "false", "0true", "00000", "00001", "3.141592654", "00NaN", "Infinity", "-Infinity", "00000", "0test", " trim\t", "[object Object]", "[object Object]", "00000", "00000", testDate.toString(), "function () { }", "0/.+/", "0000 ", "0000\t", "00000", "00007", "Corporate Spy"];
+			var results = [null, null, "false", "0true", "false", "0true", "00000", "00001", "3.141592654", "00NaN", "Infinity", "-Infinity", "00000", "0test", " trim\t", "[object Object]", "[object Object]", "00000", "00000", testDate.toString(), functionString, "0/.+/", "0000 ", "0000\t", "00000", "00007", "Corporate Spy"];
 
 			for(var i = 0; i < newTestData.length; i++) {
 				expect(utilities.addLeadingZeroes(newTestData[i], 5)).to.equal(results[i]);
@@ -1134,7 +1136,13 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value with an expected length of 20", function() {
-			var results = [null, null, "000000000000000false", "0000000000000000true", "000000000000000false", "0000000000000000true", "00000000000000000000", "00000000000000000001", "0000000003.141592654", "00000000000000000NaN", "000000000000Infinity", "00000000000-Infinity", "00000000000000000000", "0000000000000000test", "00000000000000 trim\t", "00000[object Object]", "00000[object Object]", "00000000000000000000", "00000000000000000000", testDate.toString(), "00000function () { }", "0000000000000000/.+/", "0000000000000000000 ", "0000000000000000000\t", "00000000000000000000", "00000000000000000007", "0000000Corporate Spy"];
+			var functionStringPadded = functionString;
+
+			for(var i = functionString.length; i < 20; i++) {
+				functionStringPadded = "0" + functionStringPadded;
+			}
+
+			var results = [null, null, "000000000000000false", "0000000000000000true", "000000000000000false", "0000000000000000true", "00000000000000000000", "00000000000000000001", "0000000003.141592654", "00000000000000000NaN", "000000000000Infinity", "00000000000-Infinity", "00000000000000000000", "0000000000000000test", "00000000000000 trim\t", "00000[object Object]", "00000[object Object]", "00000000000000000000", "00000000000000000000", testDate.toString(), functionStringPadded, "0000000000000000/.+/", "0000000000000000000 ", "0000000000000000000\t", "00000000000000000000", "00000000000000000007", "0000000Corporate Spy"];
 
 			for(var i = 0; i < newTestData.length; i++) {
 				expect(utilities.addLeadingZeroes(newTestData[i], 20)).to.equal(results[i]);
@@ -1652,7 +1660,7 @@ describe("Utilities", function() {
 			{ a: undefined, b: null, c: false, d: true, e: new Boolean(false), f: new Boolean(true), g: -1, h: 0, i: 1, j: 3.141592654, k: Infinity, l: -Infinity, m: "", n: "test", o: " trim\t", p: {}, q: { nice: "meme" }, r: [], s: [0], t: testDate, u: function() { }, v: new RegExp(".+") }
 		);
 
-		var results = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "nice=meme", "", "", "", "", "", "pickle=surprise!", "bargain=%3D%2FbOyz%3A%20%23%26ePi%24oDe%2C%20%2B1%3F", "%23you%2Frequire%2C%20%40dd%3A%2B!onal%26%3Dpylon%24%3F=420.69", "who=%7B%22dat%22%3A%22boy%22%7D", "nice=%5B%22meme%22%2C%22m\'lady%22%5D", "a=undefined&b=null&c=false&d=true&e=false&f=true&g=-1&h=0&i=1&j=3.141592654&k=Infinity&l=-Infinity&m=&n=test&o=%20trim%09&p=%7B%7D&q=%7B%22nice%22%3A%22meme%22%7D&r=%5B%5D&s=%5B0%5D&t=" + encodedTestDateString + "&u=function%20()%20%7B%20%7D&v=%2F.%2B%2F"];
+		var results = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "nice=meme", "", "", "", "", "", "pickle=surprise!", "bargain=%3D%2FbOyz%3A%20%23%26ePi%24oDe%2C%20%2B1%3F", "%23you%2Frequire%2C%20%40dd%3A%2B!onal%26%3Dpylon%24%3F=420.69", "who=%7B%22dat%22%3A%22boy%22%7D", "nice=%5B%22meme%22%2C%22m\'lady%22%5D", "a=undefined&b=null&c=false&d=true&e=false&f=true&g=-1&h=0&i=1&j=3.141592654&k=Infinity&l=-Infinity&m=&n=test&o=%20trim%09&p=%7B%7D&q=%7B%22nice%22%3A%22meme%22%7D&r=%5B%5D&s=%5B0%5D&t=" + encodedTestDateString + "&u=" + encodeURIComponent(functionString) + "&v=%2F.%2B%2F"];
 
 		it("should be a function", function() {
 			expect(utilities.createQueryString instanceof Function).to.equal(true);
