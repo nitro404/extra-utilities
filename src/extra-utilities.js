@@ -2162,7 +2162,7 @@ utilities.generateVersions = function(version, prefix, suffix) {
 };
 
 utilities.parseVersion = function(value, trimTrailingZeroes) {
-	var formattedValue = typeof value === "number" ? value.toString() : value;
+	var formattedValue = utilities.isValidNumber(value) ? value.toString() : value;
 
 	if(typeof formattedValue !== "string") {
 		return null;
