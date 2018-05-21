@@ -2039,8 +2039,70 @@ describe("Utilities", function() {
 	});
 
 	describe("matchAttribute", function() {
+		var newTestData = testData.concat(
+			{ nice: "ketchup" },
+			{ nice: 420 },
+			{ nice: undefined },
+			{ nice: null },
+			{ nice: false },
+			{ nice: true },
+			{ surprise: "meme", nice: "ketchup" },
+			{ surprise: function() { } },
+		);
+
+		var attributes = ["nice", "surprise", "length"];
+
+		var values = [undefined, null, false, true, "meme", "ketchup", 420, 0, 1];
+
 		it("should be a function", function() {
 			expect(utilities.matchAttribute instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]],
+				[[true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, true,  false, false, false, false], [true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]],
+				[[true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, true,  false]],
+				[[true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, true ]],
+				[[true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
+				[[true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, true,  false, false, false], [true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, false, true,  false, false], [true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]],
+				[[true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]],
+				[[false, true,  false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]],
+				[[false, false, true,  false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]],
+				[[false, false, false, true,  false, false, false, false, false], [true,  false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]],
+				[[false, false, false, false, false, true,  false, false, false], [false, false, false, false, true,  false, false, false, false], [true,  false, false, false, false, false, false, false, false]],
+				[[true,  false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]]
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.matchAttribute(newTestData[i])).to.equal(utilities.isObject(newTestData[i]));
+
+				for(var j = 0; j < attributes.length; j++) {
+					expect(utilities.matchAttribute(newTestData[i], attributes[j])).to.equal(results[i][j][0]);
+
+					for(var k = 0; k < values.length; k++) {
+						expect(utilities.matchAttribute(newTestData[i], attributes[j], values[k])).to.equal(results[i][j][k]);
+					}
+				}
+			}
 		});
 	});
 
