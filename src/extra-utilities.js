@@ -1983,8 +1983,8 @@ utilities.createRange = function(start, end) {
 	return range;
 };
 
-utilities.futureMonths = function(value, prependZero) {
-	var date = utilities.parseDate(value);
+utilities.futureMonths = function(date, prependZero) {
+	date = utilities.parseDate(date);
 
 	if(date === null) {
 		return null;
@@ -1999,7 +1999,7 @@ utilities.futureMonths = function(value, prependZero) {
 
 	var months = [];
 
-	prependZero = utilities.parseBoolean(prependZero, true);
+	prependZero = utilities.parseBoolean(prependZero, false);
 
 	for(var i = 0; i < 12; i++) {
 		if(i >= month) {
