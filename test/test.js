@@ -1915,14 +1915,126 @@ describe("Utilities", function() {
 	});
 
 	describe("elementsWithAttribute", function() {
+		var newTestData = [
+			{ value: [], attribute: "none" },
+			{ value: [{ }], attribute: "empty" },
+			{ value: [{ undefined: undefined }], attribute: "undefined" },
+			{ value: [{ null: null }], attribute: "null" },
+			{ value: [{ false: false }], attribute: "false" },
+			{ value: [{ true: true }], attribute: "true" },
+			{ value: [{ falseBooleanObject: new Boolean(false) }], attribute: "falseBooleanObject" },
+			{ value: [{ trueBooleanObject: new Boolean(true) }], attribute: "trueBooleanObject" },
+			{ value: [{ NaN: NaN }], attribute: "NaN" },
+			{ value: [{ Infinity: Infinity }], attribute: "Infinity" },
+			{ value: [{ NegativeInfinity: -Infinity }], attribute: "NegativeInfinity" },
+			{ value: [{ zero: 0 }], attribute: "zero" },
+			{ value: [{ one: 1 }], attribute: "one" },
+			{ value: [{ pi: 3.141592654 }], attribute: "pi" },
+			{ value: [{ emptyString: "" }], attribute: "emptyString" },
+			{ value: [{ space: " " }], attribute: "space" },
+			{ value: [{ tab: "\t" }], attribute: "tab" },
+			{ value: [{ emptyObject: { } }], attribute: "emptyObject" },
+			{ value: [{ emptyArray: [] }], attribute: "emptyArray" },
+			{ value: [{ zeroArray: [0] }], attribute: "zeroArray" },
+			{ value: [{ date: testDate }], attribute: "date" },
+			{ value: [{ function: function() { } }], attribute: "function" },
+			{ value: [{ regExp: new RegExp(".+") }], attribute: "regExp" },
+			{ value: [{ da: "wae", ugandan: "knuckles" }, { da: "meme", weed: 420 }, { vanilla: "Moonlight" }, 69], attribute: "da" }
+		];
+
 		it("should be a function", function() {
 			expect(utilities.elementsWithAttribute instanceof Function).to.equal(true);
+		});
+
+		it("should correctly handle invalid arguments", function() {
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.elementsWithAttribute(newTestData[i]))).to.equal("[]");
+
+				for(var j = 0; j < newTestData.length; j++) {
+					expect(utilities.toString(utilities.elementsWithAttribute(newTestData[i], newTestData[j]))).to.equal("[]");
+
+					for(var k = 0; k < newTestData.length; k++) {
+						expect(utilities.toString(utilities.elementsWithAttribute(newTestData[i], newTestData[j], newTestData[k]))).to.equal("[]");
+					}
+				}
+			}
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [
+				[], [], [], [], [{ false: false }], [{ true: true }], [{ falseBooleanObject: new Boolean(false) }], [{ trueBooleanObject: new Boolean(true) }], [{ NaN: NaN }], [{ Infinity: Infinity }], [{ NegativeInfinity: -Infinity }], [{ zero: 0 }], [{ one: 1 }], [{ pi: 3.141592654 }], [{ emptyString: "" }], [{ space: " " }], [{ tab: "\t" }], [{ emptyObject: { } }], [{ emptyArray: [] }], [{ zeroArray: [0] }], [{ date: testDate }], [{ function: function() { } }], [{ regExp: new RegExp(".+") }], [{ da: "wae", ugandan: "knuckles" }, { da: "meme", weed: 420 }]
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.elementsWithAttribute(newTestData[i].value, newTestData[i].attribute))).to.equal(utilities.toString(results[i]));
+			}
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.elementsWithAttribute(newTestData[i].value, newTestData[i].attribute, true))).to.equal(utilities.toString(results[i]));
+			}
+		});
+
+		it("should produce the correct result for each test value with has attribute set to false", function() {
+			var results = [
+				[], [{ }], [{ }], [{ null: null }], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [{ vanilla: "Moonlight" }]
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.elementsWithAttribute(newTestData[i].value, newTestData[i].attribute, false))).to.equal(utilities.toString(results[i]));
+			}
 		});
 	});
 
 	describe("elementsWithoutAttribute", function() {
+		var newTestData = [
+			{ value: [], attribute: "none" },
+			{ value: [{ }], attribute: "empty" },
+			{ value: [{ undefined: undefined }], attribute: "undefined" },
+			{ value: [{ null: null }], attribute: "null" },
+			{ value: [{ false: false }], attribute: "false" },
+			{ value: [{ true: true }], attribute: "true" },
+			{ value: [{ falseBooleanObject: new Boolean(false) }], attribute: "falseBooleanObject" },
+			{ value: [{ trueBooleanObject: new Boolean(true) }], attribute: "trueBooleanObject" },
+			{ value: [{ NaN: NaN }], attribute: "NaN" },
+			{ value: [{ Infinity: Infinity }], attribute: "Infinity" },
+			{ value: [{ NegativeInfinity: -Infinity }], attribute: "NegativeInfinity" },
+			{ value: [{ zero: 0 }], attribute: "zero" },
+			{ value: [{ one: 1 }], attribute: "one" },
+			{ value: [{ pi: 3.141592654 }], attribute: "pi" },
+			{ value: [{ emptyString: "" }], attribute: "emptyString" },
+			{ value: [{ space: " " }], attribute: "space" },
+			{ value: [{ tab: "\t" }], attribute: "tab" },
+			{ value: [{ emptyObject: { } }], attribute: "emptyObject" },
+			{ value: [{ emptyArray: [] }], attribute: "emptyArray" },
+			{ value: [{ zeroArray: [0] }], attribute: "zeroArray" },
+			{ value: [{ date: testDate }], attribute: "date" },
+			{ value: [{ function: function() { } }], attribute: "function" },
+			{ value: [{ regExp: new RegExp(".+") }], attribute: "regExp" },
+			{ value: [{ da: "wae", ugandan: "knuckles" }, { da: "meme", weed: 420 }, { vanilla: "Moonlight" }, 69], attribute: "da" }
+		];
+
 		it("should be a function", function() {
 			expect(utilities.elementsWithoutAttribute instanceof Function).to.equal(true);
+		});
+
+		it("should correctly handle invalid arguments", function() {
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.elementsWithoutAttribute(newTestData[i]))).to.equal("[]");
+
+				for(var j = 0; j < newTestData.length; j++) {
+					expect(utilities.toString(utilities.elementsWithoutAttribute(newTestData[i], newTestData[j]))).to.equal("[]");
+				}
+			}
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [
+				[], [{ }], [{ }], [{ null: null }], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [{ vanilla: "Moonlight" }]
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.elementsWithoutAttribute(newTestData[i].value, newTestData[i].attribute))).to.equal(utilities.toString(results[i]));
+			}
 		});
 	});
 
