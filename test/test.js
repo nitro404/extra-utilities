@@ -1767,26 +1767,150 @@ describe("Utilities", function() {
 	});
 
 	describe("visibleElements", function() {
+		var newTestData = testData.concat(
+			{ visible: true },
+			{ hidden: false }
+		);
+
+		newTestData.push(
+			testData.concat(
+				{ visible: "nope" },
+				{ visible: false },
+				{ visible: true },
+				{ visible: function() { return false; } },
+				{ visible: function() { return true; } },
+				{ hidden: "avi" },
+				{ hidden: false },
+				{ hidden: true },
+				{ hidden: function() { return false; } },
+				{ hidden: function() { return true; } }
+			)
+		);
+
 		it("should be a function", function() {
 			expect(utilities.visibleElements instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [
+				[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],
+				[new Boolean(false), new Boolean(true), { }, { nice: "meme" }, [], [0], testDate, new RegExp(".+"), { visible: "nope" }, { visible: true }, { visible: function() { return true; } }, { hidden: "avi" }, { hidden: false }, { hidden: function() { return false; } }]
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.visibleElements(newTestData[i]))).to.equal(utilities.toString(results[i]));
+			}
 		});
 	});
 
 	describe("hiddenElements", function() {
+		var newTestData = testData.concat(
+			{ visible: true },
+			{ hidden: false }
+		);
+
+		newTestData.push(
+			testData.concat(
+				{ visible: "nice" },
+				{ visible: false },
+				{ visible: true },
+				{ visible: function() { return false; } },
+				{ visible: function() { return true; } },
+				{ hidden: "meme" },
+				{ hidden: false },
+				{ hidden: true },
+				{ hidden: function() { return false; } },
+				{ hidden: function() { return true; } }
+			)
+		);
+
 		it("should be a function", function() {
 			expect(utilities.hiddenElements instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [
+				[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [0], [], [], [], [], [],
+				[undefined, null, false, true, 0, 1, 3.141592654, NaN, Infinity, -Infinity, "", "test", " trim\t", function() { }, { visible: false }, { visible: function() { return false; } }, { hidden: true }, { hidden: function() { return true; } }]
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.hiddenElements(newTestData[i]))).to.equal(utilities.toString(results[i]));
+			}
 		});
 	});
 
 	describe("enabledElements", function() {
+		var newTestData = testData.concat(
+			{ enabled: true },
+			{ disabled: false }
+		);
+
+		newTestData.push(
+			testData.concat(
+				{ enabled: "door" },
+				{ enabled: false },
+				{ enabled: true },
+				{ enabled: function() { return false; } },
+				{ enabled: function() { return true; } },
+				{ disabled: "stuck" },
+				{ disabled: false },
+				{ disabled: true },
+				{ disabled: function() { return false; } },
+				{ disabled: function() { return true; } }
+			)
+		);
+
 		it("should be a function", function() {
 			expect(utilities.enabledElements instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [
+				[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],
+				[new Boolean(false), new Boolean(true), { }, { nice: "meme" }, [], [0], testDate, new RegExp(".+"), { enabled: "door" }, { enabled: true }, { enabled: function() { return true; } }, { disabled: "stuck" }, { disabled: false }, { disabled: function() { return false; } }]
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.enabledElements(newTestData[i]))).to.equal(utilities.toString(results[i]));
+			}
 		});
 	});
 
 	describe("disabledElements", function() {
+		var newTestData = testData.concat(
+			{ enabled: true },
+			{ disabled: false }
+		);
+
+		newTestData.push(
+			testData.concat(
+				{ enabled: "ayy" },
+				{ enabled: false },
+				{ enabled: true },
+				{ enabled: function() { return false; } },
+				{ enabled: function() { return true; } },
+				{ disabled: "lmao" },
+				{ disabled: false },
+				{ disabled: true },
+				{ disabled: function() { return false; } },
+				{ disabled: function() { return true; } }
+			)
+		);
+
 		it("should be a function", function() {
 			expect(utilities.disabledElements instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [
+				[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [0], [], [], [], [], [],
+				[undefined, null, false, true, 0, 1, 3.141592654, NaN, Infinity, -Infinity, "", "test", " trim\t", function() { }, { enabled: false }, { enabled: function() { return false; } }, { disabled: true }, { disabled: function() { return true; } }]
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.disabledElements(newTestData[i]))).to.equal(utilities.toString(results[i]));
+			}
 		});
 	});
 
