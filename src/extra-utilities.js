@@ -2207,7 +2207,7 @@ utilities.parseVersion = function(value, trimTrailingZeroes) {
 		}
 	}
 
-	return version;
+	return version.length === 0 ? null : version;
 };
 
 utilities.compareVersions = function(v1, v2, throwErrors) {
