@@ -1301,8 +1301,6 @@ describe("Utilities", function() {
 	});
 
 	describe("clone", function() {
-		var newTestData = testData.concat();
-
 		it("should be a function", function() {
 			expect(utilities.clone instanceof Function).to.equal(true);
 		});
@@ -1310,15 +1308,15 @@ describe("Utilities", function() {
 		it("should result in primitive types being equal", function() {
 			var clone = null;
 
-			for(var i = 0; i < newTestData.length; i++) {
-				if(!utilities.isObject(newTestData[i])) {
-					clone = utilities.clone(newTestData[i]);
+			for(var i = 0; i < testData.length; i++) {
+				if(!utilities.isObject(testData[i])) {
+					clone = utilities.clone(testData[i]);
 
-					if(typeof newTestData[i] === "number" && newTestData[i] !== Infinity && newTestData[i] !== -Infinity && isNaN(newTestData[i])) {
+					if(typeof testData[i] === "number" && testData[i] !== Infinity && testData[i] !== -Infinity && isNaN(testData[i])) {
 						expect(isNaN(clone)).to.equal(true);
 					}
 					else {
-						expect(newTestData[i]).to.equal(clone);
+						expect(testData[i]).to.equal(clone);
 					}
 				}
 			}
@@ -1327,11 +1325,11 @@ describe("Utilities", function() {
 		it("should result in non-primitive types not being equal", function() {
 			var clone = null;
 
-			for(var i = 0; i < newTestData.length; i++) {
-				if(utilities.isObject(newTestData[i])) {
-					clone = utilities.clone(newTestData[i]);
+			for(var i = 0; i < testData.length; i++) {
+				if(utilities.isObject(testData[i])) {
+					clone = utilities.clone(testData[i]);
 
-					expect(newTestData[i]).to.not.equal(clone);
+					expect(testData[i]).to.not.equal(clone);
 				}
 			}
 		});
@@ -1339,10 +1337,10 @@ describe("Utilities", function() {
 		it("should produce values that are equal by stringified comparison", function() {
 			var clone = null;
 
-			for(var i = 0; i < newTestData.length; i++) {
-				clone = utilities.clone(newTestData[i]);
+			for(var i = 0; i < testData.length; i++) {
+				clone = utilities.clone(testData[i]);
 
-				expect(utilities.toString(newTestData[i])).to.equal(utilities.toString(clone));
+				expect(utilities.toString(testData[i])).to.equal(utilities.toString(clone));
 			}
 		});
 
