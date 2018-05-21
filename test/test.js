@@ -1632,6 +1632,8 @@ describe("Utilities", function() {
 	});
 
 	describe("createQueryString", function() {
+		var encodedTestDateString = encodeURIComponent(utilities.toString(testDate));
+
 		var newTestData = testData.concat(
 			{ "pickle": "surprise!" },
 			{ "bargain": "=/bOyz: #&ePi$oDe, +1?" },
@@ -1641,22 +1643,21 @@ describe("Utilities", function() {
 			{ a: undefined, b: null, c: false, d: true, e: new Boolean(false), f: new Boolean(true), g: -1, h: 0, i: 1, j: 3.141592654, k: Infinity, l: -Infinity, m: "", n: "test", o: " trim\t", p: {}, q: { nice: "meme" }, r: [], s: [0], t: testDate, u: function() { }, v: new RegExp(".+") },
 		);
 
+		var results = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "nice=meme", "", "", "", "", "", "pickle=surprise!", "bargain=%3D%2FbOyz%3A%20%23%26ePi%24oDe%2C%20%2B1%3F", "%23you%2Frequire%2C%20%40dd%3A%2B!onal%26%3Dpylon%24%3F=420.69", "who=%7B%22dat%22%3A%22boy%22%7D", "nice=%5B%22meme%22%2C%22m\'lady%22%5D", "a=undefined&b=null&c=false&d=true&e=false&f=true&g=-1&h=0&i=1&j=3.141592654&k=Infinity&l=-Infinity&m=&n=test&o=%20trim%09&p=%7B%7D&q=%7B%22nice%22%3A%22meme%22%7D&r=%5B%5D&s=%5B0%5D&t=" + encodedTestDateString + "&u=function%20()%20%7B%20%7D&v=%2F.%2B%2F"];
+
 		it("should be a function", function() {
 			expect(utilities.createQueryString instanceof Function).to.equal(true);
 		});
 
-		it("should produce the correct result for each test value", function() {
-			var encodedTestDateString = encodeURIComponent(utilities.toString(testDate));
+		it("should produce the correct result for each test value with question marks disabled", function() {
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.createQueryString(newTestData[i], false)).to.equal(results[i]);
+			}
+		});
 
-			var results = [
-				["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "nice=meme", "", "", "", "", "", "pickle=surprise!", "bargain=%3D%2FbOyz%3A%20%23%26ePi%24oDe%2C%20%2B1%3F", "%23you%2Frequire%2C%20%40dd%3A%2B!onal%26%3Dpylon%24%3F=420.69", "who=%7B%22dat%22%3A%22boy%22%7D", "nice=%5B%22meme%22%2C%22m\'lady%22%5D", "a=undefined&b=null&c=false&d=true&e=false&f=true&g=-1&h=0&i=1&j=3.141592654&k=Infinity&l=-Infinity&m=&n=test&o=%20trim%09&p=%7B%7D&q=%7B%22nice%22%3A%22meme%22%7D&r=%5B%5D&s=%5B0%5D&t=" + encodedTestDateString + "&u=function%20()%20%7B%20%7D&v=%2F.%2B%2F"],
-				["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "?nice=meme", "", "", "", "", "", "?pickle=surprise!", "?bargain=%3D%2FbOyz%3A%20%23%26ePi%24oDe%2C%20%2B1%3F", "?%23you%2Frequire%2C%20%40dd%3A%2B!onal%26%3Dpylon%24%3F=420.69", "?who=%7B%22dat%22%3A%22boy%22%7D", "?nice=%5B%22meme%22%2C%22m\'lady%22%5D", "?a=undefined&b=null&c=false&d=true&e=false&f=true&g=-1&h=0&i=1&j=3.141592654&k=Infinity&l=-Infinity&m=&n=test&o=%20trim%09&p=%7B%7D&q=%7B%22nice%22%3A%22meme%22%7D&r=%5B%5D&s=%5B0%5D&t=" + encodedTestDateString + "&u=function%20()%20%7B%20%7D&v=%2F.%2B%2F"]
-			];
-
-			for(var i = 0; i < 2; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
-					expect(utilities.createQueryString(newTestData[j], i == 1)).to.equal(results[i][j]);
-				}
+		it("should produce the correct result for each test value with question marks enabled", function() {
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.createQueryString(newTestData[i], true)).to.equal(results[i].length === 0 ? "" : "?" + results[i]);
 			}
 		});
 	});
