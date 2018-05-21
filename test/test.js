@@ -1735,8 +1735,39 @@ describe("Utilities", function() {
 	});
 
 	describe("futureMonths", function() {
+		var newTestData = testData.concat(
+			new Date("January 29, 1996")
+		);
+
+		var allMonths = utilities.createRange(1, 12);
+		var allMonthsPadded = [];
+
+		for(var i = 0; i < allMonths.length; i++) {
+			allMonthsPadded.push((allMonths[i] < 10 ? "0" : "") + allMonths[i]);
+		}
+
 		it("should be a function", function() {
 			expect(utilities.futureMonths instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value with no prepended zeroes", function() {
+			var results = [
+				null, null, null, null, null, null, allMonths, allMonths, null, null, null, null, null, null, null, null, null, null, null, allMonths.slice(testDate.getMonth(), 12), null, null, allMonths
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.futureMonths(newTestData[i], false))).to.equal(utilities.toString(results[i]));
+			}
+		});
+
+		it("should produce the correct result for each test value with prepended zeroes", function() {
+			var results = [
+				null, null, null, null, null, null, allMonthsPadded, allMonthsPadded, null, null, null, null, null, null, null, null, null, null, null, allMonthsPadded.slice(testDate.getMonth(), 12), null, null, allMonthsPadded
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.futureMonths(newTestData[i], true))).to.equal(utilities.toString(results[i]));
+			}
 		});
 	});
 
