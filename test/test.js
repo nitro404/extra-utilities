@@ -1736,7 +1736,8 @@ describe("Utilities", function() {
 
 	describe("futureMonths", function() {
 		var newTestData = testData.concat(
-			new Date("January 29, 1996")
+			new Date("January 29, 1996"),
+			new Date("July 1, " + (testDate.getFullYear() + 1))
 		);
 
 		var allMonths = utilities.createRange(1, 12);
@@ -1751,9 +1752,7 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value with no prepended zeroes", function() {
-			var results = [
-				null, null, null, null, null, null, allMonths, allMonths, null, null, null, null, null, null, null, null, null, null, null, allMonths.slice(testDate.getMonth(), 12), null, null, allMonths
-			];
+			var results = [null, null, null, null, null, null, allMonths, allMonths, null, null, null, null, null, null, null, null, null, null, null, allMonths.slice(testDate.getMonth(), 12), null, null, allMonths, allMonths];
 
 			for(var i = 0; i < newTestData.length; i++) {
 				expect(utilities.toString(utilities.futureMonths(newTestData[i], false))).to.equal(utilities.toString(results[i]));
@@ -1761,9 +1760,7 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value with prepended zeroes", function() {
-			var results = [
-				null, null, null, null, null, null, allMonthsPadded, allMonthsPadded, null, null, null, null, null, null, null, null, null, null, null, allMonthsPadded.slice(testDate.getMonth(), 12), null, null, allMonthsPadded
-			];
+			var results = [null, null, null, null, null, null, allMonthsPadded, allMonthsPadded, null, null, null, null, null, null, null, null, null, null, null, allMonthsPadded.slice(testDate.getMonth(), 12), null, null, allMonthsPadded, allMonthsPadded];
 
 			for(var i = 0; i < newTestData.length; i++) {
 				expect(utilities.toString(utilities.futureMonths(newTestData[i], true))).to.equal(utilities.toString(results[i]));
