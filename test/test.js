@@ -2047,7 +2047,7 @@ describe("Utilities", function() {
 			{ nice: false },
 			{ nice: true },
 			{ surprise: "meme", nice: "ketchup" },
-			{ surprise: function() { } },
+			{ surprise: function() { } }
 		);
 
 		var attributes = ["nice", "surprise", "length"];
