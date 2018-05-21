@@ -1973,7 +1973,7 @@
 		var formattedStart = utilities.parseInteger(start);
 		var formattedEnd = utilities.parseInteger(end);
 
-		if(utilities.isInvalidNumber(formattedEnd)) {
+		if(arguments.length === 1) {
 			formattedEnd = formattedStart;
 			formattedStart = 0;
 		}
