@@ -2016,7 +2016,7 @@ utilities.futureMonths = function(date, prependZero) {
 };
 
 utilities.visibleElements = function(elements) {
-	if(utilities.isEmptyArray(elements)) {
+	if(!Array.isArray(elements)) {
 		return [];
 	}
 
@@ -2032,7 +2032,7 @@ utilities.visibleElements = function(elements) {
 };
 
 utilities.hiddenElements = function(elements) {
-	if(utilities.isEmptyArray(elements)) {
+	if(!Array.isArray(elements)) {
 		return [];
 	}
 
@@ -2048,7 +2048,7 @@ utilities.hiddenElements = function(elements) {
 };
 
 utilities.enabledElements = function(elements) {
-	if(utilities.isEmptyArray(elements)) {
+	if(!Array.isArray(elements)) {
 		return [];
 	}
 
@@ -2064,7 +2064,7 @@ utilities.enabledElements = function(elements) {
 };
 
 utilities.disabledElements = function(elements) {
-	if(utilities.isEmptyArray(elements)) {
+	if(!Array.isArray(elements)) {
 		return [];
 	}
 
