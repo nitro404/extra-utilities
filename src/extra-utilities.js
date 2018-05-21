@@ -1946,9 +1946,19 @@ utilities.joinPaths = function(base, path) {
 };
 
 utilities.createQueryString = function(value, includeQuestionMark) {
-	return !utilities.isObject(value) ? "" : (utilities.parseBoolean(includeQuestionMark, false) ? "?" : "") + Object.keys(value).map(function(key) {
-		return encodeURIComponent(key) + "=" + encodeURIComponent(value[key]);
+	if(!utilities.isObjectStrict(value)) {
+		return "";
+	}
+
+	var parameters = Object.keys(value).map(function(key) {
+		return encodeURIComponent(key) + "=" + encodeURIComponent(utilities.toString(value[key]));
 	}).join("&");
+
+	if(parameters.length === 0) {
+		return "";
+	}
+
+	return (utilities.parseBoolean(includeQuestionMark, false) ? "?" : "") + parameters;
 };
 
 utilities.createRange = function(start, end) {
