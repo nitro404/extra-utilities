@@ -2113,8 +2113,34 @@ describe("Utilities", function() {
 	});
 
 	describe("parseVersion", function() {
+		var newTestData = testData.concat("420", "007", "2.0", "3.1.0.0", "04.2.00.0", "can't make it", "-3 -9", "00 6 04 00800 0");
+
 		it("should be a function", function() {
 			expect(utilities.parseVersion instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [
+				null, null, null, null, null, null, ["0"], ["1"], ["3", "141592654"], null, null, null, null, ["test"], ["trim"], null, null, null, null, null, null, null, ["420"], ["7"], ["2", "0"], ["3", "1", "0", "0"], ["4", "2", "0", "0"], ["can't", "make", "it"], null, ["0", "6", "4", "800", "0"]
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.parseVersion(newTestData[i]))).to.equal(utilities.toString(results[i]));
+			}
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.parseVersion(newTestData[i], false))).to.equal(utilities.toString(results[i]));
+			}
+		});
+
+		it("should produce the correct result for each test value with trim trailing zeroes enabled", function() {
+			var results = [
+				null, null, null, null, null, null, ["0"], ["1"], ["3", "141592654"], null, null, null, null, ["test"], ["trim"], null, null, null, null, null, null, null, ["420"], ["7"], ["2"], ["3", "1"], ["4", "2"], ["can't", "make", "it"], null, ["0", "6", "4", "800"]
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.toString(utilities.parseVersion(newTestData[i], true))).to.equal(utilities.toString(results[i]));
+			}
 		});
 	});
 
