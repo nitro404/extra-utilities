@@ -2024,7 +2024,7 @@
 	};
 
 	utilities.visibleElements = function(elements) {
-		if(utilities.isEmptyArray(elements)) {
+		if(!Array.isArray(elements)) {
 			return [];
 		}
 
@@ -2040,7 +2040,7 @@
 	};
 
 	utilities.hiddenElements = function(elements) {
-		if(utilities.isEmptyArray(elements)) {
+		if(!Array.isArray(elements)) {
 			return [];
 		}
 
@@ -2056,7 +2056,7 @@
 	};
 
 	utilities.enabledElements = function(elements) {
-		if(utilities.isEmptyArray(elements)) {
+		if(!Array.isArray(elements)) {
 			return [];
 		}
 
@@ -2072,7 +2072,7 @@
 	};
 
 	utilities.disabledElements = function(elements) {
-		if(utilities.isEmptyArray(elements)) {
+		if(!Array.isArray(elements)) {
 			return [];
 		}
 
