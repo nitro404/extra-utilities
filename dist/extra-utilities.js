@@ -2170,7 +2170,7 @@
 	};
 
 	utilities.parseVersion = function(value, trimTrailingZeroes) {
-		var formattedValue = typeof value === "number" ? value.toString() : value;
+		var formattedValue = utilities.isValidNumber(value) ? value.toString() : value;
 
 		if(typeof formattedValue !== "string") {
 			return null;
@@ -2215,7 +2215,7 @@
 			}
 		}
 
-		return version;
+		return version.length === 0 ? null : version;
 	};
 
 	utilities.compareVersions = function(v1, v2, throwErrors) {
