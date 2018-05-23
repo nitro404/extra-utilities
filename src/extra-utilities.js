@@ -2210,44 +2210,40 @@ utilities.parseVersion = function(value, trimTrailingZeroes) {
 	return version.length === 0 ? null : version;
 };
 
-utilities.compareVersions = function(v1, v2, throwErrors) {
+utilities.compareVersions = function(v1, v2, caseSensitive, throwErrors) {
+	caseSensitive =  utilities.parseBoolean(caseSensitive, false);
 	throwErrors =  utilities.parseBoolean(throwErrors, false);
 
-	if(utilities.isEmptyString(v1) || utilities.isEmptyString(v2)) {
+	v1 = utilities.parseVersion(v1);
+
+	if(v1 === null) {
 		if(throwErrors) {
-			throw new Error("Cannot compare invalid or empty versions.");
+			throw new Error("Cannot compare invalid or empty first version.");
 		}
 
 		return null;
 	}
 
-	v1 = v1.trim();
-	v2 = v2.trim();
+	v2 = utilities.parseVersion(v2);
 
-	if(!v1.match(/([0-9]\.?)+/) || !v2.match(/([0-9]\.?)+/)) {
+	if(v2 === null) {
 		if(throwErrors) {
-			throw new Error("Cannot compare improperly formatted versions.");
+			throw new Error("Cannot compare invalid or empty second version.");
 		}
 
 		return null;
 	}
 
-	var a = null;
-	var b = null;
 	var index = 0;
-	var v1data = v1.split(/[\. \t]+/g);
-	var v2data = v2.split(/[\. \t]+/g);
 
 	while(true) {
-		if(index >= v1data.length) {
-			if(v1data.length === v2data.length) {
+		if(index >= v1.length) {
+			if(v1.length === v2.length) {
 				return 0;
 			}
 
-			for(var i = index; i < v2data.length; i++) {
-				b = utilities.parseInteger(v2data[i]);
-
-				if(b !== 0) {
+			for(var i = index; i < v2.length; i++) {
+				if(v2[i] !== "0") {
 					return -1;
 				}
 			}
@@ -2255,15 +2251,9 @@ utilities.compareVersions = function(v1, v2, throwErrors) {
 			return 0;
 		}
 
-		if(index >= v2data.length) {
-			if(v2data.length === v1data.length) {
-				return 0;
-			}
-
-			for(var i = index; i < v1data.length; i++) {
-				a = utilities.parseInteger(v1data[i]);
-
-				if(a !== 0) {
+		if(index >= v2.length) {
+			for(var i = index; i < v1.length; i++) {
+				if(v1[i] !== "0") {
 					return 1;
 				}
 			}
@@ -2271,13 +2261,32 @@ utilities.compareVersions = function(v1, v2, throwErrors) {
 			return 0;
 		}
 
-		a = utilities.parseInteger(v1data[index]);
-		b = utilities.parseInteger(v2data[index]);
+		var formattedA = utilities.parseInteger(v1[index]);
+		var formattedB =  utilities.parseInteger(v2[index]);
 
-		if(a > b) {
+		if(utilities.isInvalidNumber(formattedA)) {
+			formattedA = caseSensitive ? v1[index] : v1[index].toUpperCase();
+		}
+
+		if(utilities.isInvalidNumber(formattedB)) {
+			formattedB = caseSensitive ? v2[index] : v2[index].toUpperCase();
+		}
+
+		if(Number.isInteger(formattedA)) {
+			if(!Number.isInteger(formattedB)) {
+				return -1;
+			}
+		}
+		else {
+			if(Number.isInteger(formattedB)) {
+				return 1;
+			}
+		}
+
+		if(formattedA > formattedB) {
 			return  1;
 		}
-		else if(a < b) {
+		else if(formattedA < formattedB) {
 			return -1;
 		}
 
