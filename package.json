@@ -1,6 +1,6 @@
 {
   "name": "extra-utilities",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "A collection of useful helper functions.",
   "main": "dist/extra-utilities.js",
   "scripts": {
