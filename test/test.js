@@ -2145,8 +2145,232 @@ describe("Utilities", function() {
 	});
 
 	describe("compareVersions", function() {
+		var newTestData = testData.concat("1 A", "\tTrim");
+
+		var additionalTestData = [69, "69", "420", "007", "2.0", "2.0.0.0.0", 2.1, "2.1", "2.1 A", "2.1 B", "3.1.0.0", "04.2.00.0", "can't make it", "-3 -9", "00 6 04 00800 0", "1.3.3.6.9", "1.3.3.7.0", "1.3.3.7.0.0.1", "1.3.3.7.1", "a", "A", "b","B", "X", "y"];
+
+		var newResults = {
+			caseInsensitive: [
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, 0,    -1,   -1,   null, null, null, null, -1,   -1,   null, null, null, null, null, null, null, -1,   -1  ],
+				[null, null, null, null, null, null, 1,     0,   -1,   null, null, null, null, -1,   -1,   null, null, null, null, null, null, null, -1,   -1  ],
+				[null, null, null, null, null, null, 1,     1,    0,   null, null, null, null, -1,   -1,   null, null, null, null, null, null, null, 1,    -1  ],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, 1,    1,    1,    null, null, null, null, 0,    -1,   null, null, null, null, null, null, null, 1,    -1  ],
+				[null, null, null, null, null, null, 1,    1,    1,    null, null, null, null, 1,    0,    null, null, null, null, null, null, null, 1,    0   ],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, 1,    1,    -1,   null, null, null, null, -1,   -1,   null, null, null, null, null, null, null, 0,    -1  ],
+				[null, null, null, null, null, null, 1,    1,     1,   null, null, null, null,  1,    0,   null, null, null, null, null, null, null, 1,    0   ]
+			],
+			caseSensitive: [
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, 0,    -1,   -1,   null, null, null, null, -1,   -1,   null, null, null, null, null, null, null, -1,   -1  ],
+				[null, null, null, null, null, null, 1,     0,   -1,   null, null, null, null, -1,   -1,   null, null, null, null, null, null, null, -1,   -1  ],
+				[null, null, null, null, null, null, 1,     1,    0,   null, null, null, null, -1,   -1,   null, null, null, null, null, null, null, 1,    -1  ],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, 1,    1,    1,    null, null, null, null, 0,    -1,   null, null, null, null, null, null, null, 1,    1   ],
+				[null, null, null, null, null, null, 1,    1,    1,    null, null, null, null, 1,    0,    null, null, null, null, null, null, null, 1,    1   ],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[null, null, null, null, null, null, 1,    1,    -1,   null, null, null, null, -1,   -1,   null, null, null, null, null, null, null, 0,    -1  ],
+				[null, null, null, null, null, null, 1,    1,     1,   null, null, null, null, -1,   -1,   null, null, null, null, null, null, null, 1,    0   ]
+			]
+		};
+
+		var additionalResults = {
+			caseInsensitive: [
+				[ 0,    0,   -1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 0,    0,   -1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    0,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,    0,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    0,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    0,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    0,    0,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    0,    0,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    0,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    0,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    1,    0,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    1,    1,    0,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    0,   null,  1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   -1  ],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,    0,    0,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,    0,    0,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,    1,    1,    0,    0,   -1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,    1,    1,    0,    0,   -1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   null,  1,    1,    1,    1,    1,    1,    1,    1,    1,    0,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   null,  1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    0  ],
+			],
+			caseSensitive: [
+				[ 0,    0,   -1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 0,    0,   -1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    0,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,    0,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    0,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    0,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    0,    0,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    0,    0,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    0,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    0,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    1,    0,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    1,    1,    0,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    0,   null,  1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1  ],
+				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,    0,    1,   -1,    1,    1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,    0,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,    1,    1,    0,    1,    1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,    1,   -1,    0,   -1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,    1,   -1,    1,    0,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   null,  1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    0  ],
+			]
+		};
+
 		it("should be a function", function() {
 			expect(utilities.compareVersions instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value pair with case sensitivity disabled", function() {
+			for(var i = 0; i < newTestData.length; i++) {
+				for(var j = 0; j < newTestData.length; j++) {
+					expect(utilities.compareVersions(newTestData[i], newTestData[j])).to.equal(newResults.caseInsensitive[i][j]);
+					expect(utilities.compareVersions(newTestData[i], newTestData[j], false)).to.equal(newResults.caseInsensitive[i][j]);
+					expect(utilities.compareVersions(newTestData[i], newTestData[j], false, false)).to.equal(newResults.caseInsensitive[i][j]);
+				}
+			}
+		});
+
+		it("should produce the correct result for each test value pair with case sensitivity enabled", function() {
+			for(var i = 0; i < newTestData.length; i++) {
+				for(var j = 0; j < newTestData.length; j++) {
+					expect(utilities.compareVersions(newTestData[i], newTestData[j], true)).to.equal(newResults.caseSensitive[i][j]);
+					expect(utilities.compareVersions(newTestData[i], newTestData[j], true, false)).to.equal(newResults.caseSensitive[i][j]);
+				}
+			}
+		});
+
+		it("should correctly throw errors when enabled for each test value pair with case sensitivity disabled", function() {
+			for(var i = 0; i < newTestData.length; i++) {
+				for(var j = 0; j < newTestData.length; j++) {
+					errorThrown = false;
+
+					try {
+						utilities.compareVersions(newTestData[i], newTestData[j], false, true);
+					}
+					catch(error) {
+						errorThrown = true;
+					}
+
+					expect(errorThrown).to.equal(newResults.caseInsensitive[i][j] === null);
+				}
+			}
+		});
+
+		it("should correctly throw errors when enabled for each test value pair with case sensitivity enabled", function() {
+			var errorThrown = null;
+
+			for(var i = 0; i < newTestData.length; i++) {
+				for(var j = 0; j < newTestData.length; j++) {
+					errorThrown = false;
+
+					try {
+						utilities.compareVersions(newTestData[i], newTestData[j], true, true);
+					}
+					catch(error) {
+						errorThrown = true;
+					}
+
+					expect(errorThrown).to.equal(newResults.caseSensitive[i][j] === null);
+				}
+			}
+		});
+
+		it("should produce the correct result for each additional test value pair with case sensitivity disabled", function() {
+			for(var i = 0; i < additionalTestData.length; i++) {
+				for(var j = 0; j < additionalTestData.length; j++) {
+					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j])).to.equal(additionalResults.caseInsensitive[i][j]);
+					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], false)).to.equal(additionalResults.caseInsensitive[i][j]);
+					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], false, false)).to.equal(additionalResults.caseInsensitive[i][j]);
+				}
+			}
+		});
+
+		it("should produce the correct result for each additional test value pair with case sensitivity enabled", function() {
+			for(var i = 0; i < additionalTestData.length; i++) {
+				for(var j = 0; j < additionalTestData.length; j++) {
+					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], true)).to.equal(additionalResults.caseSensitive[i][j]);
+					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], true, false)).to.equal(additionalResults.caseSensitive[i][j]);
+				}
+			}
+		});
+
+		it("should correctly throw errors when enabled for each additional test value pair with case sensitivity disabled", function() {
+			for(var i = 0; i < additionalTestData.length; i++) {
+				for(var j = 0; j < additionalTestData.length; j++) {
+					errorThrown = false;
+
+					try {
+						utilities.compareVersions(additionalTestData[i], additionalTestData[j], false, true);
+					}
+					catch(error) {
+						errorThrown = true;
+					}
+
+					expect(errorThrown).to.equal(additionalResults.caseInsensitive[i][j] === null);
+				}
+			}
+		});
+
+		it("should correctly throw errors when enabled for each additional test value pair with case sensitivity enabled", function() {
+			for(var i = 0; i < additionalTestData.length; i++) {
+				for(var j = 0; j < additionalTestData.length; j++) {
+					errorThrown = false;
+
+					try {
+						utilities.compareVersions(additionalTestData[i], additionalTestData[j], true, true);
+					}
+					catch(error) {
+						errorThrown = true;
+					}
+
+					expect(errorThrown).to.equal(additionalResults.caseSensitive[i][j] === null);
+				}
+			}
 		});
 	});
 
