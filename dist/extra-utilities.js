@@ -2137,9 +2137,14 @@
 	};
 
 	utilities.generateVersions = function(version, prefix, suffix) {
-		if(!Array.isArray(version)) {
+		version = utilities.parseVersion(version);
+
+		if(version === null) {
 			return null;
 		}
+
+		prefix = utilities.trimString(prefix);
+		suffix = utilities.trimString(suffix);
 
 		var versions = [];
 		var value = null;
@@ -2147,7 +2152,7 @@
 		for(var i = 0; i < version.length; i++) {
 			value = "";
 
-			if(utilities.isValid(prefix)) {
+			if(utilities.isNonEmptyString(prefix)) {
 				value += prefix;
 			}
 
@@ -2159,7 +2164,7 @@
 				value += version[j];
 			}
 
-			if(utilities.isValid(suffix)) {
+			if(utilities.isNonEmptyString(suffix)) {
 				value += suffix;
 			}
 
