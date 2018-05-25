@@ -2107,8 +2107,114 @@ describe("Utilities", function() {
 	});
 
 	describe("generateVersions", function() {
+		var additionalTestData = ["420", "007", "2.0", "3.1.0.0", "04.2.00.0", "can't make it", "-3 -9", "00 6 04 00800 0"];
+
+		var additionalPrefixes = ["saint", " vapor"];
+
+		var additionalSuffixes = ["pepsi", "wave\t"];
+
 		it("should be a function", function() {
 			expect(utilities.generateVersions instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value with no prefix or suffix", function() {
+			var results = [
+				["420"],
+				["7"],
+				["2", "2_0"],
+				["3", "3_1", "3_1_0", "3_1_0_0"],
+				["4", "4_2", "4_2_0", "4_2_0_0"],
+				["can\'t", "can\'t_make", "can\'t_make_it"],
+				null,
+				["0","0_6", "0_6_4", "0_6_4_800", "0_6_4_800_0"]
+			];
+
+			for(var i = 0; i < additionalTestData.length; i++) {
+				expect(utilities.toString(utilities.generateVersions(additionalTestData[i]))).to.equal(utilities.toString(results[i]));
+			}
+		});
+
+		it("should produce the correct result for each test value and prefix", function() {
+			var results = [
+				[["saint420"], ["vapor420"]],
+				[["saint7"], ["vapor7"]],
+				[["saint2", "saint2_0"], ["vapor2", "vapor2_0"]],
+				[["saint3", "saint3_1", "saint3_1_0", "saint3_1_0_0"], ["vapor3", "vapor3_1", "vapor3_1_0", "vapor3_1_0_0"]],
+				[["saint4", "saint4_2", "saint4_2_0", "saint4_2_0_0"], ["vapor4", "vapor4_2", "vapor4_2_0", "vapor4_2_0_0"]],
+				[["saintcan\'t", "saintcan\'t_make", "saintcan\'t_make_it"], ["vaporcan\'t", "vaporcan\'t_make", "vaporcan\'t_make_it"]],
+				[null, null],
+				[["saint0", "saint0_6", "saint0_6_4", "saint0_6_4_800", "saint0_6_4_800_0"], ["vapor0", "vapor0_6", "vapor0_6_4", "vapor0_6_4_800", "vapor0_6_4_800_0"]]
+			];
+
+			for(var i = 0; i < additionalTestData.length; i++) {
+				for(var j = 0; j < additionalPrefixes.length; j++) {
+					expect(utilities.toString(utilities.generateVersions(additionalTestData[i], additionalPrefixes[j]))).to.equal(utilities.toString(results[i][j]));
+				}
+			}
+		});
+
+		it("should produce the correct result for each test value and suffix", function() {
+			var results = [
+				[["420pepsi"], ["420wave"]],
+				[["7pepsi"], ["7wave"]],
+				[["2pepsi", "2_0pepsi"], ["2wave", "2_0wave"]],
+				[["3pepsi", "3_1pepsi", "3_1_0pepsi", "3_1_0_0pepsi"], ["3wave", "3_1wave", "3_1_0wave", "3_1_0_0wave"]],
+				[["4pepsi", "4_2pepsi", "4_2_0pepsi", "4_2_0_0pepsi"], ["4wave", "4_2wave", "4_2_0wave", "4_2_0_0wave"]],
+				[["can\'tpepsi", "can\'t_makepepsi", "can\'t_make_itpepsi"], ["can\'twave", "can\'t_makewave", "can\'t_make_itwave"]],
+				[null, null],
+				[["0pepsi", "0_6pepsi", "0_6_4pepsi", "0_6_4_800pepsi", "0_6_4_800_0pepsi"], ["0wave", "0_6wave", "0_6_4wave", "0_6_4_800wave", "0_6_4_800_0wave"]]
+			];
+
+			for(var i = 0; i < additionalTestData.length; i++) {
+				for(var j = 0; j < additionalSuffixes.length; j++) {
+					expect(utilities.toString(utilities.generateVersions(additionalTestData[i], null, additionalSuffixes[j]))).to.equal(utilities.toString(results[i][j]));
+				}
+			}
+		});
+
+		it("should produce the correct result for each additional test value and prefix / suffix", function() {
+			var results = [
+				[
+					[["saint420pepsi"], ["saint420wave"]],
+					[["vapor420pepsi"], ["vapor420wave"]]
+				],
+				[
+					[["saint7pepsi"], ["saint7wave"]],
+					[["vapor7pepsi"], ["vapor7wave"]]
+				],
+				[
+					[["saint2pepsi", "saint2_0pepsi"], ["saint2wave", "saint2_0wave"]],
+					[["vapor2pepsi", "vapor2_0pepsi"], ["vapor2wave", "vapor2_0wave"]]
+				],
+				[
+					[["saint3pepsi", "saint3_1pepsi", "saint3_1_0pepsi", "saint3_1_0_0pepsi"], ["saint3wave", "saint3_1wave", "saint3_1_0wave", "saint3_1_0_0wave"]],
+					[["vapor3pepsi", "vapor3_1pepsi", "vapor3_1_0pepsi", "vapor3_1_0_0pepsi"], ["vapor3wave", "vapor3_1wave", "vapor3_1_0wave", "vapor3_1_0_0wave"]]
+				],
+				[
+					[["saint4pepsi", "saint4_2pepsi", "saint4_2_0pepsi", "saint4_2_0_0pepsi"], ["saint4wave", "saint4_2wave", "saint4_2_0wave", "saint4_2_0_0wave"]],
+					[["vapor4pepsi", "vapor4_2pepsi", "vapor4_2_0pepsi", "vapor4_2_0_0pepsi"], ["vapor4wave", "vapor4_2wave", "vapor4_2_0wave", "vapor4_2_0_0wave"]]
+				],
+				[
+					[["saintcan\'tpepsi", "saintcan\'t_makepepsi", "saintcan\'t_make_itpepsi"], ["saintcan\'twave", "saintcan\'t_makewave", "saintcan\'t_make_itwave"]],
+					[["vaporcan\'tpepsi", "vaporcan\'t_makepepsi", "vaporcan\'t_make_itpepsi"], ["vaporcan\'twave", "vaporcan\'t_makewave", "vaporcan\'t_make_itwave"]]
+				],
+				[
+					[null, null],
+					[null, null]
+				],
+				[
+					[["saint0pepsi", "saint0_6pepsi", "saint0_6_4pepsi", "saint0_6_4_800pepsi", "saint0_6_4_800_0pepsi"], ["saint0wave", "saint0_6wave", "saint0_6_4wave", "saint0_6_4_800wave", "saint0_6_4_800_0wave"]],
+					[["vapor0pepsi", "vapor0_6pepsi", "vapor0_6_4pepsi", "vapor0_6_4_800pepsi", "vapor0_6_4_800_0pepsi"], ["vapor0wave", "vapor0_6wave", "vapor0_6_4wave", "vapor0_6_4_800wave", "vapor0_6_4_800_0wave"]]
+				]
+			];
+
+			for(var i = 0; i < additionalTestData.length; i++) {
+				for(var j = 0; j < additionalPrefixes.length; j++) {
+					for(var k = 0; k < additionalSuffixes.length; k++) {
+						expect(utilities.toString(utilities.generateVersions(additionalTestData[i], additionalPrefixes[j], additionalSuffixes[k]))).to.equal(utilities.toString(results[i][j][k]));
+					}
+				}
+			}
 		});
 	});
 
