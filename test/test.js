@@ -7,7 +7,8 @@ var expect = chai.expect;
 
 var testDate = new Date();
 
-var functionString = function() { }.toString();
+var emptyFunction = function() { };
+var emptyFunctionString = emptyFunction.toString();
 
 var testData = [
 	undefined,
@@ -30,7 +31,7 @@ var testData = [
 	[ ],
 	[0],
 	testDate,
-	function() { },
+	emptyFunction,
 	new RegExp(".+")
 ];
 
@@ -571,24 +572,24 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, new Date(0), new Date(1), null, null, null, null, null, null, null, null, null, null, null, testDate, null, null, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, testDate, testDate];
+			var results = [null, null, null, null, null, null, new Date(0), new Date(1), null, null, null, null, null, null, null, null, null, null, null, testDate, null, null, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, new Date(testDate.toString()), testDate];
 
 			for(var i = 0; i < newTestData.length; i++) {
 				if(results[i] === null) {
 					expect(utilities.parseDate(newTestData[i])).to.equal(null);
 				}
 				else {
-					expect(utilities.parseDate(newTestData[i]).toString()).to.equal(results[i].toString());
+					expect(utilities.parseDate(newTestData[i])).to.deep.equal(results[i]);
 				}
 			}
 		});
 
 		it("should produce the correct result for each test value with a custom default", function() {
 			var defaultDate = new Date("October 21, 2015 4:29 PM");
-			var results = [defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, new Date(0), new Date(1), defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, testDate, defaultDate, defaultDate, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, testDate, testDate];
+			var results = [defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, new Date(0), new Date(1), defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, testDate, defaultDate, defaultDate, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, new Date(testDate.toString()), testDate];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.parseDate(newTestData[i], defaultDate).toString()).to.equal(results[i].toString());
+				expect(utilities.parseDate(newTestData[i], defaultDate)).to.deep.equal(results[i]);
 			}
 		});
 	});
@@ -626,7 +627,7 @@ describe("Utilities", function() {
 					expect(utilities.parseTime(newTestData[i])).to.equal(null);
 				}
 				else {
-					expect(utilities.toString(utilities.parseTime(newTestData[i]))).to.equal(utilities.toString(results[i]));
+					expect(utilities.parseTime(newTestData[i])).to.deep.equal(results[i]);
 				}
 			}
 		});
@@ -660,7 +661,7 @@ describe("Utilities", function() {
 						utilities.parseTime(newTestData[i], true);
 					}
 					else {
-						expect(utilities.toString(utilities.parseTime(newTestData[i], true))).to.equal(utilities.toString(results[i]));
+						expect(utilities.parseTime(newTestData[i], true)).to.deep.equal(results[i]);
 					}
 				}
 				catch(error) {
@@ -731,7 +732,7 @@ describe("Utilities", function() {
 			var results = [null, null, null, null, null, null, null, null, null, null, null, null, [], ["test"], ["trim"], null, null, null, null, null, null, null, [], [], ["board"], ["room"], ["same"], ["tie"], ["e", "x", "e"]];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.parseStringList(newTestData[i]))).to.equal(utilities.toString(results[i]));
+				expect(utilities.parseStringList(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 	});
@@ -807,7 +808,7 @@ describe("Utilities", function() {
 			results.push(/3/gmi, /4/gm, /5/g, /6/);
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.parseRegularExpression(newTestData[i]))).to.equal(utilities.toString(results[i]));
+				expect(utilities.parseRegularExpression(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 
@@ -1120,7 +1121,7 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "[object Object]", "[object Object]", "", "0", testDate.toString(), functionString, "/.+/", " ", "\t", "0", "007", "Corporate Spy"];
+			var results = [null, null, "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "[object Object]", "[object Object]", "", "0", testDate.toString(), emptyFunctionString, "/.+/", " ", "\t", "0", "007", "Corporate Spy"];
 
 			for(var i = 0; i < newTestData.length; i++) {
 				expect(utilities.addLeadingZeroes(newTestData[i])).to.equal(results[i]);
@@ -1128,7 +1129,7 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value with an expected length of 5", function() {
-			var results = [null, null, "false", "0true", "false", "0true", "00000", "00001", "3.141592654", "00NaN", "Infinity", "-Infinity", "00000", "0test", " trim\t", "[object Object]", "[object Object]", "00000", "00000", testDate.toString(), functionString, "0/.+/", "0000 ", "0000\t", "00000", "00007", "Corporate Spy"];
+			var results = [null, null, "false", "0true", "false", "0true", "00000", "00001", "3.141592654", "00NaN", "Infinity", "-Infinity", "00000", "0test", " trim\t", "[object Object]", "[object Object]", "00000", "00000", testDate.toString(), emptyFunctionString, "0/.+/", "0000 ", "0000\t", "00000", "00007", "Corporate Spy"];
 
 			for(var i = 0; i < newTestData.length; i++) {
 				expect(utilities.addLeadingZeroes(newTestData[i], 5)).to.equal(results[i]);
@@ -1136,9 +1137,9 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value with an expected length of 20", function() {
-			var functionStringPadded = functionString;
+			var functionStringPadded = emptyFunctionString;
 
-			for(var i = functionString.length; i < 20; i++) {
+			for(var i = emptyFunctionString.length; i < 20; i++) {
 				functionStringPadded = "0" + functionStringPadded;
 			}
 
@@ -1160,7 +1161,7 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = ["undefined", "null", "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), functionString, "/.+/", "{\"message\":\"There are tales of pots.\"}", "{\"message\":\"A watched pot never boils.\",\"status\":69}", func.toString()];
+			var results = ["undefined", "null", "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", "{\"message\":\"There are tales of pots.\"}", "{\"message\":\"A watched pot never boils.\",\"status\":69}", func.toString()];
 
 			for(var i = 0; i < newTestData.length; i++) {
 				expect(utilities.toString(newTestData[i])).to.equal(results[i]);
@@ -1340,7 +1341,7 @@ describe("Utilities", function() {
 			for(var i = 0; i < testData.length; i++) {
 				clone = utilities.clone(testData[i]);
 
-				expect(utilities.toString(testData[i])).to.equal(utilities.toString(clone));
+				expect(testData[i]).to.deep.equal(clone);
 			}
 		});
 
@@ -1379,7 +1380,7 @@ describe("Utilities", function() {
 			var clone = utilities.clone(object);
 
 			expect(object).to.not.equal(clone);
-			expect(utilities.toString(object)).to.equal(utilities.toString(clone));
+			expect(object).to.deep.equal(clone);
 
 			for(var index in object) {
 				if(utilities.isObject(object[index])) {
@@ -1415,7 +1416,7 @@ describe("Utilities", function() {
 			var clone = utilities.clone(regExp);
 
 			expect(regExp).to.not.equal(clone);
-			expect(utilities.toString(regExp)).to.equal(utilities.toString(clone));
+			expect(regExp).to.deep.equal(clone);
 
 			for(var attribute in ["source", "global", "multiline", "ignoreCase", "sticky", "unicode"]) {
 				expect(regExp[attribute]).to.equal(clone[attribute]);
@@ -1460,7 +1461,7 @@ describe("Utilities", function() {
 			var clone = utilities.clone(object);
 
 			expect(object).to.not.equal(clone);
-			expect(utilities.toString(object)).to.equal(utilities.toString(clone));
+			expect(object).to.deep.equal(clone);
 		});
 	});
 
@@ -2004,7 +2005,7 @@ describe("Utilities", function() {
 			{ a: undefined, b: null, c: false, d: true, e: new Boolean(false), f: new Boolean(true), g: -1, h: 0, i: 1, j: 3.141592654, k: Infinity, l: -Infinity, m: "", n: "test", o: " trim\t", p: {}, q: { nice: "meme" }, r: [], s: [0], t: testDate, u: function() { }, v: new RegExp(".+") }
 		);
 
-		var results = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "nice=meme", "", "", "", "", "", "pickle=surprise!", "bargain=%3D%2FbOyz%3A%20%23%26ePi%24oDe%2C%20%2B1%3F", "%23you%2Frequire%2C%20%40dd%3A%2B!onal%26%3Dpylon%24%3F=420.69", "who=%7B%22dat%22%3A%22boy%22%7D", "nice=%5B%22meme%22%2C%22m\'lady%22%5D", "a=undefined&b=null&c=false&d=true&e=false&f=true&g=-1&h=0&i=1&j=3.141592654&k=Infinity&l=-Infinity&m=&n=test&o=%20trim%09&p=%7B%7D&q=%7B%22nice%22%3A%22meme%22%7D&r=%5B%5D&s=%5B0%5D&t=" + encodedTestDateString + "&u=" + encodeURIComponent(functionString) + "&v=%2F.%2B%2F"];
+		var results = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "nice=meme", "", "", "", "", "", "pickle=surprise!", "bargain=%3D%2FbOyz%3A%20%23%26ePi%24oDe%2C%20%2B1%3F", "%23you%2Frequire%2C%20%40dd%3A%2B!onal%26%3Dpylon%24%3F=420.69", "who=%7B%22dat%22%3A%22boy%22%7D", "nice=%5B%22meme%22%2C%22m\'lady%22%5D", "a=undefined&b=null&c=false&d=true&e=false&f=true&g=-1&h=0&i=1&j=3.141592654&k=Infinity&l=-Infinity&m=&n=test&o=%20trim%09&p=%7B%7D&q=%7B%22nice%22%3A%22meme%22%7D&r=%5B%5D&s=%5B0%5D&t=" + encodedTestDateString + "&u=" + encodeURIComponent(emptyFunctionString) + "&v=%2F.%2B%2F"];
 
 		it("should be a function", function() {
 			expect(utilities.createQueryString instanceof Function).to.equal(true);
@@ -2034,7 +2035,7 @@ describe("Utilities", function() {
 			var results = [[], [], [], [], [], [], [0], [0, 1], [0, 1, 2, 3], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [0, 1, 2, 3, 4], [0, 1, 2, 3, 4, 5, 6]];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.createRange(newTestData[i]))).to.equal(utilities.toString(results[i]));
+				expect(utilities.createRange(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 
@@ -2070,7 +2071,7 @@ describe("Utilities", function() {
 
 			for(var i = 0; i < newTestData.length; i++) {
 				for(var j = 0; j < newTestData.length; j++) {
-					expect(utilities.toString(utilities.createRange(newTestData[i], newTestData[j]))).to.equal(utilities.toString(results[i][j]));
+					expect(utilities.createRange(newTestData[i], newTestData[j])).to.deep.equal(results[i][j]);
 				}
 			}
 		});
@@ -2097,7 +2098,7 @@ describe("Utilities", function() {
 			var results = [null, null, null, null, null, null, allMonths, allMonths, null, null, null, null, null, null, null, null, null, null, null, allMonths.slice(testDate.getMonth(), 12), null, null, allMonths, allMonths];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.futureMonths(newTestData[i], false))).to.equal(utilities.toString(results[i]));
+				expect(utilities.futureMonths(newTestData[i], false)).to.deep.equal(results[i]);
 			}
 		});
 
@@ -2105,7 +2106,7 @@ describe("Utilities", function() {
 			var results = [null, null, null, null, null, null, allMonthsPadded, allMonthsPadded, null, null, null, null, null, null, null, null, null, null, null, allMonthsPadded.slice(testDate.getMonth(), 12), null, null, allMonthsPadded, allMonthsPadded];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.futureMonths(newTestData[i], true))).to.equal(utilities.toString(results[i]));
+				expect(utilities.futureMonths(newTestData[i], true)).to.deep.equal(results[i]);
 			}
 		});
 	});
@@ -2116,18 +2117,21 @@ describe("Utilities", function() {
 			{ hidden: false }
 		);
 
+		var trueFunction = function() { return true; };
+		var falseFunction = function() { return false; };
+
 		newTestData.push(
 			testData.concat(
 				{ visible: "nope" },
 				{ visible: false },
 				{ visible: true },
-				{ visible: function() { return false; } },
-				{ visible: function() { return true; } },
+				{ visible: falseFunction },
+				{ visible: trueFunction },
 				{ hidden: "avi" },
 				{ hidden: false },
 				{ hidden: true },
-				{ hidden: function() { return false; } },
-				{ hidden: function() { return true; } }
+				{ hidden: trueFunction },
+				{ hidden: falseFunction }
 			)
 		);
 
@@ -2138,11 +2142,11 @@ describe("Utilities", function() {
 		it("should produce the correct result for each test value", function() {
 			var results = [
 				[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],
-				[new Boolean(false), new Boolean(true), { }, { nice: "meme" }, [], [0], testDate, new RegExp(".+"), { visible: "nope" }, { visible: true }, { visible: function() { return true; } }, { hidden: "avi" }, { hidden: false }, { hidden: function() { return false; } }]
+				[new Boolean(false), new Boolean(true), { }, { nice: "meme" }, [], [0], testDate, new RegExp(".+"), { visible: "nope" }, { visible: true }, { visible: trueFunction }, { hidden: "avi" }, { hidden: false }, { hidden: falseFunction }]
 			];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.visibleElements(newTestData[i]))).to.equal(utilities.toString(results[i]));
+				expect(utilities.visibleElements(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 	});
@@ -2153,18 +2157,21 @@ describe("Utilities", function() {
 			{ hidden: false }
 		);
 
+		var trueFunction = function() { return true; };
+		var falseFunction = function() { return false; };
+
 		newTestData.push(
 			testData.concat(
 				{ visible: "nice" },
 				{ visible: false },
 				{ visible: true },
-				{ visible: function() { return false; } },
-				{ visible: function() { return true; } },
+				{ visible: falseFunction },
+				{ visible: trueFunction },
 				{ hidden: "meme" },
 				{ hidden: false },
 				{ hidden: true },
-				{ hidden: function() { return false; } },
-				{ hidden: function() { return true; } }
+				{ hidden: falseFunction },
+				{ hidden: trueFunction }
 			)
 		);
 
@@ -2175,11 +2182,11 @@ describe("Utilities", function() {
 		it("should produce the correct result for each test value", function() {
 			var results = [
 				[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [0], [], [], [], [], [],
-				[undefined, null, false, true, 0, 1, 3.141592654, NaN, Infinity, -Infinity, "", "test", " trim\t", function() { }, { visible: false }, { visible: function() { return false; } }, { hidden: true }, { hidden: function() { return true; } }]
+				[undefined, null, false, true, 0, 1, 3.141592654, NaN, Infinity, -Infinity, "", "test", " trim\t", emptyFunction, { visible: false }, { visible: falseFunction }, { hidden: true }, { hidden: trueFunction }]
 			];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.hiddenElements(newTestData[i]))).to.equal(utilities.toString(results[i]));
+				expect(utilities.hiddenElements(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 	});
@@ -2190,18 +2197,21 @@ describe("Utilities", function() {
 			{ disabled: false }
 		);
 
+		var trueFunction = function() { return true; };
+		var falseFunction = function() { return false; };
+
 		newTestData.push(
 			testData.concat(
 				{ enabled: "door" },
 				{ enabled: false },
 				{ enabled: true },
-				{ enabled: function() { return false; } },
-				{ enabled: function() { return true; } },
+				{ enabled: falseFunction },
+				{ enabled: trueFunction },
 				{ disabled: "stuck" },
 				{ disabled: false },
 				{ disabled: true },
-				{ disabled: function() { return false; } },
-				{ disabled: function() { return true; } }
+				{ disabled: falseFunction },
+				{ disabled: trueFunction }
 			)
 		);
 
@@ -2212,11 +2222,11 @@ describe("Utilities", function() {
 		it("should produce the correct result for each test value", function() {
 			var results = [
 				[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],
-				[new Boolean(false), new Boolean(true), { }, { nice: "meme" }, [], [0], testDate, new RegExp(".+"), { enabled: "door" }, { enabled: true }, { enabled: function() { return true; } }, { disabled: "stuck" }, { disabled: false }, { disabled: function() { return false; } }]
+				[new Boolean(false), new Boolean(true), { }, { nice: "meme" }, [], [0], testDate, new RegExp(".+"), { enabled: "door" }, { enabled: true }, { enabled: trueFunction }, { disabled: "stuck" }, { disabled: false }, { disabled: falseFunction }]
 			];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.enabledElements(newTestData[i]))).to.equal(utilities.toString(results[i]));
+				expect(utilities.enabledElements(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 	});
@@ -2227,18 +2237,21 @@ describe("Utilities", function() {
 			{ disabled: false }
 		);
 
+		var trueFunction = function() { return true; };
+		var falseFunction = function() { return false; };
+
 		newTestData.push(
 			testData.concat(
 				{ enabled: "ayy" },
 				{ enabled: false },
 				{ enabled: true },
-				{ enabled: function() { return false; } },
-				{ enabled: function() { return true; } },
+				{ enabled: falseFunction },
+				{ enabled: trueFunction },
 				{ disabled: "lmao" },
 				{ disabled: false },
 				{ disabled: true },
-				{ disabled: function() { return false; } },
-				{ disabled: function() { return true; } }
+				{ disabled: falseFunction },
+				{ disabled: trueFunction }
 			)
 		);
 
@@ -2249,11 +2262,11 @@ describe("Utilities", function() {
 		it("should produce the correct result for each test value", function() {
 			var results = [
 				[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [0], [], [], [], [], [],
-				[undefined, null, false, true, 0, 1, 3.141592654, NaN, Infinity, -Infinity, "", "test", " trim\t", function() { }, { enabled: false }, { enabled: function() { return false; } }, { disabled: true }, { disabled: function() { return true; } }]
+				[undefined, null, false, true, 0, 1, 3.141592654, NaN, Infinity, -Infinity, "", "test", " trim\t", emptyFunction, { enabled: false }, { enabled: falseFunction }, { disabled: true }, { disabled: trueFunction }]
 			];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.disabledElements(newTestData[i]))).to.equal(utilities.toString(results[i]));
+				expect(utilities.disabledElements(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 	});
@@ -2281,7 +2294,7 @@ describe("Utilities", function() {
 			{ value: [{ emptyArray: [] }], attribute: "emptyArray" },
 			{ value: [{ zeroArray: [0] }], attribute: "zeroArray" },
 			{ value: [{ date: testDate }], attribute: "date" },
-			{ value: [{ function: function() { } }], attribute: "function" },
+			{ value: [{ function: emptyFunction }], attribute: "function" },
 			{ value: [{ regExp: new RegExp(".+") }], attribute: "regExp" },
 			{ value: [{ da: "wae", ugandan: "knuckles" }, { da: "meme", weed: 420 }, { vanilla: "Moonlight" }, 69], attribute: "da" }
 		];
@@ -2292,13 +2305,13 @@ describe("Utilities", function() {
 
 		it("should correctly handle invalid arguments", function() {
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.elementsWithAttribute(newTestData[i]))).to.equal("[]");
+				expect(utilities.elementsWithAttribute(newTestData[i])).to.deep.equal([]);
 
 				for(var j = 0; j < newTestData.length; j++) {
-					expect(utilities.toString(utilities.elementsWithAttribute(newTestData[i], newTestData[j]))).to.equal("[]");
+					expect(utilities.elementsWithAttribute(newTestData[i], newTestData[j])).to.deep.equal([]);
 
 					for(var k = 0; k < newTestData.length; k++) {
-						expect(utilities.toString(utilities.elementsWithAttribute(newTestData[i], newTestData[j], newTestData[k]))).to.equal("[]");
+						expect(utilities.elementsWithAttribute(newTestData[i], newTestData[j], newTestData[k])).to.deep.equal([]);
 					}
 				}
 			}
@@ -2306,25 +2319,25 @@ describe("Utilities", function() {
 
 		it("should produce the correct result for each test value", function() {
 			var results = [
-				[], [], [], [], [{ false: false }], [{ true: true }], [{ falseBooleanObject: new Boolean(false) }], [{ trueBooleanObject: new Boolean(true) }], [{ NaN: NaN }], [{ Infinity: Infinity }], [{ NegativeInfinity: -Infinity }], [{ zero: 0 }], [{ one: 1 }], [{ pi: 3.141592654 }], [{ emptyString: "" }], [{ space: " " }], [{ tab: "\t" }], [{ emptyObject: { } }], [{ emptyArray: [] }], [{ zeroArray: [0] }], [{ date: testDate }], [{ function: function() { } }], [{ regExp: new RegExp(".+") }], [{ da: "wae", ugandan: "knuckles" }, { da: "meme", weed: 420 }]
+				[], [], [], [], [{ false: false }], [{ true: true }], [{ falseBooleanObject: new Boolean(false) }], [{ trueBooleanObject: new Boolean(true) }], [{ NaN: NaN }], [{ Infinity: Infinity }], [{ NegativeInfinity: -Infinity }], [{ zero: 0 }], [{ one: 1 }], [{ pi: 3.141592654 }], [{ emptyString: "" }], [{ space: " " }], [{ tab: "\t" }], [{ emptyObject: { } }], [{ emptyArray: [] }], [{ zeroArray: [0] }], [{ date: testDate }], [{ function: emptyFunction }], [{ regExp: new RegExp(".+") }], [{ da: "wae", ugandan: "knuckles" }, { da: "meme", weed: 420 }]
 			];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.elementsWithAttribute(newTestData[i].value, newTestData[i].attribute))).to.equal(utilities.toString(results[i]));
+				expect(utilities.elementsWithAttribute(newTestData[i].value, newTestData[i].attribute)).to.deep.equal(results[i]);
 			}
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.elementsWithAttribute(newTestData[i].value, newTestData[i].attribute, true))).to.equal(utilities.toString(results[i]));
+				expect(utilities.elementsWithAttribute(newTestData[i].value, newTestData[i].attribute, true)).to.deep.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with has attribute set to false", function() {
 			var results = [
-				[], [{ }], [{ }], [{ null: null }], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [{ vanilla: "Moonlight" }]
+				[], [{ }], [{ undefined: undefined }], [{ null: null }], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [{ vanilla: "Moonlight" }]
 			];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.elementsWithAttribute(newTestData[i].value, newTestData[i].attribute, false))).to.equal(utilities.toString(results[i]));
+				expect(utilities.elementsWithAttribute(newTestData[i].value, newTestData[i].attribute, false)).to.deep.equal(results[i]);
 			}
 		});
 	});
@@ -2363,21 +2376,21 @@ describe("Utilities", function() {
 
 		it("should correctly handle invalid arguments", function() {
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.elementsWithoutAttribute(newTestData[i]))).to.equal("[]");
+				expect(utilities.elementsWithoutAttribute(newTestData[i])).to.deep.equal([]);
 
 				for(var j = 0; j < newTestData.length; j++) {
-					expect(utilities.toString(utilities.elementsWithoutAttribute(newTestData[i], newTestData[j]))).to.equal("[]");
+					expect(utilities.elementsWithoutAttribute(newTestData[i], newTestData[j])).to.deep.equal([]);
 				}
 			}
 		});
 
 		it("should produce the correct result for each test value", function() {
 			var results = [
-				[], [{ }], [{ }], [{ null: null }], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [{ vanilla: "Moonlight" }]
+				[], [{ }], [{ undefined: undefined }], [{ null: null }], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [{ vanilla: "Moonlight" }]
 			];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.elementsWithoutAttribute(newTestData[i].value, newTestData[i].attribute))).to.equal(utilities.toString(results[i]));
+				expect(utilities.elementsWithoutAttribute(newTestData[i].value, newTestData[i].attribute)).to.deep.equal(results[i]);
 			}
 		});
 	});
@@ -2474,7 +2487,7 @@ describe("Utilities", function() {
 			];
 
 			for(var i = 0; i < additionalTestData.length; i++) {
-				expect(utilities.toString(utilities.generateVersions(additionalTestData[i]))).to.equal(utilities.toString(results[i]));
+				expect(utilities.generateVersions(additionalTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 
@@ -2492,7 +2505,7 @@ describe("Utilities", function() {
 
 			for(var i = 0; i < additionalTestData.length; i++) {
 				for(var j = 0; j < additionalPrefixes.length; j++) {
-					expect(utilities.toString(utilities.generateVersions(additionalTestData[i], additionalPrefixes[j]))).to.equal(utilities.toString(results[i][j]));
+					expect(utilities.generateVersions(additionalTestData[i], additionalPrefixes[j])).to.deep.equal(results[i][j]);
 				}
 			}
 		});
@@ -2511,7 +2524,7 @@ describe("Utilities", function() {
 
 			for(var i = 0; i < additionalTestData.length; i++) {
 				for(var j = 0; j < additionalSuffixes.length; j++) {
-					expect(utilities.toString(utilities.generateVersions(additionalTestData[i], null, additionalSuffixes[j]))).to.equal(utilities.toString(results[i][j]));
+					expect(utilities.generateVersions(additionalTestData[i], null, additionalSuffixes[j])).to.deep.equal(results[i][j]);
 				}
 			}
 		});
@@ -2555,7 +2568,7 @@ describe("Utilities", function() {
 			for(var i = 0; i < additionalTestData.length; i++) {
 				for(var j = 0; j < additionalPrefixes.length; j++) {
 					for(var k = 0; k < additionalSuffixes.length; k++) {
-						expect(utilities.toString(utilities.generateVersions(additionalTestData[i], additionalPrefixes[j], additionalSuffixes[k]))).to.equal(utilities.toString(results[i][j][k]));
+						expect(utilities.generateVersions(additionalTestData[i], additionalPrefixes[j], additionalSuffixes[k])).to.deep.equal(results[i][j][k]);
 					}
 				}
 			}
@@ -2575,11 +2588,11 @@ describe("Utilities", function() {
 			];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.parseVersion(newTestData[i]))).to.equal(utilities.toString(results[i]));
+				expect(utilities.parseVersion(newTestData[i])).to.deep.equal(results[i]);
 			}
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.parseVersion(newTestData[i], false))).to.equal(utilities.toString(results[i]));
+				expect(utilities.parseVersion(newTestData[i], false)).to.deep.equal(results[i]);
 			}
 		});
 
@@ -2589,7 +2602,7 @@ describe("Utilities", function() {
 			];
 
 			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.toString(utilities.parseVersion(newTestData[i], true))).to.equal(utilities.toString(results[i]));
+				expect(utilities.parseVersion(newTestData[i], true)).to.deep.equal(results[i]);
 			}
 		});
 	});
