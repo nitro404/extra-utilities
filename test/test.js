@@ -1154,14 +1154,14 @@ describe("Utilities", function() {
 	describe("toString", function() {
 		var func = function() { console.log("All this talk of tea is getting me thirsty, shall I pop the kettle on?"); };
 
-		var newTestData = testData.concat(new Error("There are tales of pots."), utilities.createError("A watched pot never boils.", 69), func);
+		var newTestData = testData.concat(new Error("There are tales of pots."), utilities.createError("A watched pot never boils.", 69), func, /delicious.*muggachini/gmi);
 
 		it("should be a function", function() {
 			expect(utilities.toString instanceof Function).to.equal(true);
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = ["undefined", "null", "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", "{\"message\":\"There are tales of pots.\"}", "{\"message\":\"A watched pot never boils.\",\"status\":69}", func.toString()];
+			var results = ["undefined", "null", "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", "{\"message\":\"There are tales of pots.\"}", "{\"message\":\"A watched pot never boils.\",\"status\":69}", func.toString(), "/delicious.*muggachini/gmi"];
 
 			for(var i = 0; i < newTestData.length; i++) {
 				expect(utilities.toString(newTestData[i])).to.equal(results[i]);
