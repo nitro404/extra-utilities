@@ -1465,8 +1465,351 @@ describe("Utilities", function() {
 	});
 
 	describe("merge", function() {
+		var newTestData = testData.concat(
+			{
+				new: {
+					phone: {
+						who: "dis"
+					}
+				},
+				ketchup: ["slip", "slap", "slop"]
+			},
+			{
+				nice: "hat",
+				spooky: {
+					ghost: true,
+					man: "sleepin' in yo bed",
+					yeah: "yeah yeah!",
+					radar: {
+						jammed: true,
+						type: "strawberry"
+					}
+				},
+				ketchup: ["muckin'", "around"]
+			},
+			{
+				new: 69,
+				nice: "pants",
+				spooky: {
+					ghost: false,
+					man: false,
+					radar: {
+						jammed: false,
+						type: null,
+						bleeps: true,
+						creeps: true,
+						sweeps: true
+					}
+				},
+				dank: 420
+			}
+		);
+
+		newTestData.push([6, 9]);
+		newTestData.push(["ayy", "lmao"]);
+
 		it("should be a function", function() {
 			expect(utilities.merge instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.merge(newTestData[i])).to.deep.equal(utilities.merge(newTestData[i]));
+				expect(utilities.merge(newTestData[i], true)).to.deep.equal(utilities.merge(newTestData[i]));
+				expect(utilities.merge(newTestData[i], false)).to.deep.equal(utilities.merge(newTestData[i]));
+				expect(utilities.merge(newTestData[i], true, true)).to.deep.equal(utilities.merge(newTestData[i]));
+				expect(utilities.merge(newTestData[i], true, false)).to.deep.equal(utilities.merge(newTestData[i]));
+			}
+		});
+
+		it("should produce the correct result for each test value pair with copy and deep merge enabled", function() {
+			var results = [
+				null, null, null, null, new Boolean(false), new Boolean(true), null, null, null, null, null, null, null, null, null,
+				[
+					{ }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { nice: "meme" }, { }, { }, { }, { }, { },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ }, { }
+				],
+				[
+					{ nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" },
+					{ nice: "meme", new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "pants", new: 69, spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ nice: "meme" }, { nice: "meme" }
+				],
+				null, null, testDate, null, new RegExp(".+"),
+				[
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"], nice: "meme" },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["muckin'", "around"], nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } } },
+					{ new: 69, ketchup: ["slip", "slap", "slop"], nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] }
+				],
+				[
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "meme", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["slip", "slap", "slop"], new: { phone: { who: "dis" } } },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "pants", spooky: { ghost: false, man: false, yeah: "yeah yeah!", radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, ketchup: ["muckin'", "around"], new: 69, dank: 420 },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] }
+				],
+				[
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "meme", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: { phone: { who: "dis" } }, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420, ketchup: ["slip", "slap", "slop"] },
+					{ new: 69, nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed",  radar: { jammed: true, type: "strawberry", bleeps: true, creeps: true, sweeps: true }, yeah: "yeah yeah!", }, dank: 420, ketchup: ["muckin'", "around"] },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+				],
+				null, null
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				for(var j = 0; j < newTestData.length; j++) {
+					if(Array.isArray(results[i])) {
+						expect(utilities.merge(newTestData[i], newTestData[j])).to.deep.equal(results[i][j]);
+						expect(utilities.merge(newTestData[i], newTestData[j], true)).to.deep.equal(results[i][j]);
+						expect(utilities.merge(newTestData[i], newTestData[j], true, true)).to.deep.equal(results[i][j]);
+					}
+					else {
+						expect(utilities.merge(newTestData[i], newTestData[j])).to.deep.equal(results[i]);
+						expect(utilities.merge(newTestData[i], newTestData[j], true)).to.deep.equal(results[i]);
+						expect(utilities.merge(newTestData[i], newTestData[j], true, true)).to.deep.equal(results[i]);
+					}
+				}
+			}
+		});
+
+		it("should produce the correct result for each test value pair with copy enabled and deep merge disabled", function() {
+			var results = [
+				null, null, null, null, new Boolean(false), new Boolean(true), null, null, null, null, null, null, null, null, null,
+				[
+					{ }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { nice: "meme" }, { }, { }, { }, { }, { },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ }, { }
+				],
+				[
+					{ nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" }, { nice: "meme" },
+					{ nice: "meme", new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "pants", new: 69, spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ nice: "meme" }, { nice: "meme" }
+				],
+				null, null, testDate, null, new RegExp(".+"),
+				[
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"], nice: "meme" },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["muckin'", "around"], nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } } },
+					{ new: 69, ketchup: ["slip", "slap", "slop"], nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+					{ new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] }
+				],
+				[
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "meme", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["slip", "slap", "slop"], new: { phone: { who: "dis" } } },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, ketchup: ["muckin'", "around"], new: 69, dank: 420 },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] },
+					{ nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } }, ketchup: ["muckin'", "around"] }
+				],
+				[
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "meme", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: { phone: { who: "dis" } }, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420, ketchup: ["slip", "slap", "slop"] },
+					{ new: 69, nice: "hat", spooky: { ghost: true, man: "sleepin' in yo bed",  radar: { jammed: true, type: "strawberry" }, yeah: "yeah yeah!", }, dank: 420, ketchup: ["muckin'", "around"] },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+					{ new: 69, nice: "pants", spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+				],
+				null, null
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				for(var j = 0; j < newTestData.length; j++) {
+					if(Array.isArray(results[i])) {
+						expect(utilities.merge(newTestData[i], newTestData[j], true, false)).to.deep.equal(results[i][j]);
+					}
+					else {
+						expect(utilities.merge(newTestData[i], newTestData[j], true, false)).to.deep.equal(results[i]);
+					}
+				}
+			}
+		});
+
+		it("should produce the correct result for each test value pair with copy disabled and deep merge enabled", function() {
+			var result = { };
+
+			var results = [
+				{ }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { },
+				{ nice: "meme" },
+				{ nice: "meme" },
+				{ nice: "meme" },
+				{ nice: "meme" },
+				{ nice: "meme" },
+				{ nice: "meme" },
+				{ nice: "meme", new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+				{ nice: "hat", new: { phone: { who: "dis" } }, ketchup: ["muckin'", "around"], spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } } },
+				{ nice: "pants", new: 69, ketchup: ["muckin'", "around"], spooky: { ghost: false, man: false, yeah: "yeah yeah!", radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+				{ nice: "pants", new: 69, ketchup: ["muckin'", "around"], spooky: { ghost: false, man: false, yeah: "yeah yeah!", radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+				{ nice: "pants", new: 69, ketchup: ["muckin'", "around"], spooky: { ghost: false, man: false, yeah: "yeah yeah!", radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 }
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.merge(result, newTestData[i], false, true)).to.deep.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value pair with copy and deep merge disabled", function() {
+			var result = { };
+
+			var results = [
+				{ }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { },
+				{ nice: "meme" },
+				{ nice: "meme" },
+				{ nice: "meme" },
+				{ nice: "meme" },
+				{ nice: "meme" },
+				{ nice: "meme" },
+				{ nice: "meme", new: { phone: { who: "dis" } }, ketchup: ["slip", "slap", "slop"] },
+				{ nice: "hat", new: { phone: { who: "dis" } }, ketchup: ["muckin'", "around"], spooky: { ghost: true, man: "sleepin' in yo bed", yeah: "yeah yeah!", radar: { jammed: true, type: "strawberry" } } },
+				{ nice: "pants", new: 69, ketchup: ["muckin'", "around"], spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+				{ nice: "pants", new: 69, ketchup: ["muckin'", "around"], spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 },
+				{ nice: "pants", new: 69, ketchup: ["muckin'", "around"], spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 }
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.merge(result, newTestData[i], false, false)).to.deep.equal(results[i]);
+			}
 		});
 	});
 
@@ -1547,6 +1890,7 @@ describe("Utilities", function() {
 
 		it("should produce the correct result for each test value", function() {
 			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test/", "trim/", null, null, null, null, null, null, null, "", "", "/", "/", "/", "\\", "\\", "\\", "\\", "/take/me/by/the/hand/", "/ayy/lmao/", "northern/petrol/", "\\door\\stuck/", "\\do\\u\\kno\\da\\wae/", "wau\\"];
+
 			for(var i = 0; i < newTestData.length; i++) {
 				expect(utilities.appendSlash(newTestData[i])).to.equal(results[i]);
 			}
