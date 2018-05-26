@@ -1812,10 +1812,21 @@ utilities.clone = function(value) {
 		if(value instanceof Error) {
 			copy = new Error(value.message);
 
-			copy.fileName = value.fileName;
-			copy.lineNumber = value.lineNumber;
-			copy.columnNumber = value.columnNumber;
-			copy.stack = value.stack;
+			copy.stack = utilities.clone(value.stack);
+
+			if(value.lineNumber !== undefined) {
+				copy.lineNumber = utilities.clone(value.lineNumber);
+			}
+
+			if(value.columnNumber !== undefined) {
+				copy.columnNumber = utilities.clone(value.columnNumber);
+			}
+
+			var properties = Object.keys(value);
+
+			for(var i = 0; i < properties.length; i++) {
+				copy[properties[i]] = utilities.clone(value[properties[i]]);
+			}
 		}
 		else {
 			copy = { };
