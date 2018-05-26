@@ -1822,14 +1822,6 @@
 
 				copy.stack = utilities.clone(value.stack);
 
-				if(value.lineNumber !== undefined) {
-					copy.lineNumber = utilities.clone(value.lineNumber);
-				}
-
-				if(value.columnNumber !== undefined) {
-					copy.columnNumber = utilities.clone(value.columnNumber);
-				}
-
 				var properties = Object.keys(value);
 
 				for(var i = 0; i < properties.length; i++) {
