@@ -1203,7 +1203,21 @@ utilities.formatValue = function(value, format, options) {
 			formattedValue = utilities.clone(value);
 		}
 		else {
-			formattedValue = utilities.parseRegularExpression(value);
+			if(options.throwErrors) {
+				formattedValue = utilities.parseRegularExpression(value, true);
+			}
+			else {
+				try {
+					formattedValue = utilities.parseRegularExpression(value, true);
+				}
+				catch(error) {
+					if(options.verbose) {
+						console.error(error.message);
+					}
+
+					return null;
+				}
+			}
 		}
 
 		if(utilities.isInvalid(formattedValue)) {
