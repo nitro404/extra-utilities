@@ -180,6 +180,27 @@ var regExpFlags = {
 	unicode: "u"
 };
 
+var formatTypes = ["boolean", "bool", "integer", "int", "float", "number", "string", "object", "array", "date", "regex", "regexp", "regularexpression", "function", "func"];
+
+var stringCaseFunctions = {
+	camel: changeCase.camelCase,
+	constant: changeCase.constantCase,
+	dot: changeCase.dotCase,
+	header: changeCase.headerCase,
+	lower: changeCase.lowerCase,
+	lowerFirst: changeCase.lowerCaseFirst,
+	no: changeCase.noCase,
+	param: changeCase.paramCase,
+	pascal: changeCase.pascalCase,
+	path: changeCase.pathCase,
+	sentence: changeCase.sentenceCase,
+	snake: changeCase.snakeCase,
+	swap: changeCase.swapCase,
+	title: changeCase.titleCase,
+	upper: changeCase.upperCase,
+	upperFirst: changeCase.upperCaseFirst
+};
+
 utilities.isValid = function(value) {
 	return value !== undefined && value !== null;
 };
@@ -810,27 +831,6 @@ utilities.formatValue = function(value, format, options) {
 	}
 
 	format = utilities.clone(format);
-
-	var formatTypes = ["boolean", "bool", "integer", "int", "float", "number", "string", "object", "array", "date", "regex", "regexp", "regularexpression", "function", "func"];
-
-	var stringCaseFunctions = {
-		camel: changeCase.camelCase,
-		constant: changeCase.constantCase,
-		dot: changeCase.dotCase,
-		header: changeCase.headerCase,
-		lower: changeCase.lowerCase,
-		lowerFirst: changeCase.lowerCaseFirst,
-		no: changeCase.noCase,
-		param: changeCase.paramCase,
-		pascal: changeCase.pascalCase,
-		path: changeCase.pathCase,
-		sentence: changeCase.sentenceCase,
-		snake: changeCase.snakeCase,
-		swap: changeCase.swapCase,
-		title: changeCase.titleCase,
-		upper: changeCase.upperCase,
-		upperFirst: changeCase.upperCaseFirst
-	};
 
 	var errorMessage = null;
 
