@@ -815,9 +815,10 @@ utilities.parseYouTubeLink = function(value) {
 utilities.formatValue = function(value, format, options) {
 	if(utilities.isObjectStrict(options)) {
 		options = {
-			throwErrors: utilities.parseBoolean(options.throwErrors, false),
-			verbose: utilities.parseBoolean(options.verbose, true)
+			throwErrors: utilities.parseBoolean(options.throwErrors, false)
 		};
+
+		options.verbose = utilities.parseBoolean(options.verbose, !options.throwErrors);
 	}
 	else {
 		options = {
