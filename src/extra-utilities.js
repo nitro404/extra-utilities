@@ -735,22 +735,41 @@ utilities.parseStringList = function(value) {
 	return formattedList;
 };
 
-utilities.parseRegularExpression = function(value) {
+utilities.parseRegularExpression = function(value, throwErrors) {
+	throwErrors = utilities.parseBoolean(throwErrors, false);
+
 	if(utilities.isRegularExpression(value)) {
 		return value;
 	}
 
 	if(utilities.isEmptyString(value)) {
+		if(throwErrors) {
+			throw new Error("Regular expression cannot be empty.");
+		}
+
 		return null;
 	}
 
 	var regExpData = value.match(/\s*\/(.*)\/(.*)\s*/);
 
 	if(!regExpData) {
+		if(throwErrors) {
+			throw new Error("Invalid regular expression value.");
+		}
+
 		return null;
 	}
 
-	return new RegExp(regExpData[1], regExpData[2]);
+	if(throwErrors) {
+		return new RegExp(regExpData[1], regExpData[2]);
+	}
+
+	try {
+		return new RegExp(regExpData[1], regExpData[2]);
+	}
+	catch(error) {
+		return null;
+	}
 };
 
 utilities.parseYouTubeLink = function(value) {
