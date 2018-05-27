@@ -188,6 +188,27 @@
 		unicode: "u"
 	};
 
+	var formatTypes = ["boolean", "bool", "integer", "int", "float", "number", "string", "object", "array", "date", "regex", "regexp", "regularexpression", "function", "func"];
+
+	var stringCaseFunctions = {
+		camel: changeCase.camelCase,
+		constant: changeCase.constantCase,
+		dot: changeCase.dotCase,
+		header: changeCase.headerCase,
+		lower: changeCase.lowerCase,
+		lowerFirst: changeCase.lowerCaseFirst,
+		no: changeCase.noCase,
+		param: changeCase.paramCase,
+		pascal: changeCase.pascalCase,
+		path: changeCase.pathCase,
+		sentence: changeCase.sentenceCase,
+		snake: changeCase.snakeCase,
+		swap: changeCase.swapCase,
+		title: changeCase.titleCase,
+		upper: changeCase.upperCase,
+		upperFirst: changeCase.upperCaseFirst
+	};
+
 	utilities.isValid = function(value) {
 		return value !== undefined && value !== null;
 	};
@@ -743,22 +764,41 @@
 		return formattedList;
 	};
 
-	utilities.parseRegularExpression = function(value) {
+	utilities.parseRegularExpression = function(value, throwErrors) {
+		throwErrors = utilities.parseBoolean(throwErrors, false);
+
 		if(utilities.isRegularExpression(value)) {
 			return value;
 		}
 
 		if(utilities.isEmptyString(value)) {
+			if(throwErrors) {
+				throw new Error("Regular expression cannot be empty.");
+			}
+
 			return null;
 		}
 
 		var regExpData = value.match(/\s*\/(.*)\/(.*)\s*/);
 
 		if(!regExpData) {
+			if(throwErrors) {
+				throw new Error("Invalid regular expression value.");
+			}
+
 			return null;
 		}
 
-		return new RegExp(regExpData[1], regExpData[2]);
+		if(throwErrors) {
+			return new RegExp(regExpData[1], regExpData[2]);
+		}
+
+		try {
+			return new RegExp(regExpData[1], regExpData[2]);
+		}
+		catch(error) {
+			return null;
+		}
 	};
 
 	utilities.parseYouTubeLink = function(value) {
@@ -783,9 +823,10 @@
 	utilities.formatValue = function(value, format, options) {
 		if(utilities.isObjectStrict(options)) {
 			options = {
-				throwErrors: utilities.parseBoolean(options.throwErrors, false),
-				verbose: utilities.parseBoolean(options.verbose, true)
+				throwErrors: utilities.parseBoolean(options.throwErrors, false)
 			};
+
+			options.verbose = utilities.parseBoolean(options.verbose, !options.throwErrors);
 		}
 		else {
 			options = {
@@ -799,27 +840,6 @@
 		}
 
 		format = utilities.clone(format);
-
-		var formatTypes = ["boolean", "bool", "integer", "int", "float", "number", "string", "object", "array", "date", "regex", "regexp", "regularexpression", "function", "func"];
-
-		var stringCaseFunctions = {
-			camel: changeCase.camelCase,
-			constant: changeCase.constantCase,
-			dot: changeCase.dotCase,
-			header: changeCase.headerCase,
-			lower: changeCase.lowerCase,
-			lowerFirst: changeCase.lowerCaseFirst,
-			no: changeCase.noCase,
-			param: changeCase.paramCase,
-			pascal: changeCase.pascalCase,
-			path: changeCase.pathCase,
-			sentence: changeCase.sentenceCase,
-			snake: changeCase.snakeCase,
-			swap: changeCase.swapCase,
-			title: changeCase.titleCase,
-			upper: changeCase.upperCase,
-			upperFirst: changeCase.upperCaseFirst
-		};
 
 		var errorMessage = null;
 
@@ -1191,7 +1211,21 @@
 				formattedValue = utilities.clone(value);
 			}
 			else {
-				formattedValue = utilities.parseRegularExpression(value);
+				if(options.throwErrors) {
+					formattedValue = utilities.parseRegularExpression(value, true);
+				}
+				else {
+					try {
+						formattedValue = utilities.parseRegularExpression(value, true);
+					}
+					catch(error) {
+						if(options.verbose) {
+							console.error(error.message);
+						}
+
+						return null;
+					}
+				}
 			}
 
 			if(utilities.isInvalid(formattedValue)) {
