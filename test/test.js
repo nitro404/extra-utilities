@@ -741,7 +741,7 @@ describe("Utilities", function() {
 
 	describe("parseRegularExpression", function() {
 		var newTestData = testData.concat("/pop[ ]*the[ ]kettle/gmi", "/corporate/m", "/spy/i", "/ayy/gm", "/lmao/g", "/muggachini/");
-		var invalidTestData = ["/", "/door/stuck", "/y/x"];
+		var invalidTestData = ["", "/", "/door/stuck", "/y/x"];
 
 		var regExpFlagSupported = {
 			sticky: true,
