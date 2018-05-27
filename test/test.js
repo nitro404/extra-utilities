@@ -10,6 +10,8 @@ var testDate = new Date();
 var emptyFunction = function() { };
 var emptyFunctionString = emptyFunction.toString();
 
+var testRegExp = new RegExp(".+");
+
 var testData = [
 	undefined,
 	null,
@@ -32,7 +34,7 @@ var testData = [
 	[0],
 	testDate,
 	emptyFunction,
-	new RegExp(".+")
+	testRegExp
 ];
 
 describe("Utilities", function() {
@@ -739,7 +741,7 @@ describe("Utilities", function() {
 
 	describe("parseRegularExpression", function() {
 		var newTestData = testData.concat("/pop[ ]*the[ ]kettle/gmi", "/corporate/m", "/spy/i", "/ayy/gm", "/lmao/g", "/muggachini/");
-		var invalidTestData = ["/door/stuck", "/y/x"];
+		var invalidTestData = ["/", "/door/stuck", "/y/x"];
 
 		var regExpFlagSupported = {
 			sticky: true,
@@ -812,14 +814,23 @@ describe("Utilities", function() {
 			}
 		});
 
-		it("should throw an error for each regular expression value with invalid flags", function() {
+		it("should return null for each regular expression value with invalid flags", function() {
+			var errorThrown = null;
+
+			for(var i = 0; i < invalidTestData.length; i++) {
+				expect(utilities.parseRegularExpression(invalidTestData[i])).to.equal(null);
+				expect(utilities.parseRegularExpression(invalidTestData[i], false)).to.equal(null);
+			}
+		});
+
+		it("should throw an error when specified for each regular expression value with invalid flags", function() {
 			var errorThrown = null;
 
 			for(var i = 0; i < invalidTestData.length; i++) {
 				errorThrown = false;
 
 				try {
-					utilities.parseRegularExpression(invalidTestData[i]);
+					utilities.parseRegularExpression(invalidTestData[i], true);
 				}
 				catch(error) {
 					errorThrown = true;
