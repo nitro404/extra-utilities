@@ -885,8 +885,571 @@ describe("Utilities", function() {
 	});
 
 	describe("formatValue", function() {
+		var validFormatTypes = ["boolean", "bool", "integer", "int", "float", "number", "string", "object", "array", "date", "regex", "regexp", "regularexpression", "function", "func"];
+
+		var stringCaseFunctionNames = ["camel", "constant", "dot", "header", "lower", "lowerFirst", "no", "param", "pascal", "path", "sentence", "snake", "swap", "title", "upper", "upperFirst"];
+
 		it("should be a function", function() {
 			expect(utilities.formatValue instanceof Function).to.equal(true);
+		});
+
+		it("should return a copy of the original value if no format is specified", function() {
+			for(var i = 0; i < testData.length; i++) {
+				expect(utilities.formatValue(testData[i])).to.deep.equal(testData[i]);
+			}
+		});
+
+		it("should return a copy of the original value for any format that is not a strict object", function() {
+			expect(utilities.formatValue("We need more meat.", testDate)).to.equal("We need more meat.");
+			expect(utilities.formatValue(69, [4, 2, 0], { throwErrors: false })).to.equal(69);
+		});
+
+		it("should return null for any format that has an empty or missing type property", function() {
+			expect(utilities.formatValue({ }, { meme: "dude" })).to.equal(null);
+			expect(utilities.formatValue({ }, { ghost: "man" }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any format that has an empty or missing type property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue({ }, { ketchup: "Slip, slap slop!" }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any format that has an invalid type property", function() {
+			expect(utilities.formatValue({ }, { type: "barrels" })).to.equal(null);
+			expect(utilities.formatValue({ }, { type: "get some" }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any format that has an invlid type property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue({ }, { type: "serious?" }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any format that has an invalid nullable property", function() {
+			expect(utilities.formatValue(null, { type: "string", nullable: Infinity })).to.equal(null);
+			expect(utilities.formatValue(null, { type: "boolean", nullable: emptyFunction }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any format that has an invlid nullable property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue(null, { type: "integer", nullable: "Does spider have pus pus?" }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any format that has an invalid required property", function() {
+			expect(utilities.formatValue(null, { type: "function", required: NaN })).to.equal(null);
+			expect(utilities.formatValue(null, { type: "regexp", required: testDate }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any format that has an invlid required property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue(null, { type: "array", required: -3.1337 }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any format that has an invalid parser property", function() {
+			expect(utilities.formatValue(null, { type: "string", parser: 1337 })).to.equal(null);
+			expect(utilities.formatValue(null, { type: "array", parser: [] }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any format that has an invlid parser property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue(null, { type: "number", parser: "da wae" }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any format that has an invalid validator property", function() {
+			expect(utilities.formatValue(null, { type: "integer", validator: new Error("I need healing!") })).to.equal(null);
+			expect(utilities.formatValue(null, { type: "object", validator: -Infinity }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any format that has an invlid validator property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue(null, { type: "function", validator: testDate }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any format that has an invalid formatter property", function() {
+			expect(utilities.formatValue(null, { type: "number", formatter: new Boolean(false) })).to.equal(null);
+			expect(utilities.formatValue(null, { type: "date", formatter: NaN }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any format that has an invlid formatter property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue(null, { type: "float", formatter: /lolwut/i }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any string format that has an invalid trim property", function() {
+			expect(utilities.formatValue(Infinity, { type: "string", trim: -Infinity })).to.equal(null);
+			expect(utilities.formatValue(NaN, { type: "string", trim: "IndexOutOfBoundsException" }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any string format that has an invlid trim property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue([], { type: "string", trim: emptyFunction }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any string format that has an invalid case property", function() {
+			expect(utilities.formatValue(7, { type: "string", case: "NullPointerException" })).to.equal(null);
+			expect(utilities.formatValue("hi", { type: "string", case: 3.141592654 }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any string format that has an invlid case property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue([], { type: "string", case: false }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any string format that has an invalid nonEmpty property", function() {
+			expect(utilities.formatValue(-Infinity, { type: "string", nonEmpty: NaN })).to.equal(null);
+			expect(utilities.formatValue(testDate, { type: "string", nonEmpty: emptyFunction }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any string format that has an invlid nonEmpty property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue(emptyFunction, { type: "string", nonEmpty: new Error("8=====D ~") }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any object format that has an invalid strict property", function() {
+			expect(utilities.formatValue("I wonder if anyone will ever read this.", { type: "object", strict: emptyFunction })).to.equal(null);
+			expect(utilities.formatValue("How many memes will they understand?", { type: "object", strict: testDate }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any object format that has an invlid strict property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue("Probably not many.", { type: "object", strict: -Infinity }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any object format that has an invalid autopopulate property", function() {
+			expect(utilities.formatValue("So many unit tests.", { type: "object", autopopulate: 3 })).to.equal(null);
+			expect(utilities.formatValue("So little time.", { type: "object", autopopulate: "This should be a boolean or something." }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any object format that has an invlid autopopulate property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue("Wau.", { type: "object", autopopulate: "This should also be a boolean." }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any object format that has an invalid order property", function() {
+			expect(utilities.formatValue("Very test.", { type: "object", order: /regular expression lol/g })).to.equal(null);
+			expect(utilities.formatValue("Much unit.", { type: "object", order: "139 & Lenox Ave." }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any object format that has an invlid order property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue("Wow.", { type: "object", order: "That's the danger zone!" }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any object format that has an invalid removeExtra property", function() {
+			expect(utilities.formatValue({ hot: "soup" }, { type: "object", removeExtra: "I hope they make Bio Cop." })).to.equal(null);
+			expect(utilities.formatValue(["corporate", "spy"], { type: "object", removeExtra: "That would be the best." }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any object format that has an invlid removeExtra property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue("Manborg is definitely the movie of our century.", { type: "object", removeExtra: "NUMBER FIVE IS ALIVE!" }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any object format that has an invalid format property", function() {
+			expect(utilities.formatValue(["i", "did", "not", "hit", "her"], { type: "object", format: "Ever watch The Room?" })).to.equal(null);
+			expect(utilities.formatValue({ oh: "hai mark" }, { type: "object", format: "Tommy Wiseau is the greatest." }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any object format that has an invlid format property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue("Cheep cheep cheep cheep!", { type: "object", format: "You're my favourite customer!" }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any object format that has a format property that is a non-strict object", function() {
+			expect(utilities.formatValue(null, { type: "object", format: new RegExp("Johnny's home!") })).to.equal(null);
+			expect(utilities.formatValue(4096, { type: "object", format: ["not", "a", "real", "object"] }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any object format that has a format property that is a non-strict object when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue(Infinity, { type: "object", format: testDate }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any object format that has an invalid nonEmpty property", function() {
+			expect(utilities.formatValue(emptyFunction, { type: "object", format: new Error(500) })).to.equal(null);
+			expect(utilities.formatValue(null, { type: "object", format: NaN }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any object format that has an invalid nonEmpty property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue(new Boolean(false), { type: "object", format: null }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any array format that has an invalid format property", function() {
+			expect(utilities.formatValue(["Neil Breen"], { type: "array", format: "With such hits as Double Down!" })).to.equal(null);
+			expect(utilities.formatValue({ director: { of: "Our Century" } }, { type: "array", format: "And Pass Thru." }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any array format that has an invlid format property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue({ alien: true, secretAgent: true, bioTerrorist: true, warVetran: true }, { type: "array", format: "Just how good is he at this stuff, Rich?" }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any array format that has a format property that is a non-strict object", function() {
+			expect(utilities.formatValue("Satellite TV", { type: "array", format: new Error("He loves tuna!") })).to.equal(null);
+			expect(utilities.formatValue("That's a lot of laptops!", { type: "array", format: testDate }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any array format that has a format property that is a non-strict object when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue("Talk about his ballsack!", { type: "array", format: ["yes", "you", "see", "his", "ballsack"] }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should return null for any array format that has an invalid nonEmpty property", function() {
+			expect(utilities.formatValue("Magical cancer curing powers!", { type: "array", nonEmpty: emptyFunction })).to.equal(null);
+			expect(utilities.formatValue(["nothing", "but", "meaningless", "stuff"], { type: "array", nonEmpty: NaN }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error for any array format that has an invlid nonEmpty property when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue({ found: "footage" }, { type: "array", nonEmpty: testDate }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should correctly format boolean values", function() {
+			var values = [false, true, new Boolean(false), new Boolean(true), 0, 1, "f", "T", "N", "y", "0", "1", "fALSE", "True", "no", "YES", "Off", "ON"];
+			var format = [{ type: "bool"}, { type: "boolean" }, { type: "BOOL"}, { type: "bOoLeAn" }];
+			var results = [false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true];
+
+			for(var i = 0; i < values.length; i++) {
+				for(var j = 0; j < format.length; j++) {
+					expect(utilities.formatValue(values[i], format[j])).to.equal(results[i])
+				}
+			}
+		});
+
+		it("should return null when formatting invalid boolean values", function() {
+			expect(utilities.formatValue(-Infinity, { type: "bool" })).to.equal(null);
+			expect(utilities.formatValue(-Infinity, { type: "bool" }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error when formatting invalid boolean values when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue(NaN, { type: "bool" }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should correctly format integer values", function() {
+			var values = [0, 1, -69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828"];
+			var format = [{ type: "int"}, { type: "integer" }, { type: "INT"}, { type: "iNtEgEr" }];
+			var results = [0, 1, -69, -3, 88, -32, -1, 0, 1, 64, -1, 0, 2];
+
+			for(var i = 0; i < values.length; i++) {
+				for(var j = 0; j < format.length; j++) {
+					expect(utilities.formatValue(values[i], format[j])).to.equal(results[i])
+				}
+			}
+		});
+
+		it("should return null when formatting invalid integer values", function() {
+			expect(utilities.formatValue(NaN, { type: "int" })).to.equal(null);
+			expect(utilities.formatValue(NaN, { type: "int" }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error when formatting invalid integer values when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue(Infinity, { type: "int" }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should correctly format float values", function() {
+			var values = [0, 1, -69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828"];
+			var format = [{ type: "float"}, { type: "number" }, { type: "FLOAT"}, { type: "nUmBeR" }];
+			var results = [0, 1, -69, -3.33333, 88, -32, -1, 0, 1, 64, -1.1, 0.48, 2.71828];
+
+			for(var i = 0; i < values.length; i++) {
+				for(var j = 0; j < format.length; j++) {
+					expect(utilities.formatValue(values[i], format[j])).to.equal(results[i])
+				}
+			}
+		});
+
+		it("should return null when formatting invalid float values", function() {
+			expect(utilities.formatValue([], { type: "float" })).to.equal(null);
+			expect(utilities.formatValue([], { type: "float" }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error when formatting invalid float values when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue(emptyFunction, { type: "float" }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		it("should correctly format string values", function() {
+			var func = function() { throw new Error("Do you like your new toy?"); };
+			var values = testData.slice(2).concat(new Error("So here's this giant enemy crab."), utilities.createError("new fone who dis", 416), func, /but{1,2}s?/gmi);
+			var format = [{ type: "string"}, { type: "StRiNg" }];
+			var results = ["false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", "{\"message\":\"So here's this giant enemy crab.\"}", "{\"message\":\"new fone who dis\",\"status\":416}", func.toString(), "/but{1,2}s?/gmi"];
+
+			for(var i = 0; i < values.length; i++) {
+				for(var j = 0; j < format.length; j++) {
+					expect(utilities.formatValue(values[i], format[j])).to.equal(results[i])
+				}
+			}
+		});
+
+		it("should correctly trim string values", function() {
+			var values = ["", " ", "\t", " trim\t", "\t twilight\tmeets\thappy\tdays \t", "sunshine"];
+			var format = { type: "string", trim: true };
+			var results = ["", "", "", "trim", "twilight\tmeets\thappy\tdays", "sunshine"];
+
+			for(var i = 0; i < values.length; i++) {
+				expect(utilities.formatValue(values[i], format)).to.equal(results[i]);
+			}
+		});
+
+		it("should return null for empty string values when nonEmpty is set to true", function() {
+			var values = ["", " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tlong brown hair", "big white lips "];
+			var format = { type: "string", nonEmpty: true };
+			var options = [{ verbose: true}, { verbose: false }];
+			var results = [null, " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tlong brown hair", "big white lips "];
+
+			for(var i = 0; i < values.length; i++) {
+				for(var j = 0; j < options.length; j++) {
+					expect(utilities.formatValue(values[i], format)).to.equal(results[i]);
+					expect(utilities.formatValue(values[i], format, options[j])).to.equal(results[i]);
+				}
+			}
+		});
+
+		it("should return null for empty string values when nonEmpty and trim are set to true", function() {
+			var values = ["", " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tduke nukem", "let god sort 'em out "];
+			var format = { type: "string", nonEmpty: true, trim: true };
+			var options = [{ verbose: true}, { verbose: false }];
+			var results = [null, null, null, null, null, null, "duke nukem", "let god sort 'em out"];
+
+			for(var i = 0; i < values.length; i++) {
+				for(var j = 0; j < options.length; j++) {
+					expect(utilities.formatValue(values[i], format)).to.equal(results[i]);
+					expect(utilities.formatValue(values[i], format, options[j])).to.equal(results[i]);
+				}
+			}
+		});
+
+		it("should throw an error when specified for empty string values when nonEmpty is set to true", function() {
+			var values = ["", " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tcherry pepsi", "private caller "];
+			var format = { type: "string", nonEmpty: true };
+			var options = [{ throwErrors: true }, { throwErrors: true, verbose: true }, { throwErrors: true, verbose: false }];
+			var results = [null, " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tcherry pepsi", "private caller "];
+
+			for(var i = 0; i < values.length; i++) {
+				for(var j = 0; j < options.length; j++) {
+					var errorThrown = false;
+					try { utilities.formatValue(values[i], format, options[j]); }
+					catch(error) { errorThrown = true; }
+					expect(errorThrown).to.equal(results[i] === null);
+				}
+			}
+		});
+
+		it("should throw an error when specified for empty string values when nonEmpty and trim are set to true", function() {
+			var values = ["", " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tflamingosis", "a groovy thing "];
+			var format = { type: "string", nonEmpty: true, trim: true };
+			var options = [{ throwErrors: true }, { throwErrors: true, verbose: true }, { throwErrors: true, verbose: false }];
+			var results = [null, null, null, null, null, null, "flamingosis", "a groovy thing"];
+
+			for(var i = 0; i < values.length; i++) {
+				for(var j = 0; j < options.length; j++) {
+					var errorThrown = false;
+					try { utilities.formatValue(values[i], format, options[j]); }
+					catch(error) { errorThrown = true; }
+					expect(errorThrown).to.equal(results[i] === null);
+				}
+			}
+		});
+
+		it("should correctly transform the case of a string value using each of the available case functions", function() {
+			var modifiedCaseFunctionNames = ["Camel", "CONSTANT", "Dot", "HEADER", "Lower", "LOWER_FIRST", "No", "PARAM", "Pascal", "PATH", "Sentence", "SNAKE", "Swap", "TITLE", "Upper", "upper-first"];
+			var changeCaseData = ["CAMEL_CASE", "constantCase", "DotCase", "header-case", "LOWER CASE", "LOWER_FIRST", "No case", "param/case", "pascal_case", "Path-Case", "SENTENCE_CASE", "snakeCase", "SwapCase", "TITLE.CASE", "upper-case", "upper first"];
+			var changeCaseResults = ["camelCase", "CONSTANT_CASE", "dot.case", "Header-Case", "lower case", "lOWER_FIRST", "no case", "param-case", "PascalCase", "path/case", "Sentence case", "snake_case", "sWAPcASE", "Title Case", "UPPER-CASE", "Upper first"];
+
+			for(var i = 0; i < changeCaseData.length; i++) {
+				expect(utilities.formatValue(changeCaseData[i], { type: "string", case: stringCaseFunctionNames[i] })).to.equal(changeCaseResults[i]);
+				expect(utilities.formatValue(changeCaseData[i], { type: "string", case: modifiedCaseFunctionNames[i] })).to.equal(changeCaseResults[i]);
+			}
+		});
+
+		it("should correctly format date values", function() {
+			var values = [0, 1, testDate, "June 5, 2012", "June 18, 1987 3:30 PM", "2018-02-19T06:19:33Z", testDate.getTime(), testDate.toString(), testDate.getTime().toString()];
+			var format = [{ type: "date"}, { type: "DaTe" }];
+			var results = [new Date(0), new Date(1), testDate, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, new Date(testDate.toString()), testDate];
+
+			for(var i = 0; i < values.length; i++) {
+				for(var j = 0; j < format.length; j++) {
+					expect(utilities.formatValue(values[i], format[j])).to.deep.equal(results[i])
+				}
+			}
+		});
+
+		it("should return null when formatting invalid date values", function() {
+			expect(utilities.formatValue(-Infinity, { type: "date" })).to.equal(null);
+			expect(utilities.formatValue(Infinity, { type: "date" }, { throwErrors: false })).to.equal(null);
+		});
+
+		it("should throw an error when formatting invalid date values when specified", function() {
+			var errorThrown = false;
+			try { utilities.formatValue(NaN, { type: "date" }, { throwErrors: true }); }
+			catch(error) { errorThrown = true; }
+			expect(errorThrown).to.equal(true);
+		});
+
+		var invalidRegExpValues = testData.slice(-1, 1).concat("/", "/door/stuck", "/y/x");
+
+		it("should correctly format regular expression values", function() {
+			var values = [testRegExp, "/pop[ ]*the[ ]kettle/gmi", "/corporate/m", "/spy/i", "/ayy/gm", "/lmao/g", "/muggachini/"];
+			var results = [/.+/, /pop[ ]*the[ ]kettle/gmi, /corporate/m, /spy/i, /ayy/gm, /lmao/g, /muggachini/];
+
+			var regExpFlagSupported = {
+				sticky: true,
+				unicode: true
+			};
+
+			try {
+				new RegExp("", "y");
+			}
+			catch(error) {
+				regExpFlagSupported.sticky = false;
+			}
+
+			try {
+				new RegExp("", "u");
+			}
+			catch(error) {
+				regExpFlagSupported.unicode = false;
+			}
+
+			if(regExpFlagSupported.unicode) {
+				values.push(/a/gmiu);
+				results.push(/a/gmiu);
+			}
+
+			if(regExpFlagSupported.sticky) {
+				values.push(/b/gmiy);
+				results.push(/b/gmiy);
+			}
+
+			values.push(/c/gmi, /d/gm, /e/g, /f/);
+			results.push(/c/gmi, /d/gm, /e/g, /f/);
+
+			if(regExpFlagSupported.unicode) {
+				values.push(new RegExp("1", "gmiu"));
+				results.push(/1/gmiu);
+			}
+
+			if(regExpFlagSupported.sticky) {
+				values.push(new RegExp("2", "gmiy"));
+				results.push(/2/gmiy);
+			}
+
+			values.push(new RegExp("3", "gmi"), new RegExp("4", "gm"), new RegExp("5", "g"), new RegExp("6"));
+			results.push(/3/gmi, /4/gm, /5/g, /6/);
+
+			it("should be a function", function() {
+				expect(utilities.parseRegularExpression instanceof Function).to.equal(true);
+			});
+
+			var format = [{ type: "regex"}, { type: "rEgEx" }, { type: "regexp"}, { type: "rEgExP" }, { type: "regularexpression"}, { type: "REGULARexpression" }];
+
+			for(var i = 0; i < values.length; i++) {
+				for(var j = 0; j < format.length; j++) {
+					expect(utilities.formatValue(values[i], format[j])).to.deep.equal(results[i])
+				}
+			}
+		});
+
+		it("should return null when formatting invalid regular expression values", function() {
+			for(var i = 0; i < invalidRegExpValues.length; i++) {
+				expect(utilities.formatValue(invalidRegExpValues[i], { type: "regex" })).to.equal(null);
+				expect(utilities.formatValue(invalidRegExpValues[i], { type: "regex" }, { throwErrors: false })).to.equal(null);
+			}
+		});
+
+		it("should throw an error when formatting invalid regular expression values when specified", function() {
+			for(var i = 0; i < invalidRegExpValues.length; i++) {
+				var errorThrown = false;
+				try { utilities.formatValue(invalidRegExpValues[i], { type: "regex" }, { throwErrors: true }); }
+				catch(error) { errorThrown = true; }
+				expect(errorThrown).to.equal(true);
+			}
+		});
+
+		var invalidFunctionValues = testData.slice(2).filter(function(value, index) {
+			return !(value instanceof Function);
+		});
+
+		it("should correctly format function values", function() {
+			function testFunction(meme) {
+				if(meme.isDank) {
+					console.log("airhorn.wav");
+				}
+			};
+
+			var values = [emptyFunction, testFunction];
+			var format = [{ type: "func"}, { type: "FUNC" }, { type: "function" }, { type: "FuNcTiOn" }];
+			var results = [emptyFunction, testFunction];
+
+			for(var i = 0; i < values.length; i++) {
+				for(var j = 0; j < format.length; j++) {
+					expect(utilities.formatValue(values[i], format[j])).to.deep.equal(results[i])
+				}
+			}
+		});
+
+		it("should return null when formatting invalid function values", function() {
+			for(var i = 0; i < invalidFunctionValues.length; i++) {
+				expect(utilities.formatValue(invalidFunctionValues[i], { type: "function" })).to.equal(null);
+				expect(utilities.formatValue(invalidFunctionValues[i], { type: "func" }, { throwErrors: false })).to.equal(null);
+			}
+		});
+
+		it("should throw an error when formatting invalid function values when specified", function() {
+			for(var i = 0; i < invalidFunctionValues.length; i++) {
+				var errorThrown = false;
+				try { utilities.formatValue(invalidFunctionValues[i], { type: "func" }, { throwErrors: true }); }
+				catch(error) { errorThrown = true; }
+				expect(errorThrown).to.equal(true);
+			}
 		});
 	});
 
@@ -895,6 +1458,7 @@ describe("Utilities", function() {
 			expect(utilities.formatObject instanceof Function).to.equal(true);
 		});
 	});
+
 
 	describe("formatStringList", function() {
 		var newTestData = testData.concat(",", ";", "board,", ",room", "same;", ";tie", " ;\te ,\tx ;\te ,\t \t");
