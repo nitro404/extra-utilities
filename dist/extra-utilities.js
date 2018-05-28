@@ -1219,11 +1219,7 @@
 						formattedValue = utilities.parseRegularExpression(value, true);
 					}
 					catch(error) {
-						if(options.verbose) {
-							console.error(error.message);
-						}
-
-						return null;
+						errorMessage = error.message;
 					}
 				}
 			}
@@ -1398,16 +1394,7 @@
 		if(utilities.isFunction(format.validator)) {
 			if(options.throwErrors) {
 				if(!format.validator(formattedValue, format, options)) {
-					var message = "Validation check failed!";
-
-					if(options.throwErrors) {
-						throw new Error(message);
-					}
-					else if(options.verbose) {
-						console.error(message);
-					}
-
-					return null;
+					throw new Error("Validation check failed!");
 				}
 			}
 			else {
