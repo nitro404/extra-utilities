@@ -1211,11 +1211,7 @@ utilities.formatValue = function(value, format, options) {
 					formattedValue = utilities.parseRegularExpression(value, true);
 				}
 				catch(error) {
-					if(options.verbose) {
-						console.error(error.message);
-					}
-
-					return null;
+					errorMessage = error.message;
 				}
 			}
 		}
