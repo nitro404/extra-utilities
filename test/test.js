@@ -1,3 +1,5 @@
+"use strict";
+
 global.validator = undefined;
 global.changeCase = undefined;
 
