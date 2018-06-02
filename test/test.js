@@ -4719,6 +4719,8 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly throw errors when enabled for each test value pair with case sensitivity disabled", function() {
+			var errorThrown = null;
+
 			for(var i = 0; i < newTestData.length; i++) {
 				for(var j = 0; j < newTestData.length; j++) {
 					errorThrown = false;
@@ -4774,6 +4776,8 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly throw errors when enabled for each additional test value pair with case sensitivity disabled", function() {
+			var errorThrown = null;
+
 			for(var i = 0; i < additionalTestData.length; i++) {
 				for(var j = 0; j < additionalTestData.length; j++) {
 					errorThrown = false;
@@ -4791,6 +4795,8 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly throw errors when enabled for each additional test value pair with case sensitivity enabled", function() {
+			var errorThrown = null;
+
 			for(var i = 0; i < additionalTestData.length; i++) {
 				for(var j = 0; j < additionalTestData.length; j++) {
 					errorThrown = false;
