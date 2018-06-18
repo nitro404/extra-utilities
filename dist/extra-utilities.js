@@ -463,16 +463,15 @@
 
 			return defaultValue;
 		}
-		else {
-			if(formattedValue === "true" || formattedValue === "yes" || formattedValue === "on") {
-				return true;
-			}
-			else if(formattedValue === "false" || formattedValue === "no" || formattedValue === "off") {
-				return false;
-			}
 
-			return defaultValue;
+		if(formattedValue === "true" || formattedValue === "yes" || formattedValue === "on") {
+			return true;
 		}
+		else if(formattedValue === "false" || formattedValue === "no" || formattedValue === "off") {
+			return false;
+		}
+
+		return defaultValue;
 	};
 
 	utilities.parseInteger = function(value, defaultValue) {
@@ -998,7 +997,7 @@
 				format.required = utilities.parseBoolean(format.required);
 
 				if(format.required === null) {
-					errorMessage = "Invalid optional required format value - expected boolean, received \"" + utilities.toString(format.required) + "\".";
+					errorMessage = "Invalid optional required format value - expected boolean, received \"" + utilities.toString(originalRequired) + "\".";
 				}
 			}
 		}
@@ -1706,7 +1705,7 @@
 
 			for(var flag in regExpFlags) {
 				if(value[flag]) {
-					flags += regExpFlags[flag]
+					flags += regExpFlags[flag];
 				}
 			}
 
@@ -1854,7 +1853,7 @@
 			}
 
 			for(var attribute in value) {
-				if(value.hasOwnProperty(attribute)) {
+				if(Object.prototype.hasOwnProperty.call(value, attribute)) {
 					copy[attribute] = utilities.clone(value[attribute]);
 				}
 			}
@@ -1862,7 +1861,7 @@
 			return copy;
 		}
 
-		return object;
+		return value;
 	};
 
 	utilities.merge = function(a, b, copy, deepMerge) {
@@ -1932,7 +1931,9 @@
 
 		var formattedValue = value.trim();
 
-		if(formattedValue.length === 0) { return formattedValue; }
+		if(formattedValue.length === 0) {
+			return formattedValue;
+		}
 
 		if(formattedValue[0] !== "/" && formattedValue[0] !== "\\") {
 			formattedValue = "/" + formattedValue;
@@ -1942,7 +1943,9 @@
 	};
 
 	utilities.appendSlash = function(value) {
-		if(typeof value !== "string") { return null; }
+		if(typeof value !== "string") {
+			return null;
+		}
 
 		var formattedValue = value.trim();
 
@@ -2025,7 +2028,7 @@
 		var currentDate = new Date();
 		var month = 0;
 
-		if(date.getFullYear() == currentDate.getFullYear()) {
+		if(date.getFullYear() === currentDate.getFullYear()) {
 			month = currentDate.getMonth();
 		}
 
@@ -2248,8 +2251,8 @@
 	};
 
 	utilities.compareVersions = function(v1, v2, caseSensitive, throwErrors) {
-		caseSensitive =  utilities.parseBoolean(caseSensitive, false);
-		throwErrors =  utilities.parseBoolean(throwErrors, false);
+		caseSensitive = utilities.parseBoolean(caseSensitive, false);
+		throwErrors = utilities.parseBoolean(throwErrors, false);
 
 		v1 = utilities.parseVersion(v1);
 
@@ -2299,7 +2302,7 @@
 			}
 
 			var formattedA = utilities.parseInteger(v1[index]);
-			var formattedB =  utilities.parseInteger(v2[index]);
+			var formattedB = utilities.parseInteger(v2[index]);
 
 			if(utilities.isInvalidNumber(formattedA)) {
 				formattedA = caseSensitive ? v1[index] : v1[index].toUpperCase();
@@ -2321,7 +2324,7 @@
 			}
 
 			if(formattedA > formattedB) {
-				return  1;
+				return 1;
 			}
 			else if(formattedA < formattedB) {
 				return -1;
