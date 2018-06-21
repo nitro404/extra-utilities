@@ -270,7 +270,7 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false];
+			var results = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, true, true];
 
 			for(var i = 0; i < testData.length; i++) {
 				expect(utilities.isEmptyArray(testData[i])).to.equal(results[i]);
