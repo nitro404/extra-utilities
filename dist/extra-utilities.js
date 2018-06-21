@@ -254,15 +254,7 @@
 	};
 
 	utilities.isEmptyArray = function(value) {
-		if(utilities.isInvalid(value)) {
-			return true;
-		}
-
-		if(!Array.isArray(value)) {
-			return false;
-		}
-
-		return value.length === 0;
+		return Array.isArray(value) ? value.length === 0 : true;
 	};
 
 	utilities.isNonEmptyArray = function(value) {
