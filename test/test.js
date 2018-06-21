@@ -2899,6 +2899,30 @@ describe("Utilities", function() {
 		});
 	});
 
+	describe("trimNullTerminatedString", function() {
+		var newTestData = testData.concat("   \t broden  kelly\t    \t", "\0", "MODMGR.EXE\0", "\0DUKESTAR.MAP", "2009.MAP\0\0\0\0", "EI.GRP\0EI.CON", "1999.GRP\0 1999.CON\0");
+
+		it("should be a function", function() {
+			expect(utilities.trimNullTerminatedString instanceof Function).to.equal(true);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim\t", null, null, null, null, null, null, null, "   \t broden  kelly\t    \t", "", "MODMGR.EXE", "", "2009.MAP", "EI.GRP", "1999.GRP"];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.trimNullTerminatedString(newTestData[i])).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with a custom default", function() {
+			var results = ["nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "", "test", " trim\t", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "   \t broden  kelly\t    \t", "", "MODMGR.EXE", "", "2009.MAP", "EI.GRP", "1999.GRP"];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.trimNullTerminatedString(newTestData[i], "nil")).to.equal(results[i]);
+			}
+		});
+	});
+
 	describe("trimWhitespace", function() {
 		var newTestData = testData.concat(" white space \t", "new\r\nlines\t\n");
 
