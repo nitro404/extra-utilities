@@ -1564,6 +1564,20 @@ utilities.trimString = function(value, defaultValue) {
 	return typeof value === "string" ? value.trim() : (defaultValue === undefined ? null : defaultValue);
 };
 
+utilities.trimNullTerminatedString = function(value, defaultValue) {
+	if(typeof value !== "string") {
+		return defaultValue === undefined ? null : defaultValue;
+	}
+
+	var nullTerminatorIndex = value.indexOf("\0");
+
+	if(nullTerminatorIndex >= 0) {
+		return value.substr(0, nullTerminatorIndex);
+	}
+
+	return value;
+};
+
 utilities.trimWhitespace = function(value, trimNewlines) {
 	if(typeof value !== "string") {
 		return null;
