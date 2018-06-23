@@ -1930,6 +1930,143 @@
 		return Math.floor(((currentDate - formattedDate) / 1000 / (60 * 60 * 24)) / 365.25);
 	};
 
+	utilities.getFileName = function(filePath) {
+		if(typeof filePath !== "string") {
+			return null;
+		}
+
+		filePath = filePath.trim();
+
+		for(var i = filePath.length - 1; i >= 0; i--) {
+			if(filePath[i] === "/" || filePath[i] === "\\") {
+				return filePath.substring(i + 1, filePath.length).trim();
+			}
+		}
+
+		return filePath;
+	};
+
+	utilities.getFilePath = function(filePath) {
+		if(typeof filePath !== "string") {
+			return null;
+		}
+
+		filePath = filePath.trim();
+
+		for(var i = filePath.length - 1; i >= 0; i--) {
+			if(filePath[i] === "/" || filePath[i] === "\\") {
+				return filePath.substring(0, i).trim();
+			}
+		}
+
+		return "";
+	};
+
+	utilities.getFileNameNoExtension = function(fileName) {
+		if(typeof fileName !== "string") {
+			return null;
+		}
+
+		fileName = utilities.getFileName(fileName);
+
+		for(var i = fileName.length - 1; i >= 0; i--) {
+			if(fileName[i] === ".") {
+				return fileName.substring(0, i).trim();
+			}
+		}
+
+		return fileName;
+	};
+
+	utilities.getFileExtension = function(fileName) {
+		if(typeof fileName !== "string") {
+			return null;
+		}
+
+		fileName = utilities.getFileName(fileName);
+
+		for(var i = fileName.length - 1; i >= 0; i--) {
+			if(fileName[i] === ".") {
+				return fileName.substring(i + 1, fileName.length).trim();
+			}
+		}
+
+		return "";
+	};
+
+	utilities.fileHasExtension = function(fileName, extension) {
+		if(utilities.isEmptyString(fileName) || utilities.isEmptyString(extension)) {
+			return false;
+		}
+
+		var actualFileExtension = utilities.getFileExtension(fileName);
+
+		if(utilities.isEmptyString(actualFileExtension)) {
+			return false;
+		}
+
+		return actualFileExtension.toLowerCase() === extension.trim().toLowerCase();
+	};
+
+	utilities.reverseFileExtension = function(fileName) {
+		if(typeof fileName !== "string") {
+			return null;
+		}
+
+		fileName = fileName.trim();
+
+		for(var i = fileName.length - 1; i >= 0; i--) {
+			if(fileName[i] === ".") {
+				return fileName.substring(0, i) + "." + utilities.reverseString(fileName.substring(i + 1, fileName.length));
+			}
+		}
+
+		return fileName;
+	};
+
+	utilities.truncateFileName = function(fileName, maxLength) {
+		if(typeof fileName !== "string") {
+			return null;
+		}
+
+		fileName = utilities.getFileName(fileName);
+
+		if(utilities.isEmptyString(fileName)) {
+			return "";
+		}
+
+		maxLength = utilities.parseInteger(maxLength);
+
+		if(utilities.isInvalidNumber(maxLength) || maxLength < 0) {
+			return fileName;
+		}
+
+		if(maxLength === 0) {
+			return "";
+		}
+
+		if(fileName.length <= maxLength) {
+			return fileName;
+		}
+
+		var extension = "";
+		var originalFileName = fileName;
+
+		for(var i = fileName.length - 1; i >= 0; i--) {
+			if(fileName[i] === ".") {
+				extension = fileName.substring(i + 1, fileName.length);
+				originalFileName = fileName.substring(0, i);
+				break;
+			}
+		}
+
+		if(maxLength - (extension.length + (extension.length > 0 ? 1 : 0)) < 1) {
+			return originalFileName.substring(0, maxLength);
+		}
+
+		return originalFileName.substring(0, maxLength - extension.length - (extension.length > 0 ? 1 : 0)) + (extension.length > 0 ? "." + extension : "");
+	};
+
 	utilities.prependSlash = function(value) {
 		if(typeof value !== "string") {
 			return null;
