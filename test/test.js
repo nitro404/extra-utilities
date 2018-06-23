@@ -3829,6 +3829,160 @@ describe("Utilities", function() {
 		});
 	});
 
+	describe("getFileName", function() {
+		it("should be a function", function() {
+			expect(utilities.getFileName).to.be.a("function");
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var newTestData = testData.concat("surprise.ketchup", "/biocratic/zesty_surprise.mp3", "less-gunk/more-funk", "empty/", "also\\", "frank_klepacki\\hell_march.mp3", "\\extra\\fresh");
+
+			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "surprise.ketchup", "zesty_surprise.mp3", "more-funk", "", "", "hell_march.mp3", "fresh"];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.getFileName(newTestData[i])).to.equal(results[i]);
+			}
+		});
+	});
+
+	describe("getFilePath", function() {
+		it("should be a function", function() {
+			expect(utilities.getFilePath).to.be.a("function");
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var newTestData = testData.concat("holy.smokes", "/daniel/from.sl", "elektronik/supersonik", "lorn/", "acid-rain\\", "steamed\\hams.avi", "\\bushworld\\adventures");
+
+			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "", "", null, null, null, null, null, null, null, "", "/daniel", "elektronik", "lorn", "acid-rain", "steamed", "\\bushworld"];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.getFilePath(newTestData[i])).to.equal(results[i]);
+			}
+		});
+	});
+
+	describe("getFileNameNoExtension", function() {
+		var newTestData = testData.concat();
+
+		it("should be a function", function() {
+			expect(utilities.getFileNameNoExtension).to.be.a("function");
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var newTestData = testData.concat("intergalactic.mosquito", "/lods/of/emon.e", "whats/that/spell", "probly/", "black-salami\\", "wisp\\cresp.chip", "\\here\\comes\\the\\pizza");
+
+			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "intergalactic", "emon", "spell", "", "", "cresp", "pizza"];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.getFileNameNoExtension(newTestData[i])).to.equal(results[i]);
+			}
+		});
+	});
+
+	describe("getFileExtension", function() {
+		var newTestData = testData.concat();
+
+		it("should be a function", function() {
+			expect(utilities.getFileExtension).to.be.a("function");
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var newTestData = testData.concat("lex.phantom.hive", "/aunty/donna.au", "beardy/man", "doot/", "clicky-crisp\\", "warm\\it.up", "\\literally\\unplayable\\");
+
+			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "", "", null, null, null, null, null, null, null, "hive", "au", "", "", "", "up", ""];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.getFileExtension(newTestData[i])).to.equal(results[i]);
+			}
+		});
+	});
+
+	describe("fileHasExtension", function() {
+		var newTestData = testData.concat();
+
+		it("should be a function", function() {
+			expect(utilities.fileHasExtension).to.be.a("function");
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var newTestData = testData.concat("pancore-jack.hammer", "/HK/G.11", "mega/drive", "bustin/", "john-cena\\", "deal\\with.it", "\\brave\\new\\rust\\", ".it");
+
+			var extensions = ["", "exe", "hammer", "11", "it"];
+
+			var results = [
+				[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+				[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+				[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false],
+				[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false],
+				[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, true ]
+			];
+
+			for(var i = 0; i < extensions.length; i++) {
+				for(var j = 0; j < newTestData.length; j++) {
+					expect(utilities.fileHasExtension(newTestData[j], extensions[i])).to.equal(results[i][j]);
+				}
+			}
+		});
+	});
+
+	describe("reverseFileExtension", function() {
+		var newTestData = testData.concat();
+
+		it("should be a function", function() {
+			expect(utilities.reverseFileExtension).to.be.a("function");
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var newTestData = testData.concat("lex.phantom.hive", "/aunty/donna.au", "beardy/man", "doot/", "clicky-crisp\\", "warm\\it.up", "\\literally\\unplayable\\");
+
+			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "lex.phantom.evih", "/aunty/donna.ua", "beardy/man", "doot/", "clicky-crisp\\", "warm\\it.pu", "\\literally\\unplayable\\"];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.reverseFileExtension(newTestData[i])).to.equal(results[i]);
+			}
+		});
+	});
+
+	describe("truncateFileName", function() {
+		var newTestData = testData.concat();
+
+		it("should be a function", function() {
+			expect(utilities.truncateFileName).to.be.a("function");
+		});
+
+		it("should produce the correct result for each test value", function() {
+			var newTestData = testData.concat("final.space", "/shrivelled/carcasses/of/depress.ion", "hes/in/there", "func_vehicle/", "hardcore-henry\\", "mean\\jerk.time", "\\kraft\\werk\\", "black-salami.mp4");
+
+			var maxLengths = [
+				-1,
+				0,
+				3,
+				8,
+				12,
+				14
+			];
+
+			var results = [
+				[null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "final.space", "depress.ion", "there", "", "", "jerk.time", "", "black-salami.mp4"],
+				[null, null, null, null, null, null, null, null, null, null, null, null, "", "", "", null, null, null, null, null, null, null, "", "", "", "", "", "", "", ""],
+				[null, null, null, null, null, null, null, null, null, null, null, null, "", "tes", "tri", null, null, null, null, null, null, null, "fin", "dep", "the", "", "", "jer", "", "bla"],
+				[null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "fi.space", "depr.ion", "there", "", "", "jer.time", "", "blac.mp4"],
+				[null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "final.space", "depress.ion", "there", "", "", "jerk.time", "", "black-sa.mp4"],
+				[null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "final.space", "depress.ion", "there", "", "", "jerk.time", "", "black-sala.mp4"]
+			];
+
+			for(var i = 0; i < newTestData.length; i++) {
+				expect(utilities.truncateFileName(newTestData[i])).to.equal(results[0][i]);
+			}
+
+			for(var i = 0; i < maxLengths.length; i++) {
+				for(var j = 0; j < newTestData.length; j++) {
+					expect(utilities.truncateFileName(newTestData[j], maxLengths[i])).to.equal(results[i][j]);
+				}
+			}
+		});
+	});
+
 	describe("prependSlash", function() {
 		var newTestData = testData.concat(
 			" ",
