@@ -677,22 +677,6 @@ describe("Utilities", function() {
 		});
 	});
 
-	describe("parsePostalCode", function() {
-		var newTestData = testData.concat("654321", "1A2B3C", "P6B 1M7", "H0H0H0", "J1I-3J8");
-
-		it("should be a function", function() {
-			expect(utilities.parsePostalCode).to.be.a("function");
-		});
-
-		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "P6B1M7", "H0H0H0", "J1I3J8"];
-
-			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.parsePostalCode(newTestData[i])).to.equal(results[i]);
-			}
-		});
-	});
-
 	describe("parseEmail", function() {
 		var newTestData = testData.concat("mark@broden.zac", "@aunty.donna", "surprise@ketchup", "slip@", "@slap", "@slop.", "@", "@.", " x@y.z \t", "test+123@test.com");
 
@@ -3951,25 +3935,6 @@ describe("Utilities", function() {
 		});
 	});
 
-	describe("calculateAge", function() {
-		var newTestData = testData.concat(
-			new Date().setFullYear(new Date().getFullYear() + 1)
-		);
-
-		it("should be a function", function() {
-			expect(utilities.calculateAge).to.be.a("function");
-		});
-
-		it("should produce the correct result for each test value", function() {
-			var start = new Date().getFullYear() - 1970;
-			var results = [-1, -1, -1, -1, -1, -1, start, start, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1];
-
-			for(var i = 0; i < newTestData.length; i++) {
-				expect(utilities.calculateAge(newTestData[i])).to.equal(results[i]);
-			}
-		});
-	});
-
 	describe("getFileName", function() {
 		it("should be a function", function() {
 			expect(utilities.getFileName).to.be.a("function");
@@ -5130,18 +5095,6 @@ describe("Utilities", function() {
 					expect(errorThrown).to.equal(additionalResults.caseSensitive[i][j] === null);
 				}
 			}
-		});
-	});
-
-	describe("hasPostalCodeValidator", function() {
-		it("should be a function", function() {
-			expect(utilities.hasPostalCodeValidator).to.be.a("function");
-		});
-	});
-
-	describe("validatePostalCode", function() {
-		it("should be a function", function() {
-			expect(utilities.validatePostalCode).to.be.a("function");
 		});
 	});
 });
