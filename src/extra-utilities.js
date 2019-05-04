@@ -201,75 +201,75 @@ var stringCaseFunctions = {
 	upperFirst: changeCase.upperCaseFirst
 };
 
-utilities.isValid = function(value) {
+utilities.isValid = function isValid(value) {
 	return value !== undefined && value !== null;
 };
 
-utilities.isInvalid = function(value) {
+utilities.isInvalid = function isInvalid(value) {
 	return value === undefined || value === null;
 };
 
-utilities.isBoolean = function(value, allowObjects) {
+utilities.isBoolean = function isBoolean(value, allowObjects) {
 	return value === true || value === false || (!!allowObjects && value instanceof Boolean);
 };
 
-utilities.isValidNumber = function(value) {
+utilities.isValidNumber = function isValidNumber(value) {
 	return typeof value === "number" && !isNaN(value) && value !== -Infinity && value !== Infinity;
 };
 
-utilities.isInvalidNumber = function(value) {
+utilities.isInvalidNumber = function isInvalidNumber(value) {
 	return typeof value !== "number" || isNaN(value) || value === -Infinity || value === Infinity;
 };
 
-utilities.isEmptyString = function(value, trim) {
+utilities.isEmptyString = function isEmptyString(value, trim) {
 	return typeof value !== "string" || (utilities.parseBoolean(trim, true) ? value.trim().length === 0 : value.length === 0);
 };
 
-utilities.isNonEmptyString = function(value, trim) {
+utilities.isNonEmptyString = function isNonEmptyString(value, trim) {
 	return typeof value === "string" && (utilities.parseBoolean(trim, true) ? value.trim().length !== 0 : value.length !== 0);
 };
 
-utilities.isObject = function(value, strict) {
+utilities.isObject = function isObject(value, strict) {
 	return value !== undefined && (strict ? value !== null && value.constructor === Object : value instanceof Object && !(value instanceof Function));
 };
 
-utilities.isObjectStrict = function(value) {
+utilities.isObjectStrict = function isObjectStrict(value) {
 	return value !== undefined && value !== null && value.constructor === Object;
 };
 
-utilities.isEmptyObject = function(value) {
+utilities.isEmptyObject = function isEmptyObject(value) {
 	return value !== undefined && value !== null && value.constructor === Object && Object.keys(value).length === 0;
 };
 
-utilities.isNonEmptyObject = function(value) {
+utilities.isNonEmptyObject = function isNonEmptyObject(value) {
 	return value !== undefined && value !== null && value.constructor === Object && Object.keys(value).length !== 0;
 };
 
-utilities.isEmptyArray = function(value) {
+utilities.isEmptyArray = function isEmptyArray(value) {
 	return Array.isArray(value) ? value.length === 0 : true;
 };
 
-utilities.isNonEmptyArray = function(value) {
+utilities.isNonEmptyArray = function isNonEmptyArray(value) {
 	return Array.isArray(value) && value.length !== 0;
 };
 
-utilities.isDate = function(value) {
+utilities.isDate = function isDate(value) {
 	return value instanceof Date;
 };
 
-utilities.isError = function(value) {
+utilities.isError = function isError(value) {
 	return value instanceof Error;
 };
 
-utilities.isRegularExpression = function(value) {
+utilities.isRegularExpression = function isRegularExpression(value) {
 	return value instanceof RegExp;
 };
 
-utilities.isFunction = function(value) {
+utilities.isFunction = function isFunction(value) {
 	return value instanceof Function;
 };
 
-utilities.isComment = function(value, comment) {
+utilities.isComment = function isComment(value, comment) {
 	if(utilities.isEmptyString(value)) {
 		return false;
 	}
@@ -311,7 +311,7 @@ utilities.isComment = function(value, comment) {
 	return true;
 };
 
-utilities.isVisible = function(element) {
+utilities.isVisible = function isVisible(element) {
 	if(!utilities.isObject(element)) {
 		return false;
 	}
@@ -332,7 +332,7 @@ utilities.isVisible = function(element) {
 	return true;
 };
 
-utilities.isHidden = function(element) {
+utilities.isHidden = function isHidden(element) {
 	if(!utilities.isObject(element)) {
 		return true;
 	}
@@ -353,7 +353,7 @@ utilities.isHidden = function(element) {
 	return false;
 };
 
-utilities.isEnabled = function(element) {
+utilities.isEnabled = function isEnabled(element) {
 	if(!utilities.isObject(element)) {
 		return false;
 	}
@@ -374,7 +374,7 @@ utilities.isEnabled = function(element) {
 	return true;
 };
 
-utilities.isDisabled = function(element) {
+utilities.isDisabled = function isDisabled(element) {
 	if(!utilities.isObject(element)) {
 		return true;
 	}
@@ -395,7 +395,7 @@ utilities.isDisabled = function(element) {
 	return false;
 };
 
-utilities.parseBoolean = function(value, defaultValue) {
+utilities.parseBoolean = function parseBoolean(value, defaultValue) {
 	if(utilities.isBoolean(value)) {
 		return value;
 	}
@@ -458,7 +458,7 @@ utilities.parseBoolean = function(value, defaultValue) {
 	return defaultValue;
 };
 
-utilities.parseInteger = function(value, defaultValue) {
+utilities.parseInteger = function parseInteger(value, defaultValue) {
 	var newValue = NaN;
 
 	if(typeof value === "number") {
@@ -479,7 +479,7 @@ utilities.parseInteger = function(value, defaultValue) {
 	return newValue;
 };
 
-utilities.parseFloatingPointNumber = function(value, defaultValue) {
+utilities.parseFloatingPointNumber = function parseFloatingPointNumber(value, defaultValue) {
 	var newValue = NaN;
 
 	if(typeof value === "number") {
@@ -498,7 +498,7 @@ utilities.parseFloatingPointNumber = function(value, defaultValue) {
 	return newValue;
 };
 
-utilities.parseDate = function(value, defaultValue) {
+utilities.parseDate = function parseDate(value, defaultValue) {
 	if(!utilities.isDate(defaultValue)) {
 		defaultValue = null;
 	}
@@ -539,7 +539,7 @@ utilities.parseDate = function(value, defaultValue) {
 	return defaultValue;
 };
 
-utilities.parseTime = function(value, throwErrors) {
+utilities.parseTime = function parseTime(value, throwErrors) {
 	throwErrors = utilities.parseBoolean(throwErrors);
 
 	if(utilities.isEmptyString(value)) {
@@ -679,7 +679,7 @@ utilities.parseTime = function(value, throwErrors) {
 	};
 };
 
-utilities.parsePostalCode = function(value) {
+utilities.parsePostalCode = function parsePostalCode(value) {
 	if(utilities.isEmptyString(value)) {
 		return null;
 	}
@@ -693,7 +693,7 @@ utilities.parsePostalCode = function(value) {
 	return (postalCodeData[1] + postalCodeData[2]).toUpperCase();
 };
 
-utilities.parseEmail = function(value) {
+utilities.parseEmail = function parseEmail(value) {
 	if(utilities.isEmptyString(value)) {
 		return null;
 	}
@@ -707,7 +707,7 @@ utilities.parseEmail = function(value) {
 	return emailData[1] + emailData[3];
 };
 
-utilities.parseEmailDomain = function(value) {
+utilities.parseEmailDomain = function parseEmailDomain(value) {
 	if(utilities.isEmptyString(value)) {
 		return null;
 	}
@@ -721,7 +721,7 @@ utilities.parseEmailDomain = function(value) {
 	return emailDomainData[3];
 };
 
-utilities.parseStringList = function(value) {
+utilities.parseStringList = function parseStringList(value) {
 	if(typeof value !== "string") {
 		return null;
 	}
@@ -747,7 +747,7 @@ utilities.parseStringList = function(value) {
 	return formattedList;
 };
 
-utilities.parseRegularExpression = function(value, throwErrors) {
+utilities.parseRegularExpression = function parseRegularExpression(value, throwErrors) {
 	throwErrors = utilities.parseBoolean(throwErrors, false);
 
 	if(utilities.isRegularExpression(value)) {
@@ -784,7 +784,7 @@ utilities.parseRegularExpression = function(value, throwErrors) {
 	}
 };
 
-utilities.parseYouTubeLink = function(value) {
+utilities.parseYouTubeLink = function parseYouTubeLink(value) {
 	if(utilities.isEmptyString(value)) {
 		return null;
 	}
@@ -803,7 +803,7 @@ utilities.parseYouTubeLink = function(value) {
 	return null;
 };
 
-utilities.formatValue = function(value, format, options) {
+utilities.formatValue = function formatValue(value, format, options) {
 	if(utilities.isObjectStrict(options)) {
 		options = {
 			throwErrors: utilities.parseBoolean(options.throwErrors, false)
@@ -1423,7 +1423,7 @@ utilities.formatValue = function(value, format, options) {
 	return formattedValue;
 };
 
-utilities.formatObject = function(object, format, removeExtra, throwErrors) {
+utilities.formatObject = function formatObject(object, format, removeExtra, throwErrors) {
 	if(!utilities.isObjectStrict(object) && (!utilities.isObjectStrict(removeExtra) || !utilities.isFunction(removeExtra.parser))) {
 		return { };
 	}
@@ -1501,7 +1501,7 @@ utilities.formatObject = function(object, format, removeExtra, throwErrors) {
 	return utilities.isObjectStrict(formattedObject) || (utilities.isObjectStrict(removeExtra) && utilities.isFunction(removeExtra.parser)) ? formattedObject : { };
 };
 
-utilities.formatStringList = function(value, stringify) {
+utilities.formatStringList = function formatStringList(value, stringify) {
 	var data = null;
 
 	if(utilities.isNonEmptyString(value)) {
@@ -1552,11 +1552,11 @@ utilities.formatStringList = function(value, stringify) {
 	return formattedList;
 };
 
-utilities.trimString = function(value, defaultValue) {
+utilities.trimString = function trimString(value, defaultValue) {
 	return typeof value === "string" ? value.trim() : (defaultValue === undefined ? null : defaultValue);
 };
 
-utilities.trimNullTerminatedString = function(value, defaultValue) {
+utilities.trimNullTerminatedString = function trimNullTerminatedString(value, defaultValue) {
 	if(typeof value !== "string") {
 		return defaultValue === undefined ? null : defaultValue;
 	}
@@ -1570,7 +1570,7 @@ utilities.trimNullTerminatedString = function(value, defaultValue) {
 	return value;
 };
 
-utilities.trimWhitespace = function(value, trimNewlines) {
+utilities.trimWhitespace = function trimWhitespace(value, trimNewlines) {
 	if(typeof value !== "string") {
 		return null;
 	}
@@ -1584,7 +1584,7 @@ utilities.trimWhitespace = function(value, trimNewlines) {
 	return trimmedString;
 };
 
-utilities.trimTrailingNewlines = function(value) {
+utilities.trimTrailingNewlines = function trimTrailingNewlines(value) {
 	if(typeof value !== "string") {
 		return null;
 	}
@@ -1596,11 +1596,11 @@ utilities.trimTrailingNewlines = function(value) {
 	return value.replace(/[ \t\r\n]+$/, "");
 };
 
-utilities.replaceNonBreakingSpaces = function(value) {
+utilities.replaceNonBreakingSpaces = function replaceNonBreakingSpaces(value) {
 	return typeof value === "string" ? value.replace(/&nbsp;/gi, " ") : null;
 };
 
-utilities.indentText = function(value, amount, indentation, clearEmptyLines) {
+utilities.indentText = function indentText(value, amount, indentation, clearEmptyLines) {
 	if(typeof value !== "string") {
 		return null;
 	}
@@ -1634,7 +1634,7 @@ utilities.indentText = function(value, amount, indentation, clearEmptyLines) {
 	return indentedParagraph;
 };
 
-utilities.trimLeadingZeroes = function(value) {
+utilities.trimLeadingZeroes = function trimLeadingZeroes(value) {
 	if(typeof value !== "string") {
 		return null;
 	}
@@ -1655,7 +1655,7 @@ utilities.trimLeadingZeroes = function(value) {
 	return formattedValue.replace(/^0+/, "");
 };
 
-utilities.addLeadingZeroes = function(value, expectedLength) {
+utilities.addLeadingZeroes = function addLeadingZeroes(value, expectedLength) {
 	if(utilities.isInvalid(value)) {
 		return null;
 	}
@@ -1676,7 +1676,7 @@ utilities.addLeadingZeroes = function(value, expectedLength) {
 	return value;
 };
 
-utilities.toString = function(value) {
+utilities.toString = function toString(value) {
 	if(value === undefined) {
 		return "undefined";
 	}
@@ -1725,7 +1725,7 @@ utilities.toString = function(value) {
 	return JSON.stringify(value);
 };
 
-utilities.compareDates = function(a, b) {
+utilities.compareDates = function compareDates(a, b) {
 	a = utilities.parseDate(a);
 	b = utilities.parseDate(b);
 
@@ -1743,7 +1743,7 @@ utilities.compareDates = function(a, b) {
 	return a.getTime() - b.getTime();
 };
 
-utilities.compareCasePercentage = function(value) {
+utilities.compareCasePercentage = function compareCasePercentage(value) {
 	if(utilities.isEmptyString(value)) {
 		return 0;
 	}
@@ -1770,7 +1770,7 @@ utilities.compareCasePercentage = function(value) {
 	return upper - lower;
 };
 
-utilities.reverseString = function(value) {
+utilities.reverseString = function reverseString(value) {
 	if(typeof value !== "string") {
 		return null;
 	}
@@ -1791,13 +1791,13 @@ utilities.reverseString = function(value) {
 	return reverse;
 };
 
-utilities.createError = function(message, status) {
+utilities.createError = function createError(message, status) {
 	var error = new Error(message);
 	error.status = utilities.parseInteger(status, 500);
 	return error;
 };
 
-utilities.clone = function(value) {
+utilities.clone = function clone(value) {
 	if(!utilities.isObject(value)) {
 		return value;
 	}
@@ -1869,7 +1869,7 @@ utilities.clone = function(value) {
 	return value;
 };
 
-utilities.merge = function(a, b, copy, deepMerge) {
+utilities.merge = function merge(a, b, copy, deepMerge) {
 	if(!utilities.isObject(a) || Array.isArray(a)) {
 		return null;
 	}
@@ -1918,7 +1918,7 @@ utilities.merge = function(a, b, copy, deepMerge) {
 	return newObject;
 };
 
-utilities.calculateAge = function(value) {
+utilities.calculateAge = function calculateAge(value) {
 	var currentDate = new Date();
 	var formattedDate = utilities.parseDate(value);
 
@@ -1929,7 +1929,7 @@ utilities.calculateAge = function(value) {
 	return Math.floor(((currentDate - formattedDate) / 1000 / (60 * 60 * 24)) / 365.25);
 };
 
-utilities.getFileName = function(filePath) {
+utilities.getFileName = function getFileName(filePath) {
 	if(typeof filePath !== "string") {
 		return null;
 	}
@@ -1945,7 +1945,7 @@ utilities.getFileName = function(filePath) {
 	return filePath;
 };
 
-utilities.getFilePath = function(filePath) {
+utilities.getFilePath = function getFilePath(filePath) {
 	if(typeof filePath !== "string") {
 		return null;
 	}
@@ -1961,7 +1961,7 @@ utilities.getFilePath = function(filePath) {
 	return "";
 };
 
-utilities.getFileNameNoExtension = function(fileName) {
+utilities.getFileNameNoExtension = function getFileNameNoExtension(fileName) {
 	if(typeof fileName !== "string") {
 		return null;
 	}
@@ -1977,7 +1977,7 @@ utilities.getFileNameNoExtension = function(fileName) {
 	return fileName;
 };
 
-utilities.getFileExtension = function(fileName) {
+utilities.getFileExtension = function getFileExtension(fileName) {
 	if(typeof fileName !== "string") {
 		return null;
 	}
@@ -1993,7 +1993,7 @@ utilities.getFileExtension = function(fileName) {
 	return "";
 };
 
-utilities.fileHasExtension = function(fileName, extension) {
+utilities.fileHasExtension = function fileHasExtension(fileName, extension) {
 	if(utilities.isEmptyString(fileName) || utilities.isEmptyString(extension)) {
 		return false;
 	}
@@ -2007,7 +2007,7 @@ utilities.fileHasExtension = function(fileName, extension) {
 	return actualFileExtension.toLowerCase() === extension.trim().toLowerCase();
 };
 
-utilities.reverseFileExtension = function(fileName) {
+utilities.reverseFileExtension = function reverseFileExtension(fileName) {
 	if(typeof fileName !== "string") {
 		return null;
 	}
@@ -2023,7 +2023,7 @@ utilities.reverseFileExtension = function(fileName) {
 	return fileName;
 };
 
-utilities.truncateFileName = function(fileName, maxLength) {
+utilities.truncateFileName = function truncateFileName(fileName, maxLength) {
 	if(typeof fileName !== "string") {
 		return null;
 	}
@@ -2066,7 +2066,7 @@ utilities.truncateFileName = function(fileName, maxLength) {
 	return originalFileName.substring(0, maxLength - extension.length - (extension.length > 0 ? 1 : 0)) + (extension.length > 0 ? "." + extension : "");
 };
 
-utilities.prependSlash = function(value) {
+utilities.prependSlash = function prependSlash(value) {
 	if(typeof value !== "string") {
 		return null;
 	}
@@ -2084,7 +2084,7 @@ utilities.prependSlash = function(value) {
 	return formattedValue;
 };
 
-utilities.appendSlash = function(value) {
+utilities.appendSlash = function appendSlash(value) {
 	if(typeof value !== "string") {
 		return null;
 	}
@@ -2102,7 +2102,7 @@ utilities.appendSlash = function(value) {
 	return formattedValue;
 };
 
-utilities.joinPaths = function(base, path) {
+utilities.joinPaths = function joinPaths(base, path) {
 	var formattedBase = typeof base === "string" ? base.trim().replace(/[\/\\]+$/, "") : null;
 	var formattedPath = typeof path === "string" ? path.trim().replace(/^[\/\\]+/, "") : null;
 	var newPath = "";
@@ -2122,7 +2122,7 @@ utilities.joinPaths = function(base, path) {
 	return newPath;
 };
 
-utilities.createQueryString = function(value, includeQuestionMark) {
+utilities.createQueryString = function createQueryString(value, includeQuestionMark) {
 	if(!utilities.isObjectStrict(value)) {
 		return "";
 	}
@@ -2138,7 +2138,7 @@ utilities.createQueryString = function(value, includeQuestionMark) {
 	return (utilities.parseBoolean(includeQuestionMark, false) ? "?" : "") + parameters;
 };
 
-utilities.createRange = function(start, end) {
+utilities.createRange = function createRange(start, end) {
 	var formattedStart = utilities.parseInteger(start);
 	var formattedEnd = utilities.parseInteger(end);
 
@@ -2160,7 +2160,7 @@ utilities.createRange = function(start, end) {
 	return range;
 };
 
-utilities.futureMonths = function(date, prependZero) {
+utilities.futureMonths = function futureMonths(date, prependZero) {
 	date = utilities.parseDate(date);
 
 	if(date === null) {
@@ -2192,7 +2192,7 @@ utilities.futureMonths = function(date, prependZero) {
 	return months;
 };
 
-utilities.visibleElements = function(elements) {
+utilities.visibleElements = function visibleElements(elements) {
 	if(!Array.isArray(elements)) {
 		return [];
 	}
@@ -2208,7 +2208,7 @@ utilities.visibleElements = function(elements) {
 	return visibleElements;
 };
 
-utilities.hiddenElements = function(elements) {
+utilities.hiddenElements = function hiddenElements(elements) {
 	if(!Array.isArray(elements)) {
 		return [];
 	}
@@ -2224,7 +2224,7 @@ utilities.hiddenElements = function(elements) {
 	return hiddenElements;
 };
 
-utilities.enabledElements = function(elements) {
+utilities.enabledElements = function enabledElements(elements) {
 	if(!Array.isArray(elements)) {
 		return [];
 	}
@@ -2240,7 +2240,7 @@ utilities.enabledElements = function(elements) {
 	return enabledElements;
 };
 
-utilities.disabledElements = function(elements) {
+utilities.disabledElements = function disabledElements(elements) {
 	if(!Array.isArray(elements)) {
 		return [];
 	}
@@ -2256,7 +2256,7 @@ utilities.disabledElements = function(elements) {
 	return disabledElements;
 };
 
-utilities.elementsWithAttribute = function(elements, attribute, hasAttribute) {
+utilities.elementsWithAttribute = function elementsWithAttribute(elements, attribute, hasAttribute) {
 	if(!Array.isArray(elements) || utilities.isEmptyString(attribute)) {
 		return [];
 	}
@@ -2289,11 +2289,11 @@ utilities.elementsWithAttribute = function(elements, attribute, hasAttribute) {
 	return filteredElements;
 };
 
-utilities.elementsWithoutAttribute = function(elements, attribute) {
+utilities.elementsWithoutAttribute = function elementsWithoutAttribute(elements, attribute) {
 	return utilities.elementsWithAttribute(elements, attribute, false);
 };
 
-utilities.matchAttribute = function(element, attribute, value) {
+utilities.matchAttribute = function matchAttribute(element, attribute, value) {
 	if(!utilities.isObject(element)) {
 		return false;
 	}
@@ -2305,7 +2305,7 @@ utilities.matchAttribute = function(element, attribute, value) {
 	return element[attribute.trim()] === value;
 };
 
-utilities.generateVersions = function(version, prefix, suffix) {
+utilities.generateVersions = function generateVersions(version, prefix, suffix) {
 	version = utilities.parseVersion(version);
 
 	if(version === null) {
@@ -2343,7 +2343,7 @@ utilities.generateVersions = function(version, prefix, suffix) {
 	return versions;
 };
 
-utilities.parseVersion = function(value, trimTrailingZeroes) {
+utilities.parseVersion = function parseVersion(value, trimTrailingZeroes) {
 	var formattedValue = utilities.isValidNumber(value) ? value.toString() : value;
 
 	if(typeof formattedValue !== "string") {
@@ -2392,7 +2392,7 @@ utilities.parseVersion = function(value, trimTrailingZeroes) {
 	return version.length === 0 ? null : version;
 };
 
-utilities.compareVersions = function(v1, v2, caseSensitive, throwErrors) {
+utilities.compareVersions = function compareVersions(v1, v2, caseSensitive, throwErrors) {
 	caseSensitive = utilities.parseBoolean(caseSensitive, false);
 	throwErrors = utilities.parseBoolean(throwErrors, false);
 
@@ -2476,7 +2476,7 @@ utilities.compareVersions = function(v1, v2, caseSensitive, throwErrors) {
 	}
 };
 
-utilities.hasPostalCodeValidator = function(country) {
+utilities.hasPostalCodeValidator = function hasPostalCodeValidator(country) {
 	if(typeof country !== "string") {
 		return false;
 	}
@@ -2490,7 +2490,7 @@ utilities.hasPostalCodeValidator = function(country) {
 	return utilities.isRegularExpression(postalCodeValidators[formattedCountry]);
 };
 
-utilities.validatePostalCode = function(value, country) {
+utilities.validatePostalCode = function validatePostalCode(value, country) {
 	if(typeof country !== "string") {
 		return false;
 	}
