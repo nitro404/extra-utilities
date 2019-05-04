@@ -2920,8 +2920,6 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each pair of test values", function() {
-			var TODO = "TODO";
-
 			var results = [
 				[NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
 				[NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
@@ -2956,8 +2954,6 @@ describe("Utilities", function() {
 
 			for(var i = 0; i < newTestData.length; i++) {
 				for(var j = 0; j < newTestData.length; j++) {
-					console.log("rightShift<" + i + "," + j + ">(" + newTestData[i] + ", " + newTestData[j] + "): " + utilities.toString(utilities.rightShift(newTestData[i], newTestData[j])) + " [Expect: " + utilities.toString(results[i][j]) + "]");
-
 					if(isNaN(results[i][j])) {
 						expect(isNaN(utilities.rightShift(newTestData[i], newTestData[j]))).to.equal(true);
 					}
