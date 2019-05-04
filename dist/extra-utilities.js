@@ -1560,6 +1560,22 @@
 		return formattedList;
 	};
 
+	utilities.leftShift = function leftShift(number, bits) {
+		if(!Number.isInteger(number) || !Number.isInteger(bits)) {
+			return NaN;
+		}
+
+		return number * Math.pow(2, bits);
+	};
+
+	utilities.rightShift = function rightShift(number, bits) {
+		if(!Number.isInteger(number) || !Number.isInteger(bits)) {
+			return NaN;
+		}
+
+		return number / Math.pow(2, bits);
+	};
+
 	utilities.trimString = function trimString(value, defaultValue) {
 		return typeof value === "string" ? value.trim() : (defaultValue === undefined ? null : defaultValue);
 	};

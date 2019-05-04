@@ -3953,8 +3953,7 @@ describe("Utilities", function() {
 
 	describe("calculateAge", function() {
 		var newTestData = testData.concat(
-			new Date().setFullYear(new Date().getFullYear() + 1),
-			new Date().setFullYear(new Date().getFullYear() - 19)
+			new Date().setFullYear(new Date().getFullYear() + 1)
 		);
 
 		it("should be a function", function() {
@@ -3963,7 +3962,7 @@ describe("Utilities", function() {
 
 		it("should produce the correct result for each test value", function() {
 			var start = new Date().getFullYear() - 1970;
-			var results = [-1, -1, -1, -1, -1, -1, start, start, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, 19];
+			var results = [-1, -1, -1, -1, -1, -1, start, start, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1];
 
 			for(var i = 0; i < newTestData.length; i++) {
 				expect(utilities.calculateAge(newTestData[i])).to.equal(results[i]);
