@@ -233,6 +233,14 @@ utilities.isDisabled = function isDisabled(element) {
 	return false;
 };
 
+utilities.equalsIgnoreCase = function equalsIgnoreCase(stringA, stringB) {
+	if(typeof stringA !== "string" || typeof stringB !== "string") {
+		return false;
+	}
+
+	return stringA.localeCompare(stringB, undefined, { sensitivity: "accent" }) === 0;
+};
+
 utilities.parseBoolean = function parseBoolean(value, defaultValue) {
 	if(utilities.isBoolean(value)) {
 		return value;
