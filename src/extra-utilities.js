@@ -22,6 +22,7 @@ var formatTypes = ["boolean", "bool", "integer", "int", "float", "number", "stri
 
 var stringCaseFunctions = {
 	camel: changeCase.camelCase,
+	capital: changeCase.capitalCase,
 	constant: changeCase.constantCase,
 	dot: changeCase.dotCase,
 	header: changeCase.headerCase,
@@ -33,6 +34,7 @@ var stringCaseFunctions = {
 	path: changeCase.pathCase,
 	sentence: changeCase.sentenceCase,
 	snake: changeCase.snakeCase,
+	sponge: changeCase.spongeCase,
 	swap: changeCase.swapCase,
 	title: changeCase.titleCase,
 	upper: changeCase.upperCase,
@@ -707,7 +709,7 @@ utilities.formatValue = function formatValue(value, format, options) {
 						else {
 							var originalCase = format.case;
 
-							format.case = changeCase.camel(format.case.trim());
+							format.case = changeCase.camelCase(format.case.trim());
 
 							if(!utilities.isFunction(stringCaseFunctions[format.case])) {
 								errorMessage = "Invalid optional case format value - expected one of " + Object.keys(stringCaseFunctions).join(", ") + ", received \"" + utilities.toString(originalCase) + "\".";

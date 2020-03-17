@@ -1331,7 +1331,7 @@ describe("Utilities", function() {
 
 		it("should correctly transform the case of a string value using each of the available case functions", function() {
 			var modifiedCaseFunctionNames = ["Camel", "CONSTANT", "Dot", "HEADER", "Lower", "LOWER_FIRST", "No", "PARAM", "Pascal", "PATH", "Sentence", "SNAKE", "Swap", "TITLE", "Upper", "upper-first"];
-			var changeCaseData = ["CAMEL_CASE", "constantCase", "DotCase", "header-case", "LOWER CASE", "LOWER_FIRST", "No case", "param/case", "pascal_case", "Path-Case", "SENTENCE_CASE", "snakeCase", "SwapCase", "TITLE.CASE", "upper-case", "upper first"];
+			var changeCaseData = ["CAMEL_CASE", "constantCase", "DotCase", "header-case", "LOWER CASE", "LOWER_FIRST", "No case", "param/case", "pascal_case", "Path-Case", "SENTENCE_CASE", "snakeCase", "SwapCase", "title case", "upper-case", "upper first"];
 			var changeCaseResults = ["camelCase", "CONSTANT_CASE", "dot.case", "Header-Case", "lower case", "lOWER_FIRST", "no case", "param-case", "PascalCase", "path/case", "Sentence case", "snake_case", "sWAPcASE", "Title Case", "UPPER-CASE", "Upper first"];
 
 			for(var i = 0; i < changeCaseData.length; i++) {
@@ -2511,7 +2511,7 @@ describe("Utilities", function() {
 				isAlive: "Yes",
 				error: errorFunc,
 				exception: null,
-				movies: ["Alien 3", " The boondock saints", "FIGHT CLUB\t", 9 ],
+				movies: ["Alien 3", " The boondock saints", "fight club\t", 9 ],
 				albums: [
 					{
 						artist: "IN FLAMES",
@@ -2539,7 +2539,7 @@ describe("Utilities", function() {
 				codeNames: {
 					p: "how THE solar SYSTEM was WON",
 					o: "rick sanchez",
-					n: "VICTOR CHARLIE",
+					n: "victor charlie",
 					m: "mAX dAMAGE",
 					l: "Operation Desert Storm",
 					k: "FROG FOOT",

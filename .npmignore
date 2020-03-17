@@ -3,6 +3,7 @@ bower_components
 src
 test
 coverage
+docs
 .sass-cache
 .coveralls.yml
 .travis.yml
