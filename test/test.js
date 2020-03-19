@@ -3,18 +3,18 @@
 global.validator = undefined;
 global.changeCase = undefined;
 
-var utilities = require("../dist/extra-utilities.js");
-var chai = require("chai");
-var expect = chai.expect;
+const utilities = require("../dist/extra-utilities.js");
+const chai = require("chai");
+const expect = chai.expect;
 
-var testDate = new Date();
+const testDate = new Date();
 
-var emptyFunction = function() { };
-var emptyFunctionString = emptyFunction.toString();
+const emptyFunction = function() { };
+const emptyFunctionString = emptyFunction.toString();
 
-var testRegExp = new RegExp(".+");
+const testRegExp = new RegExp(".+");
 
-var testData = [
+const testData = [
 	undefined,
 	null,
 	false,
@@ -46,9 +46,9 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true];
+			const results = [false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true];
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				expect(utilities.isValid(testData[i])).to.equal(results[i]);
 			}
 		});
@@ -60,9 +60,9 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+			const results = [true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				expect(utilities.isInvalid(testData[i])).to.equal(results[i]);
 			}
 		});
@@ -74,17 +74,17 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+			const results = [false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				expect(utilities.isBoolean(testData[i])).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value when objects are allowed", function() {
-			var results = [false, false, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+			const results = [false, false, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				expect(utilities.isBoolean(testData[i], true)).to.equal(results[i]);
 			}
 		});
@@ -96,9 +96,9 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false];
+			const results = [false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false];
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				expect(utilities.isValidNumber(testData[i])).to.equal(results[i]);
 			}
 		});
@@ -110,57 +110,57 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [true, true, true, true, true, true, false, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true];
+			const results = [true, true, true, true, true, true, false, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true];
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				expect(utilities.isInvalidNumber(testData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("isEmptyString", function() {
-		var newTestData = testData.concat(" ", "\t", " \t");
+		const newTestData = testData.concat(" ", "\t", " \t");
 
 		it("should be a function", function() {
 			expect(utilities.isEmptyString).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value with trim disabled", function() {
-			var results = [true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, true, true, true, true, true, true, true, false, false, false];
+			const results = [true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, true, true, true, true, true, true, true, false, false, false];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isEmptyString(newTestData[i], false)).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with trim enabled", function() {
-			var results = [true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, true, true, true, true, true, true, true, true, true, true];
+			const results = [true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, true, true, true, true, true, true, true, true, true, true];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isEmptyString(newTestData[i], true)).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("isNonEmptyString", function() {
-		var newTestData = testData.concat(" ", "\t", " \t");
+		const newTestData = testData.concat(" ", "\t", " \t");
 
 		it("should be a function", function() {
 			expect(utilities.isNonEmptyString).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value with trim disabled", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, true, true, true];
+			const results = [false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, true, true, true];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isNonEmptyString(newTestData[i], false)).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with trim enabled", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false];
+			const results = [false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isNonEmptyString(newTestData[i], true)).to.equal(results[i]);
 			}
 		});
@@ -169,7 +169,7 @@ describe("Utilities", function() {
 	describe("isObject", function() {
 		function Aunty(donna) { this.donna = donna; }
 
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			new Boolean(),
 			new Number(),
 			new Number(-1.1),
@@ -189,17 +189,17 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value with strict disabled", function() {
-			var results = [false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, true, true, true, true, true, false, true, true, true, true, true, true, true, true, true, true, true, false];
+			const results = [false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, true, true, true, true, true, false, true, true, true, true, true, true, true, true, true, true, true, false];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isObject(newTestData[i], false)).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with strict enabled", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false];
+			const results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isObject(newTestData[i], true)).to.equal(results[i]);
 			}
 		});
@@ -208,7 +208,7 @@ describe("Utilities", function() {
 	describe("isObjectStrict", function() {
 		function Aunty(donna) { this.donna = donna; }
 
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			new Boolean(),
 			new Number(),
 			new Number(-1.1),
@@ -228,9 +228,9 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false];
+			const results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isObjectStrict(newTestData[i])).to.equal(results[i]);
 			}
 		});
@@ -242,9 +242,9 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false];
+			const results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false];
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				expect(utilities.isEmptyObject(testData[i])).to.equal(results[i]);
 			}
 		});
@@ -256,9 +256,9 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false];
+			const results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false];
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				expect(utilities.isNonEmptyObject(testData[i])).to.equal(results[i]);
 			}
 		});
@@ -270,9 +270,9 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, true, true];
+			const results = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, true, true];
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				expect(utilities.isEmptyArray(testData[i])).to.equal(results[i]);
 			}
 		});
@@ -284,9 +284,9 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false];
+			const results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false];
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				expect(utilities.isNonEmptyArray(testData[i])).to.equal(results[i]);
 			}
 		});
@@ -298,41 +298,41 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false];
+			const results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false];
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				expect(utilities.isDate(testData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("isError", function() {
-		var newTestData = testData.concat(new Error("The following advertisement is intended for Jim Boonie only."), utilities.createError("We're giving you land, it's free.", 420), { error: true, message: "Two bedrooms, no rugs, it's got a pool in the back." });
+		const newTestData = testData.concat(new Error("The following advertisement is intended for Jim Boonie only."), utilities.createError("We're giving you land, it's free.", 420), { error: true, message: "Two bedrooms, no rugs, it's got a pool in the back." });
 
 		it("should be a function", function() {
 			expect(utilities.isError).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false];
+			const results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isError(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("isRegularExpression", function() {
-		var newTestData = testData.concat(/v/im, new RegExp("la", "g"));
+		const newTestData = testData.concat(/v/im, new RegExp("la", "g"));
 
 		it("should be a function", function() {
 			expect(utilities.isRegularExpression).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true];
+			const results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isRegularExpression(newTestData[i])).to.equal(results[i]);
 			}
 		});
@@ -344,40 +344,40 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false];
+			const results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false];
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				expect(utilities.isFunction(testData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("isComment", function() {
-		var newTestData = testData.concat("/", "//", "//a", " // b", "\t \t//cd", " e // f", "l/o/l", "/l/m/a/o/", "#", " # x", "\t\t # y z", "hash # tag");
+		const newTestData = testData.concat("/", "//", "//a", " // b", "\t \t//cd", " e // f", "l/o/l", "/l/m/a/o/", "#", " # x", "\t\t # y z", "hash # tag");
 
 		it("should be a function", function() {
 			expect(utilities.isComment).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, false, false, false, false, false, false, false];
+			const results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, false, false, false, false, false, false, false];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isComment(newTestData[i])).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with custom comment type", function() {
-			var results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, false];
+			const results = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, false];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isComment(newTestData[i], "#")).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("isVisible", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			{ visible: "nope" },
 			{ visible: false },
 			{ visible: true },
@@ -395,16 +395,16 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, true, true, true, true, true, false, true, true, false, true, false, true, true, true, false, true, false];
+			const results = [false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, true, true, true, true, true, false, true, true, false, true, false, true, true, true, false, true, false];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isVisible(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("isHidden", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			{ visible: "nice" },
 			{ visible: false },
 			{ visible: true },
@@ -422,16 +422,16 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [true, true, true, true, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false, false, true, false, false, true, false, true, false, false, false, true, false, true];
+			const results = [true, true, true, true, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false, false, true, false, false, true, false, true, false, false, false, true, false, true];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isHidden(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("isEnabled", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			{ enabled: "door" },
 			{ enabled: false },
 			{ enabled: true },
@@ -449,16 +449,16 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, true, true, true, true, true, false, true, true, false, true, false, true, true, true, false, true, false];
+			const results = [false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, true, true, true, true, true, false, true, true, false, true, false, true, true, true, false, true, false];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isEnabled(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("isDisabled", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			{ enabled: "ayy" },
 			{ enabled: false },
 			{ enabled: true },
@@ -476,23 +476,23 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [true, true, true, true, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false, false, true, false, false, true, false, true, false, false, false, true, false, true];
+			const results = [true, true, true, true, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false, false, true, false, false, true, false, true, false, false, false, true, false, true];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.isDisabled(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("equalsIgnoreCase", function() {
-		var newTestData = testData.concat(" ", "\t", "TeSt", "trim", "tést");
+		const newTestData = testData.concat(" ", "\t", "TeSt", "trim", "tést");
 
 		it("should be a function", function() {
 			expect(utilities.equalsIgnoreCase).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [
+			const results = [
 				[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
 				[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
 				[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
@@ -522,8 +522,8 @@ describe("Utilities", function() {
 				[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true ]
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
+			for(let i = 0; i < newTestData.length; i++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					expect(utilities.equalsIgnoreCase(newTestData[i], newTestData[j])).to.equal(results[i][j]);
 				}
 			}
@@ -531,40 +531,40 @@ describe("Utilities", function() {
 	});
 
 	describe("parseBoolean", function() {
-		var newTestData = testData.concat(" ", "\t", "f", "T", "N", "y", "0", "1", "fALSE", "True", "no", "YES", "Off", "ON", "x");
+		const newTestData = testData.concat(" ", "\t", "f", "T", "N", "y", "0", "1", "fALSE", "True", "no", "YES", "Off", "ON", "x");
 
 		it("should be a function", function() {
 			expect(utilities.parseBoolean).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, false, true, false, true, false, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, false, true, false, true, false, true, false, true, false, true, false, true, null];
+			const results = [null, null, false, true, false, true, false, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, false, true, false, true, false, true, false, true, false, true, false, true, null];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseBoolean(newTestData[i])).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with a custom default", function() {
-			var results = [true, true, false, true, false, true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, false, true, false, true, false, true, false, true, false, true, true];
+			const results = [true, true, false, true, false, true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, false, true, false, true, false, true, false, true, false, true, true];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseBoolean(newTestData[i], true)).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("parseInteger", function() {
-		var newTestData = testData.concat(-69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828");
+		const newTestData = testData.concat(-69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828");
 
 		it("should be a function", function() {
 			expect(utilities.parseInteger).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [NaN, NaN, NaN, NaN, NaN, NaN, 0, 1, 3, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -69, -3, 88, -32, -1, 0, 1, 64, -1, 0, 2];
+			const results = [NaN, NaN, NaN, NaN, NaN, NaN, 0, 1, 3, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -69, -3, 88, -32, -1, 0, 1, 64, -1, 0, 2];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				if(isNaN(results[i])) {
 					expect(isNaN(utilities.parseInteger(newTestData[i]))).to.equal(true);
 				}
@@ -575,26 +575,26 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value with a custom default", function() {
-			var defaultInteger = 420;
-			var results = [defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, 0, 1, 3, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, -69, -3, 88, -32, -1, 0, 1, 64, -1, 0, 2];
+			const defaultInteger = 420;
+			const results = [defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, 0, 1, 3, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, -69, -3, 88, -32, -1, 0, 1, 64, -1, 0, 2];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseInteger(newTestData[i], defaultInteger)).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("parseFloatingPointNumber", function() {
-		var newTestData = testData.concat(-69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828");
+		const newTestData = testData.concat(-69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828");
 
 		it("should be a function", function() {
 			expect(utilities.parseFloatingPointNumber).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [NaN, NaN, NaN, NaN, NaN, NaN, 0, 1, 3.141592654, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -69, -3.33333, 88, -32, -1, 0, 1, 64, -1.1, 0.48, 2.71828];
+			const results = [NaN, NaN, NaN, NaN, NaN, NaN, 0, 1, 3.141592654, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -69, -3.33333, 88, -32, -1, 0, 1, 64, -1.1, 0.48, 2.71828];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				if(isNaN(results[i])) {
 					expect(isNaN(utilities.parseFloatingPointNumber(newTestData[i]))).to.equal(true);
 				}
@@ -605,26 +605,26 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value with a custom default", function() {
-			var defaultFloat = 6.9;
-			var results = [defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, 0, 1, 3.141592654, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, -69, -3.33333, 88, -32, -1, 0, 1, 64, -1.1, 0.48, 2.71828];
+			const defaultFloat = 6.9;
+			const results = [defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, 0, 1, 3.141592654, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, -69, -3.33333, 88, -32, -1, 0, 1, 64, -1.1, 0.48, 2.71828];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseFloatingPointNumber(newTestData[i], defaultFloat)).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("parseDate", function() {
-		var newTestData = testData.concat("June 5, 2012", "June 18, 1987 3:30 PM", "2018-02-19T06:19:33Z", testDate.getTime(), testDate.toString(), testDate.getTime().toString());
+		const newTestData = testData.concat("June 5, 2012", "June 18, 1987 3:30 PM", "2018-02-19T06:19:33Z", testDate.getTime(), testDate.toString(), testDate.getTime().toString());
 
 		it("should be a function", function() {
 			expect(utilities.parseDate).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, new Date(0), new Date(1), null, null, null, null, null, null, null, null, null, null, null, testDate, null, null, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, new Date(testDate.toString()), testDate];
+			const results = [null, null, null, null, null, null, new Date(0), new Date(1), null, null, null, null, null, null, null, null, null, null, null, testDate, null, null, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, new Date(testDate.toString()), testDate];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				if(results[i] === null) {
 					expect(utilities.parseDate(newTestData[i])).to.equal(null);
 				}
@@ -635,24 +635,24 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value with a custom default", function() {
-			var defaultDate = new Date("October 21, 2015 4:29 PM");
-			var results = [defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, new Date(0), new Date(1), defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, testDate, defaultDate, defaultDate, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, new Date(testDate.toString()), testDate];
+			const defaultDate = new Date("October 21, 2015 4:29 PM");
+			const results = [defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, new Date(0), new Date(1), defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, testDate, defaultDate, defaultDate, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, new Date(testDate.toString()), testDate];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseDate(newTestData[i], defaultDate)).to.deep.equal(results[i]);
 			}
 		});
 	});
 
 	describe("parseTime", function() {
-		var newTestData = testData.concat("9:30 AM", "11:59 PM", "12:00 AM", "12:01 AM", "11:59 AM", "12:00 PM", "12:01 PM", "1632", "2359", "0000", "0001", "1159", "1200", "1201", "2400", "12:60 AM", "13:00 PM", "3:60 AM", "4:77 PM", "0161", "2401", "2188", "2520");
+		const newTestData = testData.concat("9:30 AM", "11:59 PM", "12:00 AM", "12:01 AM", "11:59 AM", "12:00 PM", "12:01 PM", "1632", "2359", "0000", "0001", "1159", "1200", "1201", "2400", "12:60 AM", "13:00 PM", "3:60 AM", "4:77 PM", "0161", "2401", "2188", "2520");
 
 		it("should be a function", function() {
 			expect(utilities.parseTime).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value and return null for invalid values", function() {
-			var results = [
+			const results = [
 				null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
 				{ regular: { raw: "9:30 AM", hour: 9, minutes: 30, period: "AM", morning: true }, military: { raw: "0930", hour: 9, minutes: 30 } },
 				{ regular: { raw: "11:59 PM", hour: 11, minutes: 59, period: "PM", morning: false }, military: { raw: "2359", hour: 23, minutes: 59 } },
@@ -672,7 +672,7 @@ describe("Utilities", function() {
 				null, null, null, null, null, null, null, null
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				if(results[i] === null) {
 					expect(utilities.parseTime(newTestData[i])).to.equal(null);
 				}
@@ -683,7 +683,7 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value and throw an error when specified for invalid values", function() {
-			var results = [
+			const results = [
 				null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
 				{ regular: { raw: "9:30 AM", hour: 9, minutes: 30, period: "AM", morning: true }, military: { raw: "0930", hour: 9, minutes: 30 } },
 				{ regular: { raw: "11:59 PM", hour: 11, minutes: 59, period: "PM", morning: false }, military: { raw: "2359", hour: 23, minutes: 59 } },
@@ -703,8 +703,8 @@ describe("Utilities", function() {
 				null, null, null, null, null, null, null, null
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
-				var errorThrown = false;
+			for(let i = 0; i < newTestData.length; i++) {
+				let errorThrown = false;
 
 				try {
 					if(results[i] === null) {
@@ -724,58 +724,58 @@ describe("Utilities", function() {
 	});
 
 	describe("parseEmail", function() {
-		var newTestData = testData.concat("mark@broden.zac", "@aunty.donna", "surprise@ketchup", "slip@", "@slap", "@slop.", "@", "@.", " x@y.z \t", "test+123@test.com");
+		const newTestData = testData.concat("mark@broden.zac", "@aunty.donna", "surprise@ketchup", "slip@", "@slap", "@slop.", "@", "@.", " x@y.z \t", "test+123@test.com");
 
 		it("should be a function", function() {
 			expect(utilities.parseEmail).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "mark@broden.zac", null, null, null, null, null, null, null, "x@y.z", "test@test.com"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "mark@broden.zac", null, null, null, null, null, null, null, "x@y.z", "test@test.com"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseEmail(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("parseEmailDomain", function() {
-		var newTestData = testData.concat("mark@broden.zac", "@aunty.donna", "surprise@ketchup", "slip@", "@slap", "@slop.", "@", "@.", " x@y.z\t", "test+123@test.com");
+		const newTestData = testData.concat("mark@broden.zac", "@aunty.donna", "surprise@ketchup", "slip@", "@slap", "@slop.", "@", "@.", " x@y.z\t", "test+123@test.com");
 
 		it("should be a function", function() {
 			expect(utilities.parseEmailDomain).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "broden.zac", null, null, null, null, null, null, null, "y.z", "test.com"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "broden.zac", null, null, null, null, null, null, null, "y.z", "test.com"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseEmailDomain(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("parseStringList", function() {
-		var newTestData = testData.concat(",", ";", "board,", ",room", "same;", ";tie", " ;\te ,\tx ;\te ,\t \t");
+		const newTestData = testData.concat(",", ";", "board,", ",room", "same;", ";tie", " ;\te ,\tx ;\te ,\t \t");
 
 		it("should be a function", function() {
 			expect(utilities.parseStringList).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, [], ["test"], ["trim"], null, null, null, null, null, null, null, [], [], ["board"], ["room"], ["same"], ["tie"], ["e", "x", "e"]];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, [], ["test"], ["trim"], null, null, null, null, null, null, null, [], [], ["board"], ["room"], ["same"], ["tie"], ["e", "x", "e"]];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseStringList(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 	});
 
 	describe("parseRegularExpression", function() {
-		var newTestData = testData.concat("/pop[ ]*the[ ]kettle/gmi", "/corporate/m", "/spy/i", "/ayy/gm", "/lmao/g", "/muggachini/");
-		var invalidTestData = ["", "/", "/door/stuck", "/y/x"];
+		const newTestData = testData.concat("/pop[ ]*the[ ]kettle/gmi", "/corporate/m", "/spy/i", "/ayy/gm", "/lmao/g", "/muggachini/");
+		const invalidTestData = ["", "/", "/door/stuck", "/y/x"];
 
-		var regExpFlagSupported = {
+		const regExpFlagSupported = {
 			sticky: true,
 			unicode: true
 		};
@@ -819,7 +819,7 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, /.+/, /pop[ ]*the[ ]kettle/gmi, /corporate/m, /spy/i, /ayy/gm, /lmao/g, /muggachini/];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, /.+/, /pop[ ]*the[ ]kettle/gmi, /corporate/m, /spy/i, /ayy/gm, /lmao/g, /muggachini/];
 
 			if(regExpFlagSupported.unicode) {
 				results.push(/a/gmiu);
@@ -841,24 +841,22 @@ describe("Utilities", function() {
 
 			results.push(/3/gmi, /4/gm, /5/g, /6/);
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseRegularExpression(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 
 		it("should return null for each regular expression value with invalid flags", function() {
-			var errorThrown = null;
-
-			for(var i = 0; i < invalidTestData.length; i++) {
+			for(let i = 0; i < invalidTestData.length; i++) {
 				expect(utilities.parseRegularExpression(invalidTestData[i])).to.equal(null);
 				expect(utilities.parseRegularExpression(invalidTestData[i], false)).to.equal(null);
 			}
 		});
 
 		it("should throw an error when specified for each regular expression value with invalid flags", function() {
-			var errorThrown = null;
+			let errorThrown = null;
 
-			for(var i = 0; i < invalidTestData.length; i++) {
+			for(let i = 0; i < invalidTestData.length; i++) {
 				errorThrown = false;
 
 				try {
@@ -874,7 +872,7 @@ describe("Utilities", function() {
 	});
 
 	describe("parseYouTubeLink", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			"https://www.youtube.com/watch?v=NUnwFHplBg4",
 			"https://youtube.com/watch?v=VqB1uoDTdKM",
 			"http://www.youtube.com/watch?v=NgWn7zbgxZ4",
@@ -908,23 +906,23 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "NUnwFHplBg4", "VqB1uoDTdKM", "NgWn7zbgxZ4", "52eQJ5QpfEg", "AX5CtqKX_pU", "IOIGaIhF_wI", "4QZ2AbBuVB4", "VeAJ9U5nbVQ", "Ywsoxoc68Oc", "OEEEy1dMceI", "b4YC-4n0ap0", "EQiSgWGAc24", "Dkm8Hteeh6M", "87je-QAPZIU", "w-0CS-T1HUQ", "QrGrOK8oZG8", "ssr1PMSNvwk", "cd4-UnU8lWY", "x7ZrKehQ_xc", "z874bjpO9d8", "Op6kgayifzU", "U7Rn4KS3TCY", "8NArIVIQ4BI", "kOWEb9Lt98Y", "-BG9lhTg6xY", "UiVWItLdvAE"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "NUnwFHplBg4", "VqB1uoDTdKM", "NgWn7zbgxZ4", "52eQJ5QpfEg", "AX5CtqKX_pU", "IOIGaIhF_wI", "4QZ2AbBuVB4", "VeAJ9U5nbVQ", "Ywsoxoc68Oc", "OEEEy1dMceI", "b4YC-4n0ap0", "EQiSgWGAc24", "Dkm8Hteeh6M", "87je-QAPZIU", "w-0CS-T1HUQ", "QrGrOK8oZG8", "ssr1PMSNvwk", "cd4-UnU8lWY", "x7ZrKehQ_xc", "z874bjpO9d8", "Op6kgayifzU", "U7Rn4KS3TCY", "8NArIVIQ4BI", "kOWEb9Lt98Y", "-BG9lhTg6xY", "UiVWItLdvAE"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseYouTubeLink(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("formatValue", function() {
-		var stringCaseFunctionNames = ["camel", "constant", "dot", "header", "lower", "lowerFirst", "no", "param", "pascal", "path", "sentence", "snake", "swap", "title", "upper", "upperFirst"];
+		const stringCaseFunctionNames = ["camel", "capital", "constant", "dot", "header", "lower", "lowerFirst", "no", "param", "pascal", "path", "sentence", "snake", "sponge", "swap", "title", "upper", "upperFirst"];
 
 		it("should be a function", function() {
 			expect(utilities.formatValue).to.be.a("function");
 		});
 
 		it("should return a copy of the original value if no format is specified", function() {
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				expect(utilities.formatValue(testData[i])).to.deep.equal(testData[i]);
 			}
 		});
@@ -940,7 +938,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any format that has an empty or missing type property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue({ }, { ketchup: "Slip, slap slop!" }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -952,7 +950,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any format that has an invlid type property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue({ }, { type: "serious?" }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -964,7 +962,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any format that has an invlid nullable property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue(null, { type: "integer", nullable: "Does spider have pus pus?" }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -976,7 +974,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any format that has an invlid required property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue(null, { type: "array", required: -3.1337 }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -988,7 +986,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any format that has an invlid parser property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue(null, { type: "number", parser: "da wae" }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1000,7 +998,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any format that has an invlid validator property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue(null, { type: "function", validator: testDate }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1012,7 +1010,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any format that has an invlid formatter property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue(null, { type: "float", formatter: /lolwut/i }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1024,7 +1022,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any string format that has an invlid trim property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue([], { type: "string", trim: emptyFunction }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1036,7 +1034,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any string format that has an invlid case property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue([], { type: "string", case: false }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1048,7 +1046,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any string format that has an invlid nonEmpty property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue(emptyFunction, { type: "string", nonEmpty: new Error("8=====D ~") }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1060,7 +1058,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any object format that has an invlid strict property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue("Probably not many.", { type: "object", strict: -Infinity }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1072,7 +1070,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any object format that has an invlid autopopulate property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue("Wau.", { type: "object", autopopulate: "This should also be a boolean." }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1084,7 +1082,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any object format that has an invlid order property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue("Wow.", { type: "object", order: "That's the danger zone!" }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1096,7 +1094,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any object format that has an invlid removeExtra property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue("Manborg is definitely the movie of our century.", { type: "object", removeExtra: "NUMBER FIVE IS ALIVE!" }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1108,7 +1106,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any object format that has an invlid format property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue("Cheep cheep cheep cheep!", { type: "object", format: "You're my favourite customer!" }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1120,7 +1118,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any object format that has a format property that is a non-strict object when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue(Infinity, { type: "object", format: testDate }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1132,7 +1130,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any object format that has an invalid nonEmpty property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue(new Boolean(false), { type: "object", format: null }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1144,7 +1142,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any array format that has an invlid format property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue({ alien: true, secretAgent: true, bioTerrorist: true, warVetran: true }, { type: "array", format: "Just how good is he at this stuff, Rich?" }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1156,7 +1154,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any array format that has a format property that is a non-strict object when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue("Talk about his ballsack!", { type: "array", format: ["yes", "you", "see", "his", "ballsack"] }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1168,19 +1166,19 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for any array format that has an invlid nonEmpty property when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue({ found: "footage" }, { type: "array", nonEmpty: testDate }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
 		});
 
 		it("should correctly format boolean values", function() {
-			var values = [false, true, new Boolean(false), new Boolean(true), 0, 1, "f", "T", "N", "y", "0", "1", "fALSE", "True", "no", "YES", "Off", "ON"];
-			var formats = [{ type: "bool"}, { type: "boolean" }, { type: "BOOL"}, { type: "bOoLeAn" }];
-			var results = [false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true];
+			const values = [false, true, new Boolean(false), new Boolean(true), 0, 1, "f", "T", "N", "y", "0", "1", "fALSE", "True", "no", "YES", "Off", "ON"];
+			const formats = [{ type: "bool"}, { type: "boolean" }, { type: "BOOL"}, { type: "bOoLeAn" }];
+			const results = [false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true];
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < formats.length; j++) {
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < formats.length; j++) {
 					expect(utilities.formatValue(values[i], formats[j])).to.equal(results[i]);
 				}
 			}
@@ -1192,19 +1190,19 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when formatting invalid boolean values when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue(NaN, { type: "bool" }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
 		});
 
 		it("should correctly format integer values", function() {
-			var values = [0, 1, -69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828"];
-			var formats = [{ type: "int"}, { type: "integer" }, { type: "INT"}, { type: "iNtEgEr" }];
-			var results = [0, 1, -69, -3, 88, -32, -1, 0, 1, 64, -1, 0, 2];
+			const values = [0, 1, -69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828"];
+			const formats = [{ type: "int"}, { type: "integer" }, { type: "INT"}, { type: "iNtEgEr" }];
+			const results = [0, 1, -69, -3, 88, -32, -1, 0, 1, 64, -1, 0, 2];
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < formats.length; j++) {
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < formats.length; j++) {
 					expect(utilities.formatValue(values[i], formats[j])).to.equal(results[i]);
 				}
 			}
@@ -1216,19 +1214,19 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when formatting invalid integer values when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue(Infinity, { type: "int" }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
 		});
 
 		it("should correctly format float values", function() {
-			var values = [0, 1, -69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828"];
-			var formats = [{ type: "float"}, { type: "number" }, { type: "FLOAT"}, { type: "nUmBeR" }];
-			var results = [0, 1, -69, -3.33333, 88, -32, -1, 0, 1, 64, -1.1, 0.48, 2.71828];
+			const values = [0, 1, -69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828"];
+			const formats = [{ type: "float"}, { type: "number" }, { type: "FLOAT"}, { type: "nUmBeR" }];
+			const results = [0, 1, -69, -3.33333, 88, -32, -1, 0, 1, 64, -1.1, 0.48, 2.71828];
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < formats.length; j++) {
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < formats.length; j++) {
 					expect(utilities.formatValue(values[i], formats[j])).to.equal(results[i]);
 				}
 			}
@@ -1240,7 +1238,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when formatting invalid float values when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue(emptyFunction, { type: "float" }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1248,35 +1246,35 @@ describe("Utilities", function() {
 
 		it("should correctly format string values", function() {
 			function func() { throw new Error("Do you like your new toy?"); };
-			var values = testData.slice(2).concat(new Error("So here's this giant enemy crab."), utilities.createError("new fone who dis", 416), func, /but{1,2}s?/gmi);
-			var formats = [{ type: "string"}, { type: "StRiNg" }];
-			var results = ["false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", "{\"message\":\"So here's this giant enemy crab.\"}", "{\"message\":\"new fone who dis\",\"status\":416}", func.toString(), "/but{1,2}s?/gmi"];
+			const values = testData.slice(2).concat(new Error("So here's this giant enemy crab."), utilities.createError("new fone who dis", 416), func, /but{1,2}s?/gmi);
+			const formats = [{ type: "string"}, { type: "StRiNg" }];
+			const results = ["false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", "{\"message\":\"So here's this giant enemy crab.\"}", "{\"message\":\"new fone who dis\",\"status\":416}", func.toString(), "/but{1,2}s?/gmi"];
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < formats.length; j++) {
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < formats.length; j++) {
 					expect(utilities.formatValue(values[i], formats[j])).to.equal(results[i]);
 				}
 			}
 		});
 
 		it("should correctly trim string values", function() {
-			var values = ["", " ", "\t", " trim\t", "\t twilight\tmeets\thappy\tdays \t", "sunshine"];
-			var format = { type: "string", trim: true };
-			var results = ["", "", "", "trim", "twilight\tmeets\thappy\tdays", "sunshine"];
+			const values = ["", " ", "\t", " trim\t", "\t twilight\tmeets\thappy\tdays \t", "sunshine"];
+			const format = { type: "string", trim: true };
+			const results = ["", "", "", "trim", "twilight\tmeets\thappy\tdays", "sunshine"];
 
-			for(var i = 0; i < values.length; i++) {
+			for(let i = 0; i < values.length; i++) {
 				expect(utilities.formatValue(values[i], format)).to.equal(results[i]);
 			}
 		});
 
 		it("should return null for empty string values when nonEmpty is set to true", function() {
-			var values = ["", " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tlong brown hair", "big white lips "];
-			var format = { type: "string", nonEmpty: true };
-			var options = [{ verbose: true}, { verbose: false }];
-			var results = [null, " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tlong brown hair", "big white lips "];
+			const values = ["", " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tlong brown hair", "big white lips "];
+			const format = { type: "string", nonEmpty: true };
+			const options = [{ verbose: true}, { verbose: false }];
+			const results = [null, " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tlong brown hair", "big white lips "];
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < options.length; j++) {
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < options.length; j++) {
 					expect(utilities.formatValue(values[i], format)).to.equal(results[i]);
 					expect(utilities.formatValue(values[i], format, options[j])).to.equal(results[i]);
 				}
@@ -1284,13 +1282,13 @@ describe("Utilities", function() {
 		});
 
 		it("should return null for empty string values when nonEmpty and trim are set to true", function() {
-			var values = ["", " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tduke nukem", "let god sort 'em out "];
-			var format = { type: "string", nonEmpty: true, trim: true };
-			var options = [{ verbose: true}, { verbose: false }];
-			var results = [null, null, null, null, null, null, "duke nukem", "let god sort 'em out"];
+			const values = ["", " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tduke nukem", "let god sort 'em out "];
+			const format = { type: "string", nonEmpty: true, trim: true };
+			const options = [{ verbose: true}, { verbose: false }];
+			const results = [null, null, null, null, null, null, "duke nukem", "let god sort 'em out"];
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < options.length; j++) {
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < options.length; j++) {
 					expect(utilities.formatValue(values[i], format)).to.equal(results[i]);
 					expect(utilities.formatValue(values[i], format, options[j])).to.equal(results[i]);
 				}
@@ -1298,14 +1296,14 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when specified for empty string values when nonEmpty is set to true", function() {
-			var values = ["", " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tcherry pepsi", "private caller "];
-			var format = { type: "string", nonEmpty: true };
-			var options = [{ throwErrors: true }, { throwErrors: true, verbose: true }, { throwErrors: true, verbose: false }];
-			var results = [null, " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tcherry pepsi", "private caller "];
+			const values = ["", " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tcherry pepsi", "private caller "];
+			const format = { type: "string", nonEmpty: true };
+			const options = [{ throwErrors: true }, { throwErrors: true, verbose: true }, { throwErrors: true, verbose: false }];
+			const results = [null, " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tcherry pepsi", "private caller "];
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < options.length; j++) {
-					var errorThrown = false;
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < options.length; j++) {
+					let errorThrown = false;
 					try { utilities.formatValue(values[i], format, options[j]); }
 					catch(error) { errorThrown = true; }
 					expect(errorThrown).to.equal(results[i] === null);
@@ -1314,14 +1312,14 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when specified for empty string values when nonEmpty and trim are set to true", function() {
-			var values = ["", " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tflamingosis", "a groovy thing "];
-			var format = { type: "string", nonEmpty: true, trim: true };
-			var options = [{ throwErrors: true }, { throwErrors: true, verbose: true }, { throwErrors: true, verbose: false }];
-			var results = [null, null, null, null, null, null, "flamingosis", "a groovy thing"];
+			const values = ["", " ", "\t", " \t", "\t ", "  \t  \t\t ", "\tflamingosis", "a groovy thing "];
+			const format = { type: "string", nonEmpty: true, trim: true };
+			const options = [{ throwErrors: true }, { throwErrors: true, verbose: true }, { throwErrors: true, verbose: false }];
+			const results = [null, null, null, null, null, null, "flamingosis", "a groovy thing"];
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < options.length; j++) {
-					var errorThrown = false;
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < options.length; j++) {
+					let errorThrown = false;
 					try { utilities.formatValue(values[i], format, options[j]); }
 					catch(error) { errorThrown = true; }
 					expect(errorThrown).to.equal(results[i] === null);
@@ -1330,23 +1328,32 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly transform the case of a string value using each of the available case functions", function() {
-			var modifiedCaseFunctionNames = ["Camel", "CONSTANT", "Dot", "HEADER", "Lower", "LOWER_FIRST", "No", "PARAM", "Pascal", "PATH", "Sentence", "SNAKE", "Swap", "TITLE", "Upper", "upper-first"];
-			var changeCaseData = ["CAMEL_CASE", "constantCase", "DotCase", "header-case", "LOWER CASE", "LOWER_FIRST", "No case", "param/case", "pascal_case", "Path-Case", "SENTENCE_CASE", "snakeCase", "SwapCase", "title case", "upper-case", "upper first"];
-			var changeCaseResults = ["camelCase", "CONSTANT_CASE", "dot.case", "Header-Case", "lower case", "lOWER_FIRST", "no case", "param-case", "PascalCase", "path/case", "Sentence case", "snake_case", "sWAPcASE", "Title Case", "UPPER-CASE", "Upper first"];
+			const modifiedCaseFunctionNames = ["Camel", "CAPITAL", "CONSTANT", "Dot", "HEADER", "Lower", "LOWER_FIRST", "No", "PARAM", "Pascal", "PATH", "Sentence", "SNAKE", "Sponge", "Swap", "TITLE", "Upper", "upper-first"];
+			const changeCaseData = ["CAMEL_CASE", "capital city", "constantCase", "DotCase", "header-case", "LOWER CASE", "LOWER_FIRST", "No case", "param/case", "pascal_case", "Path-Case", "SENTENCE_CASE", "snakeCase", "tHe Fast bRoWn foX jUMPs oVer the LAZY DoGs", "SwapCase", "title case", "upper-case", "upper first"];
+			const changeCaseResults = ["camelCase", "Capital City", "CONSTANT_CASE", "dot.case", "Header-Case", "lower case", "lOWER_FIRST", "no case", "param-case", "PascalCase", "path/case", "Sentence case", "snake_case", null, "sWAPcASE", "Title Case", "UPPER-CASE", "Upper first"];
 
-			for(var i = 0; i < changeCaseData.length; i++) {
-				expect(utilities.formatValue(changeCaseData[i], { type: "string", case: stringCaseFunctionNames[i] })).to.equal(changeCaseResults[i]);
-				expect(utilities.formatValue(changeCaseData[i], { type: "string", case: modifiedCaseFunctionNames[i] })).to.equal(changeCaseResults[i]);
+			for(let i = 0; i < changeCaseData.length; i++) {
+				if(changeCaseResults[i] === null) {
+					// special handling for sponge case which randomizes the case of all characters in the string
+					expect(utilities.formatValue(changeCaseData[i], { type: "string", case: stringCaseFunctionNames[i] })).to.not.equal(changeCaseData[i]);
+					expect(utilities.formatValue(changeCaseData[i], { type: "string", case: modifiedCaseFunctionNames[i] })).to.not.equal(changeCaseData[i]);
+					expect(utilities.formatValue(changeCaseData[i], { type: "string", case: stringCaseFunctionNames[i] })).to.not.equal(utilities.formatValue(changeCaseData[i], { type: "string", case: stringCaseFunctionNames[i] }));
+					expect(utilities.formatValue(changeCaseData[i], { type: "string", case: modifiedCaseFunctionNames[i] })).to.not.equal(utilities.formatValue(changeCaseData[i], { type: "string", case: modifiedCaseFunctionNames[i] }));
+				}
+				else {
+					expect(utilities.formatValue(changeCaseData[i], { type: "string", case: stringCaseFunctionNames[i] })).to.equal(changeCaseResults[i]);
+					expect(utilities.formatValue(changeCaseData[i], { type: "string", case: modifiedCaseFunctionNames[i] })).to.equal(changeCaseResults[i]);
+				}
 			}
 		});
 
 		it("should correctly format date values", function() {
-			var values = [0, 1, testDate, "June 5, 2012", "June 18, 1987 3:30 PM", "2018-02-19T06:19:33Z", testDate.getTime(), testDate.toString(), testDate.getTime().toString()];
-			var formats = [{ type: "date"}, { type: "DaTe" }];
-			var results = [new Date(0), new Date(1), testDate, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, new Date(testDate.toString()), testDate];
+			const values = [0, 1, testDate, "June 5, 2012", "June 18, 1987 3:30 PM", "2018-02-19T06:19:33Z", testDate.getTime(), testDate.toString(), testDate.getTime().toString()];
+			const formats = [{ type: "date"}, { type: "DaTe" }];
+			const results = [new Date(0), new Date(1), testDate, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, new Date(testDate.toString()), testDate];
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < formats.length; j++) {
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < formats.length; j++) {
 					expect(utilities.formatValue(values[i], formats[j])).to.deep.equal(results[i]);
 				}
 			}
@@ -1358,19 +1365,19 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when formatting invalid date values when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue(NaN, { type: "date" }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
 		});
 
-		var invalidRegExpValues = testData.slice(-1, 1).concat("/", "/door/stuck", "/y/x");
+		const invalidRegExpValues = testData.slice(-1, 1).concat("/", "/door/stuck", "/y/x");
 
 		it("should correctly format regular expression values", function() {
-			var values = [testRegExp, "/pop[ ]*the[ ]kettle/gmi", "/corporate/m", "/spy/i", "/ayy/gm", "/lmao/g", "/muggachini/"];
-			var results = [/.+/, /pop[ ]*the[ ]kettle/gmi, /corporate/m, /spy/i, /ayy/gm, /lmao/g, /muggachini/];
+			const values = [testRegExp, "/pop[ ]*the[ ]kettle/gmi", "/corporate/m", "/spy/i", "/ayy/gm", "/lmao/g", "/muggachini/"];
+			const results = [/.+/, /pop[ ]*the[ ]kettle/gmi, /corporate/m, /spy/i, /ayy/gm, /lmao/g, /muggachini/];
 
-			var regExpFlagSupported = {
+			const regExpFlagSupported = {
 				sticky: true,
 				unicode: true
 			};
@@ -1419,32 +1426,32 @@ describe("Utilities", function() {
 				expect(utilities.parseRegularExpression).to.be.a("function");
 			});
 
-			var formats = [{ type: "regex"}, { type: "rEgEx" }, { type: "regexp"}, { type: "rEgExP" }, { type: "regularexpression"}, { type: "REGULARexpression" }];
+			const formats = [{ type: "regex"}, { type: "rEgEx" }, { type: "regexp"}, { type: "rEgExP" }, { type: "regularexpression"}, { type: "REGULARexpression" }];
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < formats.length; j++) {
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < formats.length; j++) {
 					expect(utilities.formatValue(values[i], formats[j])).to.deep.equal(results[i]);
 				}
 			}
 		});
 
 		it("should return null when formatting invalid regular expression values", function() {
-			for(var i = 0; i < invalidRegExpValues.length; i++) {
+			for(let i = 0; i < invalidRegExpValues.length; i++) {
 				expect(utilities.formatValue(invalidRegExpValues[i], { type: "regex" })).to.equal(null);
 				expect(utilities.formatValue(invalidRegExpValues[i], { type: "regex" }, { throwErrors: false })).to.equal(null);
 			}
 		});
 
 		it("should throw an error when formatting invalid regular expression values when specified", function() {
-			for(var i = 0; i < invalidRegExpValues.length; i++) {
-				var errorThrown = false;
+			for(let i = 0; i < invalidRegExpValues.length; i++) {
+				let errorThrown = false;
 				try { utilities.formatValue(invalidRegExpValues[i], { type: "regex" }, { throwErrors: true }); }
 				catch(error) { errorThrown = true; }
 				expect(errorThrown).to.equal(true);
 			}
 		});
 
-		var invalidFunctionValues = testData.slice(2).filter(function(value, index) {
+		const invalidFunctionValues = testData.slice(2).filter(function(value, index) {
 			return !(value instanceof Function);
 		});
 
@@ -1455,27 +1462,27 @@ describe("Utilities", function() {
 				}
 			};
 
-			var values = [emptyFunction, testFunction];
-			var formats = [{ type: "func"}, { type: "FUNC" }, { type: "function" }, { type: "FuNcTiOn" }];
-			var results = [emptyFunction, testFunction];
+			const values = [emptyFunction, testFunction];
+			const formats = [{ type: "func"}, { type: "FUNC" }, { type: "function" }, { type: "FuNcTiOn" }];
+			const results = [emptyFunction, testFunction];
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < formats.length; j++) {
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < formats.length; j++) {
 					expect(utilities.formatValue(values[i], formats[j])).to.deep.equal(results[i]);
 				}
 			}
 		});
 
 		it("should return null when formatting invalid function values", function() {
-			for(var i = 0; i < invalidFunctionValues.length; i++) {
+			for(let i = 0; i < invalidFunctionValues.length; i++) {
 				expect(utilities.formatValue(invalidFunctionValues[i], { type: "function" })).to.equal(null);
 				expect(utilities.formatValue(invalidFunctionValues[i], { type: "func" }, { throwErrors: false })).to.equal(null);
 			}
 		});
 
 		it("should throw an error when formatting invalid function values when specified", function() {
-			for(var i = 0; i < invalidFunctionValues.length; i++) {
-				var errorThrown = false;
+			for(let i = 0; i < invalidFunctionValues.length; i++) {
+				let errorThrown = false;
 				try { utilities.formatValue(invalidFunctionValues[i], { type: "func" }, { throwErrors: true }); }
 				catch(error) { errorThrown = true; }
 				expect(errorThrown).to.equal(true);
@@ -1483,7 +1490,7 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly format simple object values", function() {
-			var values = [
+			const values = [
 				{ },
 				{ enjoy: "yourself" },
 				testDate,
@@ -1494,23 +1501,23 @@ describe("Utilities", function() {
 				new Boolean(true)
 			];
 
-			var formats = [{ type: "object"}, { type: "oBjEcT" }];
+			const formats = [{ type: "object"}, { type: "oBjEcT" }];
 
-			var results = utilities.clone(values);
+			const results = utilities.clone(values);
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < formats.length; j++) {
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < formats.length; j++) {
 					expect(utilities.formatValue(values[i], formats[j])).to.deep.equal(results[i]);
 				}
 			}
 		});
 
-		var invalidObjectValues = testData.slice(2).filter(function(value, index) {
+		const invalidObjectValues = testData.slice(2).filter(function(value, index) {
 			return !utilities.isObject(value);
 		});
 
 		it("should return null when formatting invalid simple object values", function() {
-			for(var i = 0; i < invalidObjectValues.length; i++) {
+			for(let i = 0; i < invalidObjectValues.length; i++) {
 
 				expect(utilities.formatValue(invalidObjectValues[i], { type: "object" })).to.equal(null);
 				expect(utilities.formatValue(invalidObjectValues[i], { type: "object" }, { throwErrors: false })).to.equal(null);
@@ -1518,9 +1525,9 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when specified while formatting invalid simple object values", function() {
-			var errorThrown = null;
+			let errorThrown = null;
 
-			for(var i = 0; i < invalidObjectValues.length; i++) {
+			for(let i = 0; i < invalidObjectValues.length; i++) {
 				errorThrown = false;
 				try { utilities.formatValue(invalidObjectValues[i], { type: "object" }, { throwErrors: true }); }
 				catch(error) { errorThrown = true; }
@@ -1529,59 +1536,59 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly format stringified object values", function() {
-			var values = [
+			const values = [
 				{ },
 				{ enjoy: "yourself" },
 				[[]],
 				[[[7331]]]
 			];
 
-			var formats = [{ type: "object"}, { type: "oBjEcT" }];
+			const formats = [{ type: "object"}, { type: "oBjEcT" }];
 
-			var results = utilities.clone(values);
+			const results = utilities.clone(values);
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < formats.length; j++) {
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < formats.length; j++) {
 					expect(utilities.formatValue(JSON.stringify(values[i]), formats[j])).to.deep.equal(results[i]);
 				}
 			}
 		});
 
 		it("should correctly format strict object values", function() {
-			var values = [
+			const values = [
 				{ },
 				{ enjoy: "yourself" }
 			];
 
-			var formats = [{ type: "object"}, { type: "oBjEcT" }];
+			const formats = [{ type: "object"}, { type: "oBjEcT" }];
 
-			var results = utilities.clone(values);
+			const results = utilities.clone(values);
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < formats.length; j++) {
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < formats.length; j++) {
 					expect(utilities.formatValue(JSON.stringify(values[i]), formats[j])).to.deep.equal(results[i]);
 				}
 			}
 		});
 
 		it("should correctly format stringified strict object values", function() {
-			var values = [
+			const values = [
 				{ },
 				{ enjoy: "yourself" }
 			];
 
-			var formats = [{ type: "object"}, { type: "oBjEcT" }];
+			const formats = [{ type: "object"}, { type: "oBjEcT" }];
 
-			var results = utilities.clone(values);
+			const results = utilities.clone(values);
 
-			for(var i = 0; i < values.length; i++) {
-				for(var j = 0; j < formats.length; j++) {
+			for(let i = 0; i < values.length; i++) {
+				for(let j = 0; j < formats.length; j++) {
 					expect(utilities.formatValue(JSON.stringify(values[i]), formats[j])).to.deep.equal(results[i]);
 				}
 			}
 		});
 
-		var invalidStrictObjectValues = [
+		const invalidStrictObjectValues = [
 			[],
 			"[]",
 			testDate,
@@ -1593,7 +1600,7 @@ describe("Utilities", function() {
 		];
 
 		it("should return null when formatting invalid strict object values", function() {
-			for(var i = 0; i < invalidStrictObjectValues.length; i++) {
+			for(let i = 0; i < invalidStrictObjectValues.length; i++) {
 
 				expect(utilities.formatValue(invalidStrictObjectValues[i], { type: "object", strict: true })).to.equal(null);
 				expect(utilities.formatValue(invalidStrictObjectValues[i], { type: "object", strict: true }, { throwErrors: false })).to.equal(null);
@@ -1601,9 +1608,9 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when specified while formatting invalid strict object values", function() {
-			var errorThrown = null;
+			let errorThrown = null;
 
-			for(var i = 0; i < invalidStrictObjectValues.length; i++) {
+			for(let i = 0; i < invalidStrictObjectValues.length; i++) {
 				errorThrown = false;
 				try { utilities.formatValue(invalidStrictObjectValues[i], { type: "object", strict: true }, { throwErrors: true }); }
 				catch(error) { errorThrown = true; }
@@ -1612,13 +1619,13 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly generate objects with default values when autopopulate is set to true", function() {
-			var values = [
+			const values = [
 				{ },
 				{ the: null },
 				{ the: { game: "lost" } }
 			];
 
-			var formats = [
+			const formats = [
 				{
 					type: "object",
 					autopopulate: true
@@ -1675,7 +1682,7 @@ describe("Utilities", function() {
 				}
 			];
 
-			var results = [
+			const results = [
 				utilities.clone(values),
 				[
 					{
@@ -1733,8 +1740,8 @@ describe("Utilities", function() {
 				]
 			];
 
-			for(var i = 0; i < formats.length; i++) {
-				for(var j = 0; j < values.length; j++) {
+			for(let i = 0; i < formats.length; i++) {
+				for(let j = 0; j < values.length; j++) {
 					expect(utilities.formatValue(values[j], formats[i])).to.deep.equal(results[i][j]);
 					expect(utilities.formatValue(JSON.stringify(values[j]), formats[i], { throwErrors: false })).to.deep.equal(results[i][j]);
 					expect(utilities.formatValue(values[j], formats[i])).to.deep.equal(results[i][j]);
@@ -1744,12 +1751,12 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly remove extraneous attributes from objects when removeExtra is set to true and a valid format is specified", function() {
-			var values = [
+			const values = [
 				{ },
 				{ number: "5", is: { alive: true, dead: "no" } }
 			];
 
-			var formats = [
+			const formats = [
 				{
 					type: "object",
 					removeExtra: true
@@ -1804,7 +1811,7 @@ describe("Utilities", function() {
 				}
 			];
 
-			var results = [
+			const results = [
 				utilities.clone(values),
 				[
 					{ },
@@ -1824,8 +1831,8 @@ describe("Utilities", function() {
 				]
 			];
 
-			for(var i = 0; i < formats.length; i++) {
-				for(var j = 0; j < values.length; j++) {
+			for(let i = 0; i < formats.length; i++) {
+				for(let j = 0; j < values.length; j++) {
 					expect(utilities.formatValue(values[j], formats[i])).to.deep.equal(results[i][j]);
 					expect(utilities.formatValue(JSON.stringify(values[j]), formats[i], { throwErrors: false })).to.deep.equal(results[i][j]);
 					expect(utilities.formatValue(values[j], formats[i])).to.deep.equal(results[i][j]);
@@ -1835,12 +1842,12 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly re-order object attributes when order is set to true and a valid format is specified", function() {
-			var values = [
+			const values = [
 				{ },
 				{ d: null, b: 1, a: "2", c: "three" }
 			];
 
-			var formats = [
+			const formats = [
 				{
 					type: "object",
 					order: true
@@ -1865,7 +1872,7 @@ describe("Utilities", function() {
 				}
 			];
 
-			var results = [
+			const results = [
 				[
 					{ },
 					{ d: null, b: 1, a: "2", c: "three" }
@@ -1880,8 +1887,8 @@ describe("Utilities", function() {
 				]
 			];
 
-			for(var i = 0; i < formats.length; i++) {
-				for(var j = 0; j < values.length; j++) {
+			for(let i = 0; i < formats.length; i++) {
+				for(let j = 0; j < values.length; j++) {
 					expect(utilities.formatValue(values[j], formats[i])).to.deep.equal(results[i][j]);
 					expect(utilities.formatValue(JSON.stringify(values[j]), formats[i], { throwErrors: false })).to.deep.equal(results[i][j]);
 					expect(utilities.formatValue(values[j], formats[i])).to.deep.equal(results[i][j]);
@@ -1898,7 +1905,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when specified while formatting empty object values and nonEmpty is set to true", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue({ }, { type: "object", nonEmpty: true }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -1910,7 +1917,7 @@ describe("Utilities", function() {
 		});
 
 		it("should return null when formatting invalid strict object values", function() {
-			for(var i = 0; i < invalidStrictObjectValues.length; i++) {
+			for(let i = 0; i < invalidStrictObjectValues.length; i++) {
 
 				expect(utilities.formatValue(invalidStrictObjectValues[i], { type: "object", strict: true })).to.equal(null);
 				expect(utilities.formatValue(invalidStrictObjectValues[i], { type: "object", strict: true }, { throwErrors: false })).to.equal(null);
@@ -1918,9 +1925,9 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when specified while formatting invalid strict object values", function() {
-			var errorThrown = null;
+			let errorThrown = null;
 
-			for(var i = 0; i < invalidStrictObjectValues.length; i++) {
+			for(let i = 0; i < invalidStrictObjectValues.length; i++) {
 				errorThrown = false;
 				try { utilities.formatValue(invalidStrictObjectValues[i], { type: "object", strict: true }, { throwErrors: true }); }
 				catch(error) { errorThrown = true; }
@@ -1928,24 +1935,24 @@ describe("Utilities", function() {
 			}
 		});
 
-		var invalidArrayValues = testData.slice(2).filter(function(value, index) {
+		const invalidArrayValues = testData.slice(2).filter(function(value, index) {
 			return !Array.isArray(value);
 		});
 
 		invalidArrayValues.push("[", "{ }", "[no]");
 
 		it("should correctly format array values", function() {
-			var arrayValues = [];
+			const arrayValues = [];
 			arrayValues.push([]);
 			arrayValues.push([4, 2, 0]);
 			arrayValues.push([3, "inches", ["blood"], { u: "wot" }, false, null]);
 
-			var arrayResults = utilities.clone(arrayValues);
+			const arrayResults = utilities.clone(arrayValues);
 
-			var formats = [{ type: "array"}, { type: "aRrAy" }];
+			const formats = [{ type: "array"}, { type: "aRrAy" }];
 
-			for(var i = 0; i < arrayValues.length; i++) {
-				for(var j = 0; j < formats.length; j++) {
+			for(let i = 0; i < arrayValues.length; i++) {
+				for(let j = 0; j < formats.length; j++) {
 					expect(utilities.formatValue(arrayValues[i], formats[j])).to.deep.equal(arrayResults[i]);
 					expect(utilities.formatValue(JSON.stringify(arrayValues[i]), formats[j])).to.deep.equal(arrayResults[i]);
 					expect(utilities.formatValue(arrayValues[i], formats[j])).to.deep.equal(arrayResults[i]);
@@ -1960,15 +1967,15 @@ describe("Utilities", function() {
 		});
 
 		it("should return null when formatting invalid array values", function() {
-			for(var i = 0; i < invalidArrayValues.length; i++) {
+			for(let i = 0; i < invalidArrayValues.length; i++) {
 				expect(utilities.formatValue(invalidArrayValues[i], { type: "array" })).to.equal(null);
 				expect(utilities.formatValue(invalidArrayValues[i], { type: "ARRAY" }, { throwErrors: false })).to.equal(null);
 			}
 		});
 
 		it("should throw an error when formatting invalid array values when specified", function() {
-			for(var i = 0; i < invalidArrayValues.length; i++) {
-				var errorThrown = false;
+			for(let i = 0; i < invalidArrayValues.length; i++) {
+				let errorThrown = false;
 				try { utilities.formatValue(invalidArrayValues[i], { type: "array" }, { throwErrors: true }); }
 				catch(error) { errorThrown = true; }
 				expect(errorThrown).to.equal(true);
@@ -1983,7 +1990,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when specified while formatting empty array values and nonEmpty is set to true", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue([], { type: "array", nonEmpty: true }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -2003,10 +2010,10 @@ describe("Utilities", function() {
 				}
 			};
 
-			var regExpValues = [testRegExp, "/pop[ ]*the[ ]kettle/gmi", "/corporate/m", "/spy/i", "/ayy/gm", "/lmao/g", "/muggachini/"];
-			var regExpResults = [/.+/, /pop[ ]*the[ ]kettle/gmi, /corporate/m, /spy/i, /ayy/gm, /lmao/g, /muggachini/];
+			const regExpValues = [testRegExp, "/pop[ ]*the[ ]kettle/gmi", "/corporate/m", "/spy/i", "/ayy/gm", "/lmao/g", "/muggachini/"];
+			const regExpResults = [/.+/, /pop[ ]*the[ ]kettle/gmi, /corporate/m, /spy/i, /ayy/gm, /lmao/g, /muggachini/];
 
-			var regExpFlagSupported = {
+			const regExpFlagSupported = {
 				sticky: true,
 				unicode: true
 			};
@@ -2051,15 +2058,15 @@ describe("Utilities", function() {
 			regExpValues.push(new RegExp("3", "gmi"), new RegExp("4", "gm"), new RegExp("5", "g"), new RegExp("6"));
 			regExpResults.push(/3/gmi, /4/gm, /5/g, /6/);
 
-			var arrayValues = [];
+			const arrayValues = [];
 			arrayValues.push([]);
 			arrayValues.push([6, 9]);
 			arrayValues.push([5, "finger", ["death"], { punch: "!" }, true, null]);
 			arrayValues.push([[[420]]]);
 
-			var arrayResults = utilities.clone(arrayValues);
+			const arrayResults = utilities.clone(arrayValues);
 
-			var objectValues = [
+			const objectValues = [
 				[{ }],
 				[{ dynatron: "rise to the stars" }],
 				[testDate],
@@ -2070,18 +2077,18 @@ describe("Utilities", function() {
 				[new Boolean(true)]
 			];
 
-			var stringifiedObjectValues = [];
+			const stringifiedObjectValues = [];
 
-			for(var i = 0; i < objectValues.length; i++) {
+			for(let i = 0; i < objectValues.length; i++) {
 				stringifiedObjectValues.push(JSON.stringify(objectValues[i]));
 			}
 
 			objectValues.concat(stringifiedObjectValues);
 
-			var objectResults = utilities.clone(objectValues);
+			const objectResults = utilities.clone(objectValues);
 			objectResults.concat(objectResults);
 
-			var typedArrayValues = [
+			const typedArrayValues = [
 				{
 					formats: [
 						{ type: "bool"},
@@ -2214,9 +2221,9 @@ describe("Utilities", function() {
 				}
 			];
 
-			for(var i = 0; i < typedArrayValues.length; i++) {
-				for(var j = 0; j < typedArrayValues[i].values.length; j++) {
-					for(var k = 0; k < typedArrayValues[i].formats.length; k++) {
+			for(let i = 0; i < typedArrayValues.length; i++) {
+				for(let j = 0; j < typedArrayValues[i].values.length; j++) {
+					for(let k = 0; k < typedArrayValues[i].formats.length; k++) {
 						expect(utilities.formatValue(typedArrayValues[i].values[j], { type: "array", format: typedArrayValues[i].formats[k] })).to.deep.equal(typedArrayValues[i].results[j]);
 					}
 				}
@@ -2229,7 +2236,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when specified while formatting invalid array values with format options", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue([{ saint: "pepsi" }], { type: "array", format: { saint: { type: "float" } } }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -2265,7 +2272,7 @@ describe("Utilities", function() {
 		});
 
 		it("should allow errors to be thrown from a parser function when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try {
 				utilities.formatValue(420, {
 					type: "integer",
@@ -2313,7 +2320,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when specified if a validator function check fails", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try {
 				utilities.formatValue("{ \"ants\": [\"in\", \"my\", \"eyes\", \"johnson\"] }", {
 					type: "object",
@@ -2327,7 +2334,7 @@ describe("Utilities", function() {
 		});
 
 		it("should allow errors to be thrown from a validator function when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try {
 				utilities.formatValue({ smooth: "schleem" }, {
 					type: "string",
@@ -2349,10 +2356,10 @@ describe("Utilities", function() {
 					}
 				},
 				formatter: function(value, format, options) {
-					var attributes = Object.keys(value);
-					var formattedValue = "";
+					const attributes = Object.keys(value);
+					let formattedValue = "";
 
-					for(var i = 0; i < attributes.length; i++) {
+					for(let i = 0; i < attributes.length; i++) {
 						if(formattedValue.length !== 0) {
 							formattedValue += " ";
 						}
@@ -2380,7 +2387,7 @@ describe("Utilities", function() {
 		});
 
 		it("should allow errors to be thrown from a formatter function when specified", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try {
 				utilities.formatValue({ real: ["fake", "doors"] }, {
 					type: "object",
@@ -2410,7 +2417,7 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error for null values when nullable is set to false", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue(null, { type: "int", nullable: false }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
@@ -2428,20 +2435,20 @@ describe("Utilities", function() {
 		});
 
 		it("should throw an error when specified for null object attributes while nullable is set to false", function() {
-			var errorThrown = false;
+			let errorThrown = false;
 			try { utilities.formatValue({ null: null }, { type: "object", format: { null: { type: "bool", nullable: false } } }, { throwErrors: true }); }
 			catch(error) { errorThrown = true; }
 			expect(errorThrown).to.equal(true);
 		});
 
-		var missingValues = [undefined, null];
+		const missingValues = [undefined, null];
 
 		it("should substitute a default value when none is specified", function() {
 			function testFunction() {
 				return 2+2 === 4;
 			}
 
-			var formats = [
+			const formats = [
 				{ type: "boolean", default: true },
 				{ type: "bool", default: true },
 				{ type: "integer", default: -8 },
@@ -2458,8 +2465,8 @@ describe("Utilities", function() {
 				{ type: "array", default: ["alien", "invasion", "tomato", "monster", "mexican", "armada", "brothers", "who", "are", "just", "regular", "brothers", "running", "in", "a", "van", "from", "an", "asteroid", "and", "all", "sorts", "of", "things", "the", "movie"] },
 			];
 
-			for(var i = 0; i < formats.length; i++) {
-				for(var j = 0; j < missingValues.length; j++) {
+			for(let i = 0; i < formats.length; i++) {
+				for(let j = 0; j < missingValues.length; j++) {
 					expect(utilities.formatValue(missingValues[j], formats[i])).to.deep.equal(formats[i].default);
 					expect(utilities.formatValue(missingValues[j], utilities.merge(formats[i], { required: true }))).to.deep.equal(formats[i].default);
 				}
@@ -2467,28 +2474,28 @@ describe("Utilities", function() {
 		});
 
 		it("should return null when a required value is missing and no default is specified", function() {
-			var format = {
+			const format = {
 				type: "string",
 				required: true
 			};
 
-			for(var i = 0; i < missingValues.length; i++) {
+			for(let i = 0; i < missingValues.length; i++) {
 				expect(utilities.formatValue(missingValues[i], format)).to.equal(null);
 			}
 		});
 
 		it("should throw an error when specified if a required value is missing and no default is specified", function() {
-			var format = {
+			const format = {
 				type: "string",
 				required: true
 			};
 
-			var options = {
+			const options = {
 				throwErrors: true
 			};
 
-			var errorThrown = null;
-			for(var i = 0; i < missingValues.length; i++) {
+			let errorThrown = null;
+			for(let i = 0; i < missingValues.length; i++) {
 				errorThrown = false;
 				try { utilities.formatValue(missingValues[i], format, options); }
 				catch(error) { errorThrown = true; }
@@ -2501,7 +2508,7 @@ describe("Utilities", function() {
 				throw new Error("y u do dis");
 			}
 
-			var value = {
+			const value = {
 				firstName: " Kevin \t",
 				age: "30",
 				birthday: "June 18, 1987",
@@ -2570,7 +2577,7 @@ describe("Utilities", function() {
 				trash: [undefined]
 			};
 
-			var format = {
+			const format = {
 				type: "object",
 				strict: true,
 				nullable: true,
@@ -2618,9 +2625,9 @@ describe("Utilities", function() {
 								return "";
 							}
 
-							var formattedValue = "";
+							let formattedValue = "";
 
-							for(var i = 0; i < value.length; i++) {
+							for(let i = 0; i < value.length; i++) {
 								formattedValue += "*";
 							}
 
@@ -2661,9 +2668,9 @@ describe("Utilities", function() {
 								return [];
 							}
 
-							var formattedValue = [];
+							const formattedValue = [];
 
-							for(var i = 0; i < value.length; i++) {
+							for(let i = 0; i < value.length; i++) {
 								if(utilities.isEmptyString(value[i])) {
 									continue;
 								}
@@ -2773,7 +2780,7 @@ describe("Utilities", function() {
 				}
 			};
 
-			var result = {
+			const result = {
 				firstName: "Kevin",
 				age: 30,
 				birthday: new Date("June 18, 1987"),
@@ -2854,10 +2861,10 @@ describe("Utilities", function() {
 				}
 			};
 
-			var options = {
+			const options = {
 				throwErrors: true,
 				verbose: true
-			}
+			};
 
 			expect(utilities.formatValue(value, format, options)).to.deep.equal(result);
 		});
@@ -2870,7 +2877,7 @@ describe("Utilities", function() {
 	});
 
 	describe("formatStringList", function() {
-		var newTestData = testData.concat(",", ";", "board,", ",room", "same;", ";tie", " ;\te ,\tx ;\te ,\t \t");
+		const newTestData = testData.concat(",", ";", "board,", ",room", "same;", ";tie", " ;\te ,\tx ;\te ,\t \t");
 		newTestData.push(["SURPRISE", "KETCHUP"]);
 		newTestData.push([2, "pigeons", ".", "exe"]);
 		newTestData.push(["", " ", "\t"]);
@@ -2881,39 +2888,39 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, "", "", null, null, null, "", "", "board", "room", "same", "tie", "e, x, e", "SURPRISE, KETCHUP", "pigeons, ., exe", "", "cant"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, "", "", null, null, null, "", "", "board", "room", "same", "tie", "e, x, e", "SURPRISE, KETCHUP", "pigeons, ., exe", "", "cant"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.formatStringList(newTestData[i])).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with stringify set to false", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, "", "0", null, null, null, "", "", "board", "room", "same", "tie", "e, x, e", "SURPRISE, KETCHUP", "2, pigeons, ., exe", "", "cant, [object Object]"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, "", "0", null, null, null, "", "", "board", "room", "same", "tie", "e, x, e", "SURPRISE, KETCHUP", "2, pigeons, ., exe", "", "cant, [object Object]"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.formatStringList(newTestData[i], false)).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with stringify set to true", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, "", "0", null, null, null, "", "", "board", "room", "same", "tie", "e, x, e", "SURPRISE, KETCHUP", "2, pigeons, ., exe", "", "cant, {\"make\":\"it\"}"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, "", "0", null, null, null, "", "", "board", "room", "same", "tie", "e, x, e", "SURPRISE, KETCHUP", "2, pigeons, ., exe", "", "cant, {\"make\":\"it\"}"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.formatStringList(newTestData[i], true)).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("leftShift", function() {
-		var newTestData = testData.concat(-8, -1, -0.33, 0.64, 4, 88, 0xFFFFFFFF);
+		const newTestData = testData.concat(-8, -1, -0.33, 0.64, 4, 88, 0xFFFFFFFF);
 
 		it("should be a function", function() {
 			expect(utilities.leftShift).to.be.a("function");
 		});
 
 		it("should produce the correct result for each pair of test values", function() {
-			var results = [
+			const results = [
 				[NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
 				[NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
 				[NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
@@ -2945,8 +2952,8 @@ describe("Utilities", function() {
 				[NaN, NaN, NaN, NaN, NaN, NaN, 4294967295, 8589934590, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 16777215.99609375, 2147483647.5, NaN, NaN, 68719476720, 1329227995475430863082461991555563520, Infinity],
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
+			for(let i = 0; i < newTestData.length; i++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					if(isNaN(results[i][j])) {
 						expect(isNaN(utilities.leftShift(newTestData[i], newTestData[j]))).to.equal(true);
 					}
@@ -2959,14 +2966,14 @@ describe("Utilities", function() {
 	});
 
 	describe("rightShift", function() {
-		var newTestData = testData.concat(-8, -1, -0.33, 0.64, 4, 88, 0xFFFFFFFF);
+		const newTestData = testData.concat(-8, -1, -0.33, 0.64, 4, 88, 0xFFFFFFFF);
 
 		it("should be a function", function() {
 			expect(utilities.rightShift).to.be.a("function");
 		});
 
 		it("should produce the correct result for each pair of test values", function() {
-			var results = [
+			const results = [
 				[NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
 				[NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
 				[NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
@@ -2998,8 +3005,8 @@ describe("Utilities", function() {
 				[NaN, NaN, NaN, NaN, NaN, NaN, 4294967295, 2147483647.5, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 1099511627520, 8589934590, NaN, NaN, 268435455.9375, 1.3877787804583282487510131496169e-17, 0],
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
+			for(let i = 0; i < newTestData.length; i++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					if(isNaN(results[i][j])) {
 						expect(isNaN(utilities.rightShift(newTestData[i], newTestData[j]))).to.equal(true);
 					}
@@ -3012,254 +3019,254 @@ describe("Utilities", function() {
 	});
 
 	describe("trimString", function() {
-		var newTestData = testData.concat("   \t broden  kelly\t    \t");
+		const newTestData = testData.concat("   \t broden  kelly\t    \t");
 
 		it("should be a function", function() {
 			expect(utilities.trimString).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "broden  kelly"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "broden  kelly"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.trimString(newTestData[i])).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with a custom default", function() {
-			var results = ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "", "test", "trim", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "broden  kelly"];
+			const results = ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "", "test", "trim", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "broden  kelly"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.trimString(newTestData[i], "empty")).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("trimNullTerminatedString", function() {
-		var newTestData = testData.concat("   \t broden  kelly\t    \t", "\0", "MODMGR.EXE\0", "\0DUKESTAR.MAP", "2009.MAP\0\0\0\0", "EI.GRP\0EI.CON", "1999.GRP\0 1999.CON\0");
+		const newTestData = testData.concat("   \t broden  kelly\t    \t", "\0", "MODMGR.EXE\0", "\0DUKESTAR.MAP", "2009.MAP\0\0\0\0", "EI.GRP\0EI.CON", "1999.GRP\0 1999.CON\0");
 
 		it("should be a function", function() {
 			expect(utilities.trimNullTerminatedString).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim\t", null, null, null, null, null, null, null, "   \t broden  kelly\t    \t", "", "MODMGR.EXE", "", "2009.MAP", "EI.GRP", "1999.GRP"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim\t", null, null, null, null, null, null, null, "   \t broden  kelly\t    \t", "", "MODMGR.EXE", "", "2009.MAP", "EI.GRP", "1999.GRP"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.trimNullTerminatedString(newTestData[i])).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with a custom default", function() {
-			var results = ["nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "", "test", " trim\t", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "   \t broden  kelly\t    \t", "", "MODMGR.EXE", "", "2009.MAP", "EI.GRP", "1999.GRP"];
+			const results = ["nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "", "test", " trim\t", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "   \t broden  kelly\t    \t", "", "MODMGR.EXE", "", "2009.MAP", "EI.GRP", "1999.GRP"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.trimNullTerminatedString(newTestData[i], "nil")).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("trimWhitespace", function() {
-		var newTestData = testData.concat(" white space \t", "new\r\nlines\t\n");
+		const newTestData = testData.concat(" white space \t", "new\r\nlines\t\n");
 
 		it("should be a function", function() {
 			expect(utilities.trimWhitespace).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "white space", "new\r\nlines\n"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "white space", "new\r\nlines\n"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.trimWhitespace(newTestData[i])).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with trim new lines set to true", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "white space", "newlines"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "white space", "newlines"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.trimWhitespace(newTestData[i], true)).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("trimTrailingNewlines", function() {
-		var newTestData = testData.concat("new\r\nlines\t\n", "windows\r\n", "mac \r");
+		const newTestData = testData.concat("new\r\nlines\t\n", "windows\r\n", "mac \r");
 
 		it("should be a function", function() {
 			expect(utilities.trimTrailingNewlines).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim", null, null, null, null, null, null, null, "new\r\nlines", "windows", "mac"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim", null, null, null, null, null, null, null, "new\r\nlines", "windows", "mac"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.trimTrailingNewlines(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("replaceNonBreakingSpaces", function() {
-		var newTestData = testData.concat("&nbsp;", "a&nbsp;paragraph &nbsp; or \tsomething&nbsp");
+		const newTestData = testData.concat("&nbsp;", "a&nbsp;paragraph &nbsp; or \tsomething&nbsp");
 
 		it("should be a function", function() {
 			expect(utilities.replaceNonBreakingSpaces).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim\t", null, null, null, null, null, null, null, " ", "a paragraph   or \tsomething&nbsp"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim\t", null, null, null, null, null, null, null, " ", "a paragraph   or \tsomething&nbsp"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.replaceNonBreakingSpaces(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("indentText", function() {
-		var newTestData = testData.concat("lol \n\t", "door\r\n\tstuck ", "\tcant\rmake\nit\t");
+		const newTestData = testData.concat("lol \n\t", "door\r\n\tstuck ", "\tcant\rmake\nit\t");
 
 		it("should be a function", function() {
 			expect(utilities.indentText).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "\ttest", "\t trim\t", null, null, null, null, null, null, null, "\tlol \n", "\tdoor\n\t\tstuck ", "\t\tcant\n\tmake\n\tit\t"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "\ttest", "\t trim\t", null, null, null, null, null, null, null, "\tlol \n", "\tdoor\n\t\tstuck ", "\t\tcant\n\tmake\n\tit\t"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.indentText(newTestData[i])).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with custom amount", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "\t\t\ttest", "\t\t\t trim\t", null, null, null, null, null, null, null, "\t\t\tlol \n", "\t\t\tdoor\n\t\t\t\tstuck ", "\t\t\t\tcant\n\t\t\tmake\n\t\t\tit\t"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "\t\t\ttest", "\t\t\t trim\t", null, null, null, null, null, null, null, "\t\t\tlol \n", "\t\t\tdoor\n\t\t\t\tstuck ", "\t\t\t\tcant\n\t\t\tmake\n\t\t\tit\t"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.indentText(newTestData[i], 3)).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with no amount", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim\t", null, null, null, null, null, null, null, "lol \n", "door\n\tstuck ", "\tcant\nmake\nit\t"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim\t", null, null, null, null, null, null, null, "lol \n", "door\n\tstuck ", "\tcant\nmake\nit\t"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.indentText(newTestData[i], 0)).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with invalid amount", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "\ttest", "\t trim\t", null, null, null, null, null, null, null, "\tlol \n", "\tdoor\n\t\tstuck ", "\t\tcant\n\tmake\n\tit\t"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "\ttest", "\t trim\t", null, null, null, null, null, null, null, "\tlol \n", "\tdoor\n\t\tstuck ", "\t\tcant\n\tmake\n\tit\t"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.indentText(newTestData[i], null)).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with negative amount", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim\t", null, null, null, null, null, null, null, "lol \n", "door\n\tstuck ", "\tcant\nmake\nit\t"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim\t", null, null, null, null, null, null, null, "lol \n", "door\n\tstuck ", "\tcant\nmake\nit\t"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.indentText(newTestData[i], -420)).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with custom amount and indentation", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "?!?!test", "?!?! trim\t", null, null, null, null, null, null, null, "?!?!lol \n", "?!?!door\n?!?!\tstuck ", "?!?!\tcant\n?!?!make\n?!?!it\t"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "?!?!test", "?!?! trim\t", null, null, null, null, null, null, null, "?!?!lol \n", "?!?!door\n?!?!\tstuck ", "?!?!\tcant\n?!?!make\n?!?!it\t"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.indentText(newTestData[i], 2, "?!")).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with custom amount and space indentation", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "    test", "     trim\t", null, null, null, null, null, null, null, "    lol \n", "    door\n    \tstuck ", "    \tcant\n    make\n    it\t"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "    test", "     trim\t", null, null, null, null, null, null, null, "    lol \n", "    door\n    \tstuck ", "    \tcant\n    make\n    it\t"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.indentText(newTestData[i], 4, " ")).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with custom amount and empty indentation", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim\t", null, null, null, null, null, null, null, "lol \n", "door\n\tstuck ", "\tcant\nmake\nit\t"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim\t", null, null, null, null, null, null, null, "lol \n", "door\n\tstuck ", "\tcant\nmake\nit\t"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.indentText(newTestData[i], 69, "")).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with custom amount and invalid indentation", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "\t\t\t\t\ttest", "\t\t\t\t\t trim\t", null, null, null, null, null, null, null, "\t\t\t\t\tlol \n", "\t\t\t\t\tdoor\n\t\t\t\t\t\tstuck ", "\t\t\t\t\t\tcant\n\t\t\t\t\tmake\n\t\t\t\t\tit\t"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "\t\t\t\t\ttest", "\t\t\t\t\t trim\t", null, null, null, null, null, null, null, "\t\t\t\t\tlol \n", "\t\t\t\t\tdoor\n\t\t\t\t\t\tstuck ", "\t\t\t\t\t\tcant\n\t\t\t\t\tmake\n\t\t\t\t\tit\t"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.indentText(newTestData[i], 5, null)).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with invalid amount and indentation", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "\ttest", "\t trim\t", null, null, null, null, null, null, null, "\tlol \n", "\tdoor\n\t\tstuck ", "\t\tcant\n\tmake\n\tit\t"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "\ttest", "\t trim\t", null, null, null, null, null, null, null, "\tlol \n", "\tdoor\n\t\tstuck ", "\t\tcant\n\tmake\n\tit\t"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.indentText(newTestData[i], null, null)).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with custom amount and indentation and clear empty lines set to false", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "( . Y . )", "( . Y . )test", "( . Y . ) trim\t", null, null, null, null, null, null, null, "( . Y . )lol \n( . Y . )\t", "( . Y . )door\n( . Y . )\tstuck ", "( . Y . )\tcant\n( . Y . )make\n( . Y . )it\t"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "( . Y . )", "( . Y . )test", "( . Y . ) trim\t", null, null, null, null, null, null, null, "( . Y . )lol \n( . Y . )\t", "( . Y . )door\n( . Y . )\tstuck ", "( . Y . )\tcant\n( . Y . )make\n( . Y . )it\t"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.indentText(newTestData[i], 1, "( . Y . )", false)).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("trimLeadingZeroes", function() {
-		var newTestData = testData.concat(" ", "\t", "0", "00", "000", "420", "007", "00000010L");
+		const newTestData = testData.concat(" ", "\t", "0", "00", "000", "420", "007", "00000010L");
 
 		it("should be a function", function() {
 			expect(utilities.trimLeadingZeroes).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "", "", "0", "0", "0", "420", "7", "10L"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "", "", "0", "0", "0", "420", "7", "10L"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.trimLeadingZeroes(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("addLeadingZeroes", function() {
-		var newTestData = testData.concat(" ", "\t", "0", "007", "Corporate Spy");
+		const newTestData = testData.concat(" ", "\t", "0", "007", "Corporate Spy");
 
 		it("should be a function", function() {
 			expect(utilities.addLeadingZeroes).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "[object Object]", "[object Object]", "", "0", testDate.toString(), emptyFunctionString, "/.+/", " ", "\t", "0", "007", "Corporate Spy"];
+			const results = [null, null, "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "[object Object]", "[object Object]", "", "0", testDate.toString(), emptyFunctionString, "/.+/", " ", "\t", "0", "007", "Corporate Spy"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.addLeadingZeroes(newTestData[i])).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with an expected length of 5", function() {
-			var results = [null, null, "false", "0true", "false", "0true", "00000", "00001", "3.141592654", "00NaN", "Infinity", "-Infinity", "00000", "0test", " trim\t", "[object Object]", "[object Object]", "00000", "00000", testDate.toString(), emptyFunctionString, "0/.+/", "0000 ", "0000\t", "00000", "00007", "Corporate Spy"];
+			const results = [null, null, "false", "0true", "false", "0true", "00000", "00001", "3.141592654", "00NaN", "Infinity", "-Infinity", "00000", "0test", " trim\t", "[object Object]", "[object Object]", "00000", "00000", testDate.toString(), emptyFunctionString, "0/.+/", "0000 ", "0000\t", "00000", "00007", "Corporate Spy"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.addLeadingZeroes(newTestData[i], 5)).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with an expected length of 20", function() {
-			var functionStringPadded = emptyFunctionString;
+			let functionStringPadded = emptyFunctionString;
 
-			for(var i = emptyFunctionString.length; i < 20; i++) {
+			for(let i = emptyFunctionString.length; i < 20; i++) {
 				functionStringPadded = "0" + functionStringPadded;
 			}
 
-			var results = [null, null, "000000000000000false", "0000000000000000true", "000000000000000false", "0000000000000000true", "00000000000000000000", "00000000000000000001", "0000000003.141592654", "00000000000000000NaN", "000000000000Infinity", "00000000000-Infinity", "00000000000000000000", "0000000000000000test", "00000000000000 trim\t", "00000[object Object]", "00000[object Object]", "00000000000000000000", "00000000000000000000", testDate.toString(), functionStringPadded, "0000000000000000/.+/", "0000000000000000000 ", "0000000000000000000\t", "00000000000000000000", "00000000000000000007", "0000000Corporate Spy"];
+			const results = [null, null, "000000000000000false", "0000000000000000true", "000000000000000false", "0000000000000000true", "00000000000000000000", "00000000000000000001", "0000000003.141592654", "00000000000000000NaN", "000000000000Infinity", "00000000000-Infinity", "00000000000000000000", "0000000000000000test", "00000000000000 trim\t", "00000[object Object]", "00000[object Object]", "00000000000000000000", "00000000000000000000", testDate.toString(), functionStringPadded, "0000000000000000/.+/", "0000000000000000000 ", "0000000000000000000\t", "00000000000000000000", "00000000000000000007", "0000000Corporate Spy"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.addLeadingZeroes(newTestData[i], 20)).to.equal(results[i]);
 			}
 		});
@@ -3268,30 +3275,30 @@ describe("Utilities", function() {
 	describe("toString", function() {
 		function func() { console.log("All this talk of tea is getting me thirsty, shall I pop the kettle on?"); };
 
-		var newTestData = testData.concat(new Error("There are tales of pots."), utilities.createError("A watched pot never boils.", 69), func, /delicious.*muggachini/gmi);
+		const newTestData = testData.concat(new Error("There are tales of pots."), utilities.createError("A watched pot never boils.", 69), func, /delicious.*muggachini/gmi);
 
 		it("should be a function", function() {
 			expect(utilities.toString).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = ["undefined", "null", "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", "{\"message\":\"There are tales of pots.\"}", "{\"message\":\"A watched pot never boils.\",\"status\":69}", func.toString(), "/delicious.*muggachini/gmi"];
+			const results = ["undefined", "null", "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", "{\"message\":\"There are tales of pots.\"}", "{\"message\":\"A watched pot never boils.\",\"status\":69}", func.toString(), "/delicious.*muggachini/gmi"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.toString(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("compareDates", function() {
-		var newTestData = testData.concat("June 5, 2012", "June 18, 1987 3:30 PM", "2018-02-19T06:19:33Z", testDate.getTime(), testDate.toString(), testDate.getTime().toString());
+		const newTestData = testData.concat("June 5, 2012", "June 18, 1987 3:30 PM", "2018-02-19T06:19:33Z", testDate.getTime(), testDate.toString(), testDate.getTime().toString());
 
 		it("should be a function", function() {
 			expect(utilities.compareDates).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [
+			const results = [
 				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
 				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
 				[0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -1, -1, -1, -1, -1],
@@ -3322,8 +3329,8 @@ describe("Utilities", function() {
 				[1, 1, 1, 1, 1, 1, testDate.getTime(), testDate.getTime() - 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, testDate.getTime() - new Date(newTestData[22]).getTime(), testDate.getTime() - new Date(newTestData[23]).getTime(), testDate.getTime() - new Date(newTestData[24]).getTime(), 0, testDate.getTime() - new Date(testDate.toString()).getTime(), 0],
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
+			for(let i = 0; i < newTestData.length; i++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					expect(utilities.compareDates(newTestData[i], newTestData[j])).to.equal(results[i][j]);
 				}
 			}
@@ -3331,38 +3338,38 @@ describe("Utilities", function() {
 	});
 
 	describe("compareCasePercentage", function() {
-		var newTestData = testData.concat("X", "y", "Ab", "cD", "if it's out there, i'll find it.", "NEED SOMETHING DESTROYED?", "xX_YoLo_420_SwAg_MaSt3r_Xx");
+		const newTestData = testData.concat("X", "y", "Ab", "cD", "if it's out there, i'll find it.", "NEED SOMETHING DESTROYED?", "xX_YoLo_420_SwAg_MaSt3r_Xx");
 
 		it("should be a function", function() {
 			expect(utilities.compareCasePercentage).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -4, -4, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, -22, 22, -1];
+			const results = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -4, -4, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, -22, 22, -1];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.compareCasePercentage(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("reverseString", function() {
-		var newTestData = testData.concat("Take it back a little.", "XotoX");
+		const newTestData = testData.concat("Take it back a little.", "XotoX");
 
 		it("should be a function", function() {
 			expect(utilities.reverseString).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "tset", "\tmirt ", null, null, null, null, null, null, null, ".elttil a kcab ti ekaT", "XotoX"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "tset", "\tmirt ", null, null, null, null, null, null, null, ".elttil a kcab ti ekaT", "XotoX"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.reverseString(newTestData[i])).to.equal(results[i]);
 			}
 		});
 
 		it("should properly handle values with unicode and special characters", function() {
-			var newTestData = [
+			const newTestData = [
 				"mañana mañana",
 				"ma\xF1ana",
 				"foo\u0303\u035C\u035D\u035Ebar",
@@ -3375,7 +3382,7 @@ describe("Utilities", function() {
 				"τα ωραία δοκιμές"
 			];
 
-			var newResults = [
+			const newResults = [
 				"anañam anañam",
 				"ana\xF1am",
 				"rabo\u0303\u035C\u035D\u035Eof",
@@ -3388,7 +3395,7 @@ describe("Utilities", function() {
 				"ςέμικοδ αίαρω ατ"
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.reverseString(newTestData[i])).to.equal(newResults[i]);
 			}
 		});
@@ -3400,9 +3407,9 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var error = null;
+			let error = null;
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				error = utilities.createError(testData[i]);
 
 				expect(utilities.isError(error)).to.equal(true);
@@ -3422,11 +3429,11 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value and custom status code", function() {
-			var error = null;
-			var testStatusCodes = [-420, -1, 0, 1, 201, 422, 500, 9000, 3.50, NaN, -Infinity, Infinity];
+			let error = null;
+			const testStatusCodes = [-420, -1, 0, 1, 201, 422, 500, 9000, 3.50, NaN, -Infinity, Infinity];
 
-			for(var i = 0; i < testData.length; i++) {
-				for(var j = 0; j < testStatusCodes.length; j++) {
+			for(let i = 0; i < testData.length; i++) {
+				for(let j = 0; j < testStatusCodes.length; j++) {
 					error = utilities.createError(testData[i], testStatusCodes[j]);
 
 					expect(utilities.isError(error)).to.equal(true);
@@ -3453,9 +3460,9 @@ describe("Utilities", function() {
 		});
 
 		it("should result in primitive types being equal", function() {
-			var clone = null;
+			let clone = null;
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				if(!utilities.isObject(testData[i])) {
 					clone = utilities.clone(testData[i]);
 
@@ -3470,9 +3477,9 @@ describe("Utilities", function() {
 		});
 
 		it("should result in non-primitive types not being equal", function() {
-			var clone = null;
+			let clone = null;
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				if(utilities.isObject(testData[i])) {
 					clone = utilities.clone(testData[i]);
 
@@ -3482,9 +3489,9 @@ describe("Utilities", function() {
 		});
 
 		it("should produce values that are equal by stringified comparison", function() {
-			var clone = null;
+			let clone = null;
 
-			for(var i = 0; i < testData.length; i++) {
+			for(let i = 0; i < testData.length; i++) {
 				clone = utilities.clone(testData[i]);
 
 				expect(testData[i]).to.deep.equal(clone);
@@ -3506,15 +3513,15 @@ describe("Utilities", function() {
 		});
 
 		it("should successfully clone array values", function() {
-			var arrayValues = [];
+			const arrayValues = [];
 			arrayValues.push([]);
 			arrayValues.push([0]);
 			arrayValues.push([42, "reasons", ["for"], { ur: "mum" }, false]);
 			arrayValues.push([[[1337]]]);
 
-			var clone = null;
+			let clone = null;
 
-			for(var i = 0; i < arrayValues.length; i++) {
+			for(let i = 0; i < arrayValues.length; i++) {
 				clone = utilities.clone(arrayValues[i]);
 
 				expect(clone instanceof Array).to.equal(true);
@@ -3523,11 +3530,11 @@ describe("Utilities", function() {
 		});
 
 		it("should successfully clone a complex object", function() {
-			var subObject = {
+			const subObject = {
 				nice: "meme"
 			};
 
-			var object = [
+			const object = [
 				null,
 				"2pigons.exe",
 				function() {
@@ -3540,12 +3547,12 @@ describe("Utilities", function() {
 				[6, 9]
 			];
 
-			var clone = utilities.clone(object);
+			const clone = utilities.clone(object);
 
 			expect(object).to.not.equal(clone);
 			expect(object).to.deep.equal(clone);
 
-			for(var index in object) {
+			for(let index in object) {
 				if(utilities.isObject(object[index])) {
 					expect(object[index]).to.not.equal(clone[index]);
 				}
@@ -3556,7 +3563,7 @@ describe("Utilities", function() {
 		});
 
 		it("should successfully clone a complex regular expression", function() {
-			var regExpFlagSupported = {
+			const regExpFlagSupported = {
 				sticky: true,
 				unicode: true
 			};
@@ -3575,36 +3582,36 @@ describe("Utilities", function() {
 				regExpFlagSupported.unicode = false;
 			}
 
-			var regExp = new RegExp("([A-Za-z]*)([0-9]+)", "gmi" + (regExpFlagSupported.sticky ? "y" : "") + (regExpFlagSupported.unicode ? "u" : ""));
-			var clone = utilities.clone(regExp);
+			const regExp = new RegExp("([A-Za-z]*)([0-9]+)", "gmi" + (regExpFlagSupported.sticky ? "y" : "") + (regExpFlagSupported.unicode ? "u" : ""));
+			const clone = utilities.clone(regExp);
 
 			expect(regExp).to.not.equal(clone);
 			expect(regExp).to.deep.equal(clone);
 
-			for(var attribute in ["source", "global", "multiline", "ignoreCase", "sticky", "unicode"]) {
+			for(let attribute in ["source", "global", "multiline", "ignoreCase", "sticky", "unicode"]) {
 				expect(regExp[attribute]).to.equal(clone[attribute]);
 			}
 		});
 
 		it("should successfully clone a complex error", function() {
-			var error = utilities.createError("Pickle surprise!", 420);
-			var clone = utilities.clone(error);
+			const error = utilities.createError("Pickle surprise!", 420);
+			const clone = utilities.clone(error);
 
 			expect(error).to.not.equal(clone);
 			expect(utilities.toString(error)).to.equal(utilities.toString(clone));
 
-			for(var attribute in error) {
+			for(let attribute in error) {
 				expect(error[attribute]).to.equal(clone[attribute]);
 			}
 
-			for(var attribute in ["fileName", "lineNumber", "columnNumber", "stack"]) {
+			for(let attribute in ["fileName", "lineNumber", "columnNumber", "stack"]) {
 				expect(error[attribute]).to.equal(clone[attribute]);
 			}
 		});
 
 		it("should successfully clone a buffer", function() {
-			var buffer = null;
-			var message = "I'm making a note here: HUGE SUCCESS!";
+			let buffer = null;
+			const message = "I'm making a note here: HUGE SUCCESS!";
 
 			if(Buffer.from instanceof Function) {
 				buffer = Buffer.from(message)
@@ -3613,15 +3620,15 @@ describe("Utilities", function() {
 				buffer = new Buffer(message);
 			}
 
-			var clone = utilities.clone(buffer);
+			const clone = utilities.clone(buffer);
 
 			expect(buffer).to.not.equal(clone);
 			expect(buffer.toString()).to.equal(clone.toString());
 		});
 
 		it("should successfully clone an object with an undefined attribute value", function() {
-			var object = { undefined: undefined };
-			var clone = utilities.clone(object);
+			const object = { undefined: undefined };
+			const clone = utilities.clone(object);
 
 			expect(object).to.not.equal(clone);
 			expect(object).to.deep.equal(clone);
@@ -3629,7 +3636,7 @@ describe("Utilities", function() {
 	});
 
 	describe("merge", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			{
 				new: {
 					phone: {
@@ -3677,7 +3684,7 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.merge(newTestData[i])).to.deep.equal(utilities.merge(newTestData[i]));
 				expect(utilities.merge(newTestData[i], true)).to.deep.equal(utilities.merge(newTestData[i]));
 				expect(utilities.merge(newTestData[i], false)).to.deep.equal(utilities.merge(newTestData[i]));
@@ -3687,7 +3694,7 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value pair with copy and deep merge enabled", function() {
-			var results = [
+			const results = [
 				null, null, null, null, new Boolean(false), new Boolean(true), null, null, null, null, null, null, null, null, null,
 				[
 					{ }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { nice: "meme" }, { }, { }, { }, { }, { },
@@ -3794,8 +3801,8 @@ describe("Utilities", function() {
 				null, null
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
+			for(let i = 0; i < newTestData.length; i++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					if(Array.isArray(results[i])) {
 						expect(utilities.merge(newTestData[i], newTestData[j])).to.deep.equal(results[i][j]);
 						expect(utilities.merge(newTestData[i], newTestData[j], true)).to.deep.equal(results[i][j]);
@@ -3811,7 +3818,7 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value pair with copy enabled and deep merge disabled", function() {
-			var results = [
+			const results = [
 				null, null, null, null, new Boolean(false), new Boolean(true), null, null, null, null, null, null, null, null, null,
 				[
 					{ }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { nice: "meme" }, { }, { }, { }, { }, { },
@@ -3918,8 +3925,8 @@ describe("Utilities", function() {
 				null, null
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
+			for(let i = 0; i < newTestData.length; i++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					if(Array.isArray(results[i])) {
 						expect(utilities.merge(newTestData[i], newTestData[j], true, false)).to.deep.equal(results[i][j]);
 					}
@@ -3931,9 +3938,9 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value pair with copy disabled and deep merge enabled", function() {
-			var result = { };
+			const result = { };
 
-			var results = [
+			const results = [
 				{ }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { },
 				{ nice: "meme" },
 				{ nice: "meme" },
@@ -3948,15 +3955,15 @@ describe("Utilities", function() {
 				{ nice: "pants", new: 69, ketchup: ["muckin'", "around"], spooky: { ghost: false, man: false, yeah: "yeah yeah!", radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 }
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.merge(result, newTestData[i], false, true)).to.deep.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value pair with copy and deep merge disabled", function() {
-			var result = { };
+			const result = { };
 
-			var results = [
+			const results = [
 				{ }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { }, { },
 				{ nice: "meme" },
 				{ nice: "meme" },
@@ -3971,7 +3978,7 @@ describe("Utilities", function() {
 				{ nice: "pants", new: 69, ketchup: ["muckin'", "around"], spooky: { ghost: false, man: false, radar: { jammed: false, type: null, bleeps: true, creeps: true, sweeps: true } }, dank: 420 }
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.merge(result, newTestData[i], false, false)).to.deep.equal(results[i]);
 			}
 		});
@@ -3983,11 +3990,11 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var newTestData = testData.concat("surprise.ketchup", "/biocratic/zesty_surprise.mp3", "less-gunk/more-funk", "empty/", "also\\", "frank_klepacki\\hell_march.mp3", "\\extra\\fresh");
+			const newTestData = testData.concat("surprise.ketchup", "/biocratic/zesty_surprise.mp3", "less-gunk/more-funk", "empty/", "also\\", "frank_klepacki\\hell_march.mp3", "\\extra\\fresh");
 
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "surprise.ketchup", "zesty_surprise.mp3", "more-funk", "", "", "hell_march.mp3", "fresh"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "surprise.ketchup", "zesty_surprise.mp3", "more-funk", "", "", "hell_march.mp3", "fresh"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.getFileName(newTestData[i])).to.equal(results[i]);
 			}
 		});
@@ -3999,65 +4006,65 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var newTestData = testData.concat("holy.smokes", "/daniel/from.sl", "elektronik/supersonik", "lorn/", "acid-rain\\", "steamed\\hams.avi", "\\bushworld\\adventures");
+			const newTestData = testData.concat("holy.smokes", "/daniel/from.sl", "elektronik/supersonik", "lorn/", "acid-rain\\", "steamed\\hams.avi", "\\bushworld\\adventures");
 
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "", "", null, null, null, null, null, null, null, "", "/daniel", "elektronik", "lorn", "acid-rain", "steamed", "\\bushworld"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "", "", null, null, null, null, null, null, null, "", "/daniel", "elektronik", "lorn", "acid-rain", "steamed", "\\bushworld"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.getFilePath(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("getFileNameNoExtension", function() {
-		var newTestData = testData.concat();
+		const newTestData = testData.concat();
 
 		it("should be a function", function() {
 			expect(utilities.getFileNameNoExtension).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var newTestData = testData.concat("intergalactic.mosquito", "/lods/of/emon.e", "whats/that/spell", "probly/", "black-salami\\", "wisp\\cresp.chip", "\\here\\comes\\the\\pizza");
+			const newTestData = testData.concat("intergalactic.mosquito", "/lods/of/emon.e", "whats/that/spell", "probly/", "black-salami\\", "wisp\\cresp.chip", "\\here\\comes\\the\\pizza");
 
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "intergalactic", "emon", "spell", "", "", "cresp", "pizza"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "intergalactic", "emon", "spell", "", "", "cresp", "pizza"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.getFileNameNoExtension(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("getFileExtension", function() {
-		var newTestData = testData.concat();
+		const newTestData = testData.concat();
 
 		it("should be a function", function() {
 			expect(utilities.getFileExtension).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var newTestData = testData.concat("lex.phantom.hive", "/aunty/donna.au", "beardy/man", "doot/", "clicky-crisp\\", "warm\\it.up", "\\literally\\unplayable\\");
+			const newTestData = testData.concat("lex.phantom.hive", "/aunty/donna.au", "beardy/man", "doot/", "clicky-crisp\\", "warm\\it.up", "\\literally\\unplayable\\");
 
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "", "", null, null, null, null, null, null, null, "hive", "au", "", "", "", "up", ""];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "", "", null, null, null, null, null, null, null, "hive", "au", "", "", "", "up", ""];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.getFileExtension(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("fileHasExtension", function() {
-		var newTestData = testData.concat();
+		const newTestData = testData.concat();
 
 		it("should be a function", function() {
 			expect(utilities.fileHasExtension).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var newTestData = testData.concat("pancore-jack.hammer", "/HK/G.11", "mega/drive", "bustin/", "john-cena\\", "deal\\with.it", "\\brave\\new\\rust\\", ".it");
+			const newTestData = testData.concat("pancore-jack.hammer", "/HK/G.11", "mega/drive", "bustin/", "john-cena\\", "deal\\with.it", "\\brave\\new\\rust\\", ".it");
 
-			var extensions = ["", "exe", "hammer", "11", "it"];
+			const extensions = ["", "exe", "hammer", "11", "it"];
 
-			var results = [
+			const results = [
 				[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
 				[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
 				[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false],
@@ -4065,8 +4072,8 @@ describe("Utilities", function() {
 				[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  false, true ]
 			];
 
-			for(var i = 0; i < extensions.length; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
+			for(let i = 0; i < extensions.length; i++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					expect(utilities.fileHasExtension(newTestData[j], extensions[i])).to.equal(results[i][j]);
 				}
 			}
@@ -4074,34 +4081,34 @@ describe("Utilities", function() {
 	});
 
 	describe("reverseFileExtension", function() {
-		var newTestData = testData.concat();
+		const newTestData = testData.concat();
 
 		it("should be a function", function() {
 			expect(utilities.reverseFileExtension).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var newTestData = testData.concat("lex.phantom.hive", "/aunty/donna.au", "beardy/man", "doot/", "clicky-crisp\\", "warm\\it.up", "\\literally\\unplayable\\");
+			const newTestData = testData.concat("lex.phantom.hive", "/aunty/donna.au", "beardy/man", "doot/", "clicky-crisp\\", "warm\\it.up", "\\literally\\unplayable\\");
 
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "lex.phantom.evih", "/aunty/donna.ua", "beardy/man", "doot/", "clicky-crisp\\", "warm\\it.pu", "\\literally\\unplayable\\"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "lex.phantom.evih", "/aunty/donna.ua", "beardy/man", "doot/", "clicky-crisp\\", "warm\\it.pu", "\\literally\\unplayable\\"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.reverseFileExtension(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("truncateFileName", function() {
-		var newTestData = testData.concat();
+		const newTestData = testData.concat();
 
 		it("should be a function", function() {
 			expect(utilities.truncateFileName).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var newTestData = testData.concat("final.space", "/shrivelled/carcasses/of/depress.ion", "hes/in/there", "func_vehicle/", "hardcore-henry\\", "mean\\jerk.time", "\\kraft\\werk\\", "black-salami.mp4");
+			const newTestData = testData.concat("final.space", "/shrivelled/carcasses/of/depress.ion", "hes/in/there", "func_vehicle/", "hardcore-henry\\", "mean\\jerk.time", "\\kraft\\werk\\", "black-salami.mp4");
 
-			var maxLengths = [
+			const maxLengths = [
 				-1,
 				0,
 				3,
@@ -4110,7 +4117,7 @@ describe("Utilities", function() {
 				14
 			];
 
-			var results = [
+			const results = [
 				[null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "final.space", "depress.ion", "there", "", "", "jerk.time", "", "black-salami.mp4"],
 				[null, null, null, null, null, null, null, null, null, null, null, null, "", "", "", null, null, null, null, null, null, null, "", "", "", "", "", "", "", ""],
 				[null, null, null, null, null, null, null, null, null, null, null, null, "", "tes", "tri", null, null, null, null, null, null, null, "fin", "dep", "the", "", "", "jer", "", "bla"],
@@ -4119,12 +4126,12 @@ describe("Utilities", function() {
 				[null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "final.space", "depress.ion", "there", "", "", "jerk.time", "", "black-sala.mp4"]
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.truncateFileName(newTestData[i])).to.equal(results[0][i]);
 			}
 
-			for(var i = 0; i < maxLengths.length; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
+			for(let i = 0; i < maxLengths.length; i++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					expect(utilities.truncateFileName(newTestData[j], maxLengths[i])).to.equal(results[i][j]);
 				}
 			}
@@ -4132,7 +4139,7 @@ describe("Utilities", function() {
 	});
 
 	describe("prependSlash", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			" ",
 			"\t",
 			"/ ",
@@ -4155,16 +4162,16 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "/test", "/trim", null, null, null, null, null, null, null, "", "", "/", "/", "/", "\\", "\\", "\\", "\\", "/ocean/man", "/no/u", "/habib/tahktar/", "\\goliath\\online", "\\im\\in\\a\\pickle", "/finally\\"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "/test", "/trim", null, null, null, null, null, null, null, "", "", "/", "/", "/", "\\", "\\", "\\", "\\", "/ocean/man", "/no/u", "/habib/tahktar/", "\\goliath\\online", "\\im\\in\\a\\pickle", "/finally\\"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.prependSlash(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("appendSlash", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			" ",
 			"\t",
 			"/ ",
@@ -4187,16 +4194,16 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test/", "trim/", null, null, null, null, null, null, null, "", "", "/", "/", "/", "\\", "\\", "\\", "\\", "/take/me/by/the/hand/", "/ayy/lmao/", "northern/petrol/", "\\door\\stuck/", "\\do\\u\\kno\\da\\wae/", "wau\\"];
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test/", "trim/", null, null, null, null, null, null, null, "", "", "/", "/", "/", "\\", "\\", "\\", "\\", "/take/me/by/the/hand/", "/ayy/lmao/", "northern/petrol/", "\\door\\stuck/", "\\do\\u\\kno\\da\\wae/", "wau\\"];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.appendSlash(newTestData[i])).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("joinPaths", function() {
-		var newTestData = [
+		const newTestData = [
 			{
 				left: null,
 				right: null,
@@ -4284,16 +4291,16 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.joinPaths(newTestData[i].left, newTestData[i].right)).to.equal(newTestData[i].result);
 			}
 		});
 	});
 
 	describe("createQueryString", function() {
-		var encodedTestDateString = encodeURIComponent(utilities.toString(testDate));
+		const encodedTestDateString = encodeURIComponent(utilities.toString(testDate));
 
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			{ "pickle": "surprise!" },
 			{ "bargain": "=/bOyz: #&ePi$oDe, +1?" },
 			{ "#you/require, @dd:+!onal&=pylon$?": 420.69 },
@@ -4302,42 +4309,42 @@ describe("Utilities", function() {
 			{ a: undefined, b: null, c: false, d: true, e: new Boolean(false), f: new Boolean(true), g: -1, h: 0, i: 1, j: 3.141592654, k: Infinity, l: -Infinity, m: "", n: "test", o: " trim\t", p: {}, q: { nice: "meme" }, r: [], s: [0], t: testDate, u: function() { }, v: new RegExp(".+") }
 		);
 
-		var results = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "nice=meme", "", "", "", "", "", "pickle=surprise!", "bargain=%3D%2FbOyz%3A%20%23%26ePi%24oDe%2C%20%2B1%3F", "%23you%2Frequire%2C%20%40dd%3A%2B!onal%26%3Dpylon%24%3F=420.69", "who=%7B%22dat%22%3A%22boy%22%7D", "nice=%5B%22meme%22%2C%22m\'lady%22%5D", "a=undefined&b=null&c=false&d=true&e=false&f=true&g=-1&h=0&i=1&j=3.141592654&k=Infinity&l=-Infinity&m=&n=test&o=%20trim%09&p=%7B%7D&q=%7B%22nice%22%3A%22meme%22%7D&r=%5B%5D&s=%5B0%5D&t=" + encodedTestDateString + "&u=" + encodeURIComponent(emptyFunctionString) + "&v=%2F.%2B%2F"];
+		const results = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "nice=meme", "", "", "", "", "", "pickle=surprise!", "bargain=%3D%2FbOyz%3A%20%23%26ePi%24oDe%2C%20%2B1%3F", "%23you%2Frequire%2C%20%40dd%3A%2B!onal%26%3Dpylon%24%3F=420.69", "who=%7B%22dat%22%3A%22boy%22%7D", "nice=%5B%22meme%22%2C%22m\'lady%22%5D", "a=undefined&b=null&c=false&d=true&e=false&f=true&g=-1&h=0&i=1&j=3.141592654&k=Infinity&l=-Infinity&m=&n=test&o=%20trim%09&p=%7B%7D&q=%7B%22nice%22%3A%22meme%22%7D&r=%5B%5D&s=%5B0%5D&t=" + encodedTestDateString + "&u=" + encodeURIComponent(emptyFunctionString) + "&v=%2F.%2B%2F"];
 
 		it("should be a function", function() {
 			expect(utilities.createQueryString).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value with question marks disabled", function() {
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.createQueryString(newTestData[i], false)).to.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with question marks enabled", function() {
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.createQueryString(newTestData[i], true)).to.equal(results[i].length === 0 ? "" : "?" + results[i]);
 			}
 		});
 	});
 
 	describe("createRange", function() {
-		var newTestData = testData.concat(-5, -2, 4, 6);
+		const newTestData = testData.concat(-5, -2, 4, 6);
 
 		it("should be a function", function() {
 			expect(utilities.createRange).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [[], [], [], [], [], [], [0], [0, 1], [0, 1, 2, 3], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [0, 1, 2, 3, 4], [0, 1, 2, 3, 4, 5, 6]];
+			const results = [[], [], [], [], [], [], [0], [0, 1], [0, 1, 2, 3], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [0, 1, 2, 3, 4], [0, 1, 2, 3, 4, 5, 6]];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.createRange(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value pair", function() {
-			var results = [
+			const results = [
 				[[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []],
 				[[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []],
 				[[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []],
@@ -4366,8 +4373,8 @@ describe("Utilities", function() {
 				[[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [6]]
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
+			for(let i = 0; i < newTestData.length; i++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					expect(utilities.createRange(newTestData[i], newTestData[j])).to.deep.equal(results[i][j]);
 				}
 			}
@@ -4375,15 +4382,15 @@ describe("Utilities", function() {
 	});
 
 	describe("futureMonths", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			new Date("January 29, 1996"),
 			new Date("July 1, " + (testDate.getFullYear() + 1))
 		);
 
-		var allMonths = utilities.createRange(1, 12);
-		var allMonthsPadded = [];
+		const allMonths = utilities.createRange(1, 12);
+		const allMonthsPadded = [];
 
-		for(var i = 0; i < allMonths.length; i++) {
+		for(let i = 0; i < allMonths.length; i++) {
 			allMonthsPadded.push((allMonths[i] < 10 ? "0" : "") + allMonths[i]);
 		}
 
@@ -4392,30 +4399,30 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value with no prepended zeroes", function() {
-			var results = [null, null, null, null, null, null, allMonths, allMonths, null, null, null, null, null, null, null, null, null, null, null, allMonths.slice(testDate.getMonth(), 12), null, null, allMonths, allMonths];
+			const results = [null, null, null, null, null, null, allMonths, allMonths, null, null, null, null, null, null, null, null, null, null, null, allMonths.slice(testDate.getMonth(), 12), null, null, allMonths, allMonths];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.futureMonths(newTestData[i], false)).to.deep.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with prepended zeroes", function() {
-			var results = [null, null, null, null, null, null, allMonthsPadded, allMonthsPadded, null, null, null, null, null, null, null, null, null, null, null, allMonthsPadded.slice(testDate.getMonth(), 12), null, null, allMonthsPadded, allMonthsPadded];
+			const results = [null, null, null, null, null, null, allMonthsPadded, allMonthsPadded, null, null, null, null, null, null, null, null, null, null, null, allMonthsPadded.slice(testDate.getMonth(), 12), null, null, allMonthsPadded, allMonthsPadded];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.futureMonths(newTestData[i], true)).to.deep.equal(results[i]);
 			}
 		});
 	});
 
 	describe("visibleElements", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			{ visible: true },
 			{ hidden: false }
 		);
 
-		var trueFunction = function() { return true; };
-		var falseFunction = function() { return false; };
+		const trueFunction = function() { return true; };
+		const falseFunction = function() { return false; };
 
 		newTestData.push(
 			testData.concat(
@@ -4437,25 +4444,25 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [
+			const results = [
 				[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],
 				[new Boolean(false), new Boolean(true), { }, { nice: "meme" }, [], [0], testDate, new RegExp(".+"), { visible: "nope" }, { visible: true }, { visible: trueFunction }, { hidden: "avi" }, { hidden: false }, { hidden: falseFunction }]
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.visibleElements(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 	});
 
 	describe("hiddenElements", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			{ visible: true },
 			{ hidden: false }
 		);
 
-		var trueFunction = function() { return true; };
-		var falseFunction = function() { return false; };
+		const trueFunction = function() { return true; };
+		const falseFunction = function() { return false; };
 
 		newTestData.push(
 			testData.concat(
@@ -4477,25 +4484,25 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [
+			const results = [
 				[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [0], [], [], [], [], [],
 				[undefined, null, false, true, 0, 1, 3.141592654, NaN, Infinity, -Infinity, "", "test", " trim\t", emptyFunction, { visible: false }, { visible: falseFunction }, { hidden: true }, { hidden: trueFunction }]
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.hiddenElements(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 	});
 
 	describe("enabledElements", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			{ enabled: true },
 			{ disabled: false }
 		);
 
-		var trueFunction = function() { return true; };
-		var falseFunction = function() { return false; };
+		const trueFunction = function() { return true; };
+		const falseFunction = function() { return false; };
 
 		newTestData.push(
 			testData.concat(
@@ -4517,25 +4524,25 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [
+			const results = [
 				[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],
 				[new Boolean(false), new Boolean(true), { }, { nice: "meme" }, [], [0], testDate, new RegExp(".+"), { enabled: "door" }, { enabled: true }, { enabled: trueFunction }, { disabled: "stuck" }, { disabled: false }, { disabled: falseFunction }]
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.enabledElements(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 	});
 
 	describe("disabledElements", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			{ enabled: true },
 			{ disabled: false }
 		);
 
-		var trueFunction = function() { return true; };
-		var falseFunction = function() { return false; };
+		const trueFunction = function() { return true; };
+		const falseFunction = function() { return false; };
 
 		newTestData.push(
 			testData.concat(
@@ -4557,19 +4564,19 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [
+			const results = [
 				[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [0], [], [], [], [], [],
 				[undefined, null, false, true, 0, 1, 3.141592654, NaN, Infinity, -Infinity, "", "test", " trim\t", emptyFunction, { enabled: false }, { enabled: falseFunction }, { disabled: true }, { disabled: trueFunction }]
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.disabledElements(newTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 	});
 
 	describe("elementsWithAttribute", function() {
-		var newTestData = [
+		const newTestData = [
 			{ value: [], attribute: "none" },
 			{ value: [{ }], attribute: "empty" },
 			{ value: [{ undefined: undefined }], attribute: "undefined" },
@@ -4601,13 +4608,13 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly handle invalid arguments", function() {
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.elementsWithAttribute(newTestData[i])).to.deep.equal([]);
 
-				for(var j = 0; j < newTestData.length; j++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					expect(utilities.elementsWithAttribute(newTestData[i], newTestData[j])).to.deep.equal([]);
 
-					for(var k = 0; k < newTestData.length; k++) {
+					for(let k = 0; k < newTestData.length; k++) {
 						expect(utilities.elementsWithAttribute(newTestData[i], newTestData[j], newTestData[k])).to.deep.equal([]);
 					}
 				}
@@ -4615,32 +4622,32 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [
+			const results = [
 				[], [], [], [], [{ false: false }], [{ true: true }], [{ falseBooleanObject: new Boolean(false) }], [{ trueBooleanObject: new Boolean(true) }], [{ NaN: NaN }], [{ Infinity: Infinity }], [{ NegativeInfinity: -Infinity }], [{ zero: 0 }], [{ one: 1 }], [{ pi: 3.141592654 }], [{ emptyString: "" }], [{ space: " " }], [{ tab: "\t" }], [{ emptyObject: { } }], [{ emptyArray: [] }], [{ zeroArray: [0] }], [{ date: testDate }], [{ function: emptyFunction }], [{ regExp: new RegExp(".+") }], [{ da: "wae", ugandan: "knuckles" }, { da: "meme", weed: 420 }]
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.elementsWithAttribute(newTestData[i].value, newTestData[i].attribute)).to.deep.equal(results[i]);
 			}
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.elementsWithAttribute(newTestData[i].value, newTestData[i].attribute, true)).to.deep.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with has attribute set to false", function() {
-			var results = [
+			const results = [
 				[], [{ }], [{ undefined: undefined }], [{ null: null }], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [{ vanilla: "Moonlight" }]
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.elementsWithAttribute(newTestData[i].value, newTestData[i].attribute, false)).to.deep.equal(results[i]);
 			}
 		});
 	});
 
 	describe("elementsWithoutAttribute", function() {
-		var newTestData = [
+		const newTestData = [
 			{ value: [], attribute: "none" },
 			{ value: [{ }], attribute: "empty" },
 			{ value: [{ undefined: undefined }], attribute: "undefined" },
@@ -4672,28 +4679,28 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly handle invalid arguments", function() {
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.elementsWithoutAttribute(newTestData[i])).to.deep.equal([]);
 
-				for(var j = 0; j < newTestData.length; j++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					expect(utilities.elementsWithoutAttribute(newTestData[i], newTestData[j])).to.deep.equal([]);
 				}
 			}
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [
+			const results = [
 				[], [{ }], [{ undefined: undefined }], [{ null: null }], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [{ vanilla: "Moonlight" }]
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.elementsWithoutAttribute(newTestData[i].value, newTestData[i].attribute)).to.deep.equal(results[i]);
 			}
 		});
 	});
 
 	describe("matchAttribute", function() {
-		var newTestData = testData.concat(
+		const newTestData = testData.concat(
 			{ nice: "ketchup" },
 			{ nice: 420 },
 			{ nice: undefined },
@@ -4704,16 +4711,16 @@ describe("Utilities", function() {
 			{ surprise: function() { } }
 		);
 
-		var attributes = ["nice", "surprise", "length"];
+		const attributes = ["nice", "surprise", "length"];
 
-		var values = [undefined, null, false, true, "meme", "ketchup", 420, 0, 1];
+		const values = [undefined, null, false, true, "meme", "ketchup", 420, 0, 1];
 
 		it("should be a function", function() {
 			expect(utilities.matchAttribute).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [
+			const results = [
 				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
 				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
 				[[false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false]],
@@ -4746,13 +4753,13 @@ describe("Utilities", function() {
 				[[true,  false, false, false, false, false, false, false, false], [false, false, false, false, false, false, false, false, false], [true,  false, false, false, false, false, false, false, false]]
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.matchAttribute(newTestData[i])).to.equal(utilities.isObject(newTestData[i]));
 
-				for(var j = 0; j < attributes.length; j++) {
+				for(let j = 0; j < attributes.length; j++) {
 					expect(utilities.matchAttribute(newTestData[i], attributes[j])).to.equal(results[i][j][0]);
 
-					for(var k = 0; k < values.length; k++) {
+					for(let k = 0; k < values.length; k++) {
 						expect(utilities.matchAttribute(newTestData[i], attributes[j], values[k])).to.equal(results[i][j][k]);
 					}
 				}
@@ -4761,18 +4768,18 @@ describe("Utilities", function() {
 	});
 
 	describe("generateVersions", function() {
-		var additionalTestData = ["420", "007", "2.0", "3.1.0.0", "04.2.00.0", "can't make it", "-3 -9", "00 6 04 00800 0"];
+		const additionalTestData = ["420", "007", "2.0", "3.1.0.0", "04.2.00.0", "can't make it", "-3 -9", "00 6 04 00800 0"];
 
-		var additionalPrefixes = ["saint", " vapor"];
+		const additionalPrefixes = ["saint", " vapor"];
 
-		var additionalSuffixes = ["pepsi", "wave\t"];
+		const additionalSuffixes = ["pepsi", "wave\t"];
 
 		it("should be a function", function() {
 			expect(utilities.generateVersions).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value with no prefix or suffix", function() {
-			var results = [
+			const results = [
 				["420"],
 				["7"],
 				["2", "2_0"],
@@ -4783,13 +4790,13 @@ describe("Utilities", function() {
 				["0","0_6", "0_6_4", "0_6_4_800", "0_6_4_800_0"]
 			];
 
-			for(var i = 0; i < additionalTestData.length; i++) {
+			for(let i = 0; i < additionalTestData.length; i++) {
 				expect(utilities.generateVersions(additionalTestData[i])).to.deep.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value and prefix", function() {
-			var results = [
+			const results = [
 				[["saint420"], ["vapor420"]],
 				[["saint7"], ["vapor7"]],
 				[["saint2", "saint2_0"], ["vapor2", "vapor2_0"]],
@@ -4800,15 +4807,15 @@ describe("Utilities", function() {
 				[["saint0", "saint0_6", "saint0_6_4", "saint0_6_4_800", "saint0_6_4_800_0"], ["vapor0", "vapor0_6", "vapor0_6_4", "vapor0_6_4_800", "vapor0_6_4_800_0"]]
 			];
 
-			for(var i = 0; i < additionalTestData.length; i++) {
-				for(var j = 0; j < additionalPrefixes.length; j++) {
+			for(let i = 0; i < additionalTestData.length; i++) {
+				for(let j = 0; j < additionalPrefixes.length; j++) {
 					expect(utilities.generateVersions(additionalTestData[i], additionalPrefixes[j])).to.deep.equal(results[i][j]);
 				}
 			}
 		});
 
 		it("should produce the correct result for each test value and suffix", function() {
-			var results = [
+			const results = [
 				[["420pepsi"], ["420wave"]],
 				[["7pepsi"], ["7wave"]],
 				[["2pepsi", "2_0pepsi"], ["2wave", "2_0wave"]],
@@ -4819,15 +4826,15 @@ describe("Utilities", function() {
 				[["0pepsi", "0_6pepsi", "0_6_4pepsi", "0_6_4_800pepsi", "0_6_4_800_0pepsi"], ["0wave", "0_6wave", "0_6_4wave", "0_6_4_800wave", "0_6_4_800_0wave"]]
 			];
 
-			for(var i = 0; i < additionalTestData.length; i++) {
-				for(var j = 0; j < additionalSuffixes.length; j++) {
+			for(let i = 0; i < additionalTestData.length; i++) {
+				for(let j = 0; j < additionalSuffixes.length; j++) {
 					expect(utilities.generateVersions(additionalTestData[i], null, additionalSuffixes[j])).to.deep.equal(results[i][j]);
 				}
 			}
 		});
 
 		it("should produce the correct result for each additional test value and prefix / suffix", function() {
-			var results = [
+			const results = [
 				[
 					[["saint420pepsi"], ["saint420wave"]],
 					[["vapor420pepsi"], ["vapor420wave"]]
@@ -4862,9 +4869,9 @@ describe("Utilities", function() {
 				]
 			];
 
-			for(var i = 0; i < additionalTestData.length; i++) {
-				for(var j = 0; j < additionalPrefixes.length; j++) {
-					for(var k = 0; k < additionalSuffixes.length; k++) {
+			for(let i = 0; i < additionalTestData.length; i++) {
+				for(let j = 0; j < additionalPrefixes.length; j++) {
+					for(let k = 0; k < additionalSuffixes.length; k++) {
 						expect(utilities.generateVersions(additionalTestData[i], additionalPrefixes[j], additionalSuffixes[k])).to.deep.equal(results[i][j][k]);
 					}
 				}
@@ -4873,43 +4880,43 @@ describe("Utilities", function() {
 	});
 
 	describe("parseVersion", function() {
-		var newTestData = testData.concat("420", "007", "2.0", "3.1.0.0", "04.2.00.0", "can't make it", "-3 -9", "00 6 04 00800 0");
+		const newTestData = testData.concat("420", "007", "2.0", "3.1.0.0", "04.2.00.0", "can't make it", "-3 -9", "00 6 04 00800 0");
 
 		it("should be a function", function() {
 			expect(utilities.parseVersion).to.be.a("function");
 		});
 
 		it("should produce the correct result for each test value", function() {
-			var results = [
+			const results = [
 				null, null, null, null, null, null, ["0"], ["1"], ["3", "141592654"], null, null, null, null, ["test"], ["trim"], null, null, null, null, null, null, null, ["420"], ["7"], ["2", "0"], ["3", "1", "0", "0"], ["4", "2", "0", "0"], ["can't", "make", "it"], null, ["0", "6", "4", "800", "0"]
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseVersion(newTestData[i])).to.deep.equal(results[i]);
 			}
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseVersion(newTestData[i], false)).to.deep.equal(results[i]);
 			}
 		});
 
 		it("should produce the correct result for each test value with trim trailing zeroes enabled", function() {
-			var results = [
+			const results = [
 				null, null, null, null, null, null, ["0"], ["1"], ["3", "141592654"], null, null, null, null, ["test"], ["trim"], null, null, null, null, null, null, null, ["420"], ["7"], ["2"], ["3", "1"], ["4", "2"], ["can't", "make", "it"], null, ["0", "6", "4", "800"]
 			];
 
-			for(var i = 0; i < newTestData.length; i++) {
+			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseVersion(newTestData[i], true)).to.deep.equal(results[i]);
 			}
 		});
 	});
 
 	describe("compareVersions", function() {
-		var newTestData = testData.concat("1 A", "\tTrim");
+		const newTestData = testData.concat("1 A", "\tTrim");
 
-		var additionalTestData = [69, "69", "420", "007", "2.0", "2.0.0.0.0", 2.1, "2.1", "2.1 A", "2.1 B", "3.1.0.0", "04.2.00.0", "can't make it", "-3 -9", "00 6 04 00800 0", "1.3.3.6.9", "1.3.3.7.0", "1.3.3.7.0.0.1", "1.3.3.7.1", "a", "A", "b","B", "X", "y"];
+		const additionalTestData = [69, "69", "420", "007", "2.0", "2.0.0.0.0", 2.1, "2.1", "2.1 A", "2.1 B", "3.1.0.0", "04.2.00.0", "can't make it", "-3 -9", "00 6 04 00800 0", "1.3.3.6.9", "1.3.3.7.0", "1.3.3.7.0.0.1", "1.3.3.7.1", "a", "A", "b","B", "X", "y"];
 
-		var newResults = {
+		const newResults = {
 			caseInsensitive: [
 				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
 				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
@@ -4964,7 +4971,7 @@ describe("Utilities", function() {
 			]
 		};
 
-		var additionalResults = {
+		const additionalResults = {
 			caseInsensitive: [
 				[ 0,    0,   -1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
 				[ 0,    0,   -1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
@@ -5026,8 +5033,8 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value pair with case sensitivity disabled", function() {
-			for(var i = 0; i < newTestData.length; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
+			for(let i = 0; i < newTestData.length; i++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					expect(utilities.compareVersions(newTestData[i], newTestData[j])).to.equal(newResults.caseInsensitive[i][j]);
 					expect(utilities.compareVersions(newTestData[i], newTestData[j], false)).to.equal(newResults.caseInsensitive[i][j]);
 					expect(utilities.compareVersions(newTestData[i], newTestData[j], false, false)).to.equal(newResults.caseInsensitive[i][j]);
@@ -5036,8 +5043,8 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each test value pair with case sensitivity enabled", function() {
-			for(var i = 0; i < newTestData.length; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
+			for(let i = 0; i < newTestData.length; i++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					expect(utilities.compareVersions(newTestData[i], newTestData[j], true)).to.equal(newResults.caseSensitive[i][j]);
 					expect(utilities.compareVersions(newTestData[i], newTestData[j], true, false)).to.equal(newResults.caseSensitive[i][j]);
 				}
@@ -5045,10 +5052,10 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly throw errors when enabled for each test value pair with case sensitivity disabled", function() {
-			var errorThrown = null;
+			let errorThrown = null;
 
-			for(var i = 0; i < newTestData.length; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
+			for(let i = 0; i < newTestData.length; i++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					errorThrown = false;
 
 					try {
@@ -5064,10 +5071,10 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly throw errors when enabled for each test value pair with case sensitivity enabled", function() {
-			var errorThrown = null;
+			let errorThrown = null;
 
-			for(var i = 0; i < newTestData.length; i++) {
-				for(var j = 0; j < newTestData.length; j++) {
+			for(let i = 0; i < newTestData.length; i++) {
+				for(let j = 0; j < newTestData.length; j++) {
 					errorThrown = false;
 
 					try {
@@ -5083,8 +5090,8 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each additional test value pair with case sensitivity disabled", function() {
-			for(var i = 0; i < additionalTestData.length; i++) {
-				for(var j = 0; j < additionalTestData.length; j++) {
+			for(let i = 0; i < additionalTestData.length; i++) {
+				for(let j = 0; j < additionalTestData.length; j++) {
 					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j])).to.equal(additionalResults.caseInsensitive[i][j]);
 					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], false)).to.equal(additionalResults.caseInsensitive[i][j]);
 					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], false, false)).to.equal(additionalResults.caseInsensitive[i][j]);
@@ -5093,8 +5100,8 @@ describe("Utilities", function() {
 		});
 
 		it("should produce the correct result for each additional test value pair with case sensitivity enabled", function() {
-			for(var i = 0; i < additionalTestData.length; i++) {
-				for(var j = 0; j < additionalTestData.length; j++) {
+			for(let i = 0; i < additionalTestData.length; i++) {
+				for(let j = 0; j < additionalTestData.length; j++) {
 					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], true)).to.equal(additionalResults.caseSensitive[i][j]);
 					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], true, false)).to.equal(additionalResults.caseSensitive[i][j]);
 				}
@@ -5102,10 +5109,10 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly throw errors when enabled for each additional test value pair with case sensitivity disabled", function() {
-			var errorThrown = null;
+			let errorThrown = null;
 
-			for(var i = 0; i < additionalTestData.length; i++) {
-				for(var j = 0; j < additionalTestData.length; j++) {
+			for(let i = 0; i < additionalTestData.length; i++) {
+				for(let j = 0; j < additionalTestData.length; j++) {
 					errorThrown = false;
 
 					try {
@@ -5121,10 +5128,10 @@ describe("Utilities", function() {
 		});
 
 		it("should correctly throw errors when enabled for each additional test value pair with case sensitivity enabled", function() {
-			var errorThrown = null;
+			let errorThrown = null;
 
-			for(var i = 0; i < additionalTestData.length; i++) {
-				for(var j = 0; j < additionalTestData.length; j++) {
+			for(let i = 0; i < additionalTestData.length; i++) {
+				for(let j = 0; j < additionalTestData.length; j++) {
 					errorThrown = false;
 
 					try {

@@ -21,7 +21,7 @@ A collection of useful helper functions.
 ## Server-Side Usage
 
 ```javascript
-var utilities = require("extra-utilities");
+const utilities = require("extra-utilities");
 
 utilities.isBoolean(false); // => true
 ```
