@@ -42,7 +42,7 @@ const testData = [
 describe("Utilities", function() {
 	describe("isValid", function() {
 		it("should be a function", function() {
-			expect(utilities.isValid).to.be.a("function");
+			expect(utilities.isValid).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -56,7 +56,7 @@ describe("Utilities", function() {
 
 	describe("isInvalid", function() {
 		it("should be a function", function() {
-			expect(utilities.isInvalid).to.be.a("function");
+			expect(utilities.isInvalid).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -70,7 +70,7 @@ describe("Utilities", function() {
 
 	describe("isBoolean", function() {
 		it("should be a function", function() {
-			expect(utilities.isBoolean).to.be.a("function");
+			expect(utilities.isBoolean).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -92,7 +92,7 @@ describe("Utilities", function() {
 
 	describe("isValidNumber", function() {
 		it("should be a function", function() {
-			expect(utilities.isValidNumber).to.be.a("function");
+			expect(utilities.isValidNumber).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -106,7 +106,7 @@ describe("Utilities", function() {
 
 	describe("isInvalidNumber", function() {
 		it("should be a function", function() {
-			expect(utilities.isInvalidNumber).to.be.a("function");
+			expect(utilities.isInvalidNumber).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -122,7 +122,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(" ", "\t", " \t");
 
 		it("should be a function", function() {
-			expect(utilities.isEmptyString).to.be.a("function");
+			expect(utilities.isEmptyString).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value with trim disabled", function() {
@@ -146,7 +146,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(" ", "\t", " \t");
 
 		it("should be a function", function() {
-			expect(utilities.isNonEmptyString).to.be.a("function");
+			expect(utilities.isNonEmptyString).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value with trim disabled", function() {
@@ -185,7 +185,7 @@ describe("Utilities", function() {
 		);
 
 		it("should be a function", function() {
-			expect(utilities.isObject).to.be.a("function");
+			expect(utilities.isObject).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value with strict disabled", function() {
@@ -224,7 +224,7 @@ describe("Utilities", function() {
 		);
 
 		it("should be a function", function() {
-			expect(utilities.isObjectStrict).to.be.a("function");
+			expect(utilities.isObjectStrict).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -238,7 +238,7 @@ describe("Utilities", function() {
 
 	describe("isEmptyObject", function() {
 		it("should be a function", function() {
-			expect(utilities.isEmptyObject).to.be.a("function");
+			expect(utilities.isEmptyObject).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -252,7 +252,7 @@ describe("Utilities", function() {
 
 	describe("isNonEmptyObject", function() {
 		it("should be a function", function() {
-			expect(utilities.isNonEmptyObject).to.be.a("function");
+			expect(utilities.isNonEmptyObject).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -266,7 +266,7 @@ describe("Utilities", function() {
 
 	describe("isEmptyArray", function() {
 		it("should be a function", function() {
-			expect(utilities.isEmptyArray).to.be.a("function");
+			expect(utilities.isEmptyArray).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -280,7 +280,7 @@ describe("Utilities", function() {
 
 	describe("isNonEmptyArray", function() {
 		it("should be a function", function() {
-			expect(utilities.isNonEmptyArray).to.be.a("function");
+			expect(utilities.isNonEmptyArray).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -294,7 +294,7 @@ describe("Utilities", function() {
 
 	describe("isDate", function() {
 		it("should be a function", function() {
-			expect(utilities.isDate).to.be.a("function");
+			expect(utilities.isDate).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -310,7 +310,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(new Error("The following advertisement is intended for Jim Boonie only."), utilities.createError("We're giving you land, it's free.", 420), { error: true, message: "Two bedrooms, no rugs, it's got a pool in the back." });
 
 		it("should be a function", function() {
-			expect(utilities.isError).to.be.a("function");
+			expect(utilities.isError).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -326,7 +326,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(/v/im, new RegExp("la", "g"));
 
 		it("should be a function", function() {
-			expect(utilities.isRegularExpression).to.be.a("function");
+			expect(utilities.isRegularExpression).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -340,7 +340,7 @@ describe("Utilities", function() {
 
 	describe("isFunction", function() {
 		it("should be a function", function() {
-			expect(utilities.isFunction).to.be.a("function");
+			expect(utilities.isFunction).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -356,7 +356,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("/", "//", "//a", " // b", "\t \t//cd", " e // f", "l/o/l", "/l/m/a/o/", "#", " # x", "\t\t # y z", "hash # tag");
 
 		it("should be a function", function() {
-			expect(utilities.isComment).to.be.a("function");
+			expect(utilities.isComment).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -391,7 +391,7 @@ describe("Utilities", function() {
 		);
 
 		it("should be a function", function() {
-			expect(utilities.isVisible).to.be.a("function");
+			expect(utilities.isVisible).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -418,7 +418,7 @@ describe("Utilities", function() {
 		);
 
 		it("should be a function", function() {
-			expect(utilities.isHidden).to.be.a("function");
+			expect(utilities.isHidden).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -445,7 +445,7 @@ describe("Utilities", function() {
 		);
 
 		it("should be a function", function() {
-			expect(utilities.isEnabled).to.be.a("function");
+			expect(utilities.isEnabled).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -472,7 +472,7 @@ describe("Utilities", function() {
 		);
 
 		it("should be a function", function() {
-			expect(utilities.isDisabled).to.be.a("function");
+			expect(utilities.isDisabled).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -488,7 +488,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(" ", "\t", "TeSt", "trim", "tést");
 
 		it("should be a function", function() {
-			expect(utilities.equalsIgnoreCase).to.be.a("function");
+			expect(utilities.equalsIgnoreCase).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -534,7 +534,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(" ", "\t", "f", "T", "N", "y", "0", "1", "fALSE", "True", "no", "YES", "Off", "ON", "x");
 
 		it("should be a function", function() {
-			expect(utilities.parseBoolean).to.be.a("function");
+			expect(utilities.parseBoolean).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -558,7 +558,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(-69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828");
 
 		it("should be a function", function() {
-			expect(utilities.parseInteger).to.be.a("function");
+			expect(utilities.parseInteger).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -588,7 +588,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(-69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828");
 
 		it("should be a function", function() {
-			expect(utilities.parseFloatingPointNumber).to.be.a("function");
+			expect(utilities.parseFloatingPointNumber).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -618,7 +618,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("June 5, 2012", "June 18, 1987 3:30 PM", "2018-02-19T06:19:33Z", testDate.getTime(), testDate.toString(), testDate.getTime().toString());
 
 		it("should be a function", function() {
-			expect(utilities.parseDate).to.be.a("function");
+			expect(utilities.parseDate).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -648,7 +648,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("9:30 AM", "11:59 PM", "12:00 AM", "12:01 AM", "11:59 AM", "12:00 PM", "12:01 PM", "1632", "2359", "0000", "0001", "1159", "1200", "1201", "2400", "12:60 AM", "13:00 PM", "3:60 AM", "4:77 PM", "0161", "2401", "2188", "2520");
 
 		it("should be a function", function() {
-			expect(utilities.parseTime).to.be.a("function");
+			expect(utilities.parseTime).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value and return null for invalid values", function() {
@@ -727,7 +727,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("mark@broden.zac", "@aunty.donna", "surprise@ketchup", "slip@", "@slap", "@slop.", "@", "@.", " x@y.z \t", "test+123@test.com");
 
 		it("should be a function", function() {
-			expect(utilities.parseEmail).to.be.a("function");
+			expect(utilities.parseEmail).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -743,7 +743,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("mark@broden.zac", "@aunty.donna", "surprise@ketchup", "slip@", "@slap", "@slop.", "@", "@.", " x@y.z\t", "test+123@test.com");
 
 		it("should be a function", function() {
-			expect(utilities.parseEmailDomain).to.be.a("function");
+			expect(utilities.parseEmailDomain).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -759,7 +759,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(",", ";", "board,", ",room", "same;", ";tie", " ;\te ,\tx ;\te ,\t \t");
 
 		it("should be a function", function() {
-			expect(utilities.parseStringList).to.be.a("function");
+			expect(utilities.parseStringList).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -815,7 +815,7 @@ describe("Utilities", function() {
 		newTestData.push(new RegExp("3", "gmi"), new RegExp("4", "gm"), new RegExp("5", "g"), new RegExp("6"));
 
 		it("should be a function", function() {
-			expect(utilities.parseRegularExpression).to.be.a("function");
+			expect(utilities.parseRegularExpression).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -902,7 +902,7 @@ describe("Utilities", function() {
 		);
 
 		it("should be a function", function() {
-			expect(utilities.parseYouTubeLink).to.be.a("function");
+			expect(utilities.parseYouTubeLink).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -918,7 +918,7 @@ describe("Utilities", function() {
 		const stringCaseFunctionNames = ["camel", "capital", "constant", "dot", "header", "lower", "lowerFirst", "no", "param", "pascal", "path", "sentence", "snake", "sponge", "swap", "title", "upper", "upperFirst"];
 
 		it("should be a function", function() {
-			expect(utilities.formatValue).to.be.a("function");
+			expect(utilities.formatValue).to.be.an.instanceof(Function);
 		});
 
 		it("should return a copy of the original value if no format is specified", function() {
@@ -1423,7 +1423,7 @@ describe("Utilities", function() {
 			results.push(/3/gmi, /4/gm, /5/g, /6/);
 
 			it("should be a function", function() {
-				expect(utilities.parseRegularExpression).to.be.a("function");
+				expect(utilities.parseRegularExpression).to.be.an.instanceof(Function);
 			});
 
 			const formats = [{ type: "regex"}, { type: "rEgEx" }, { type: "regexp"}, { type: "rEgExP" }, { type: "regularexpression"}, { type: "REGULARexpression" }];
@@ -2872,7 +2872,7 @@ describe("Utilities", function() {
 
 	describe("formatObject", function() {
 		it("should be a function", function() {
-			expect(utilities.formatObject).to.be.a("function");
+			expect(utilities.formatObject).to.be.an.instanceof(Function);
 		});
 	});
 
@@ -2884,7 +2884,7 @@ describe("Utilities", function() {
 		newTestData.push(["cant", { make: "it" }]);
 
 		it("should be a function", function() {
-			expect(utilities.formatStringList).to.be.a("function");
+			expect(utilities.formatStringList).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -2916,7 +2916,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(-8, -1, -0.33, 0.64, 4, 88, 0xFFFFFFFF);
 
 		it("should be a function", function() {
-			expect(utilities.leftShift).to.be.a("function");
+			expect(utilities.leftShift).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each pair of test values", function() {
@@ -2969,7 +2969,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(-8, -1, -0.33, 0.64, 4, 88, 0xFFFFFFFF);
 
 		it("should be a function", function() {
-			expect(utilities.rightShift).to.be.a("function");
+			expect(utilities.rightShift).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each pair of test values", function() {
@@ -3022,7 +3022,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("   \t broden  kelly\t    \t");
 
 		it("should be a function", function() {
-			expect(utilities.trimString).to.be.a("function");
+			expect(utilities.trimString).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3046,7 +3046,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("   \t broden  kelly\t    \t", "\0", "MODMGR.EXE\0", "\0DUKESTAR.MAP", "2009.MAP\0\0\0\0", "EI.GRP\0EI.CON", "1999.GRP\0 1999.CON\0");
 
 		it("should be a function", function() {
-			expect(utilities.trimNullTerminatedString).to.be.a("function");
+			expect(utilities.trimNullTerminatedString).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3070,7 +3070,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(" white space \t", "new\r\nlines\t\n");
 
 		it("should be a function", function() {
-			expect(utilities.trimWhitespace).to.be.a("function");
+			expect(utilities.trimWhitespace).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3094,7 +3094,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("new\r\nlines\t\n", "windows\r\n", "mac \r");
 
 		it("should be a function", function() {
-			expect(utilities.trimTrailingNewlines).to.be.a("function");
+			expect(utilities.trimTrailingNewlines).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3110,7 +3110,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("&nbsp;", "a&nbsp;paragraph &nbsp; or \tsomething&nbsp");
 
 		it("should be a function", function() {
-			expect(utilities.replaceNonBreakingSpaces).to.be.a("function");
+			expect(utilities.replaceNonBreakingSpaces).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3126,7 +3126,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("lol \n\t", "door\r\n\tstuck ", "\tcant\rmake\nit\t");
 
 		it("should be a function", function() {
-			expect(utilities.indentText).to.be.a("function");
+			expect(utilities.indentText).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3222,7 +3222,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(" ", "\t", "0", "00", "000", "420", "007", "00000010L");
 
 		it("should be a function", function() {
-			expect(utilities.trimLeadingZeroes).to.be.a("function");
+			expect(utilities.trimLeadingZeroes).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3238,7 +3238,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(" ", "\t", "0", "007", "Corporate Spy");
 
 		it("should be a function", function() {
-			expect(utilities.addLeadingZeroes).to.be.a("function");
+			expect(utilities.addLeadingZeroes).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3278,7 +3278,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(new Error("There are tales of pots."), utilities.createError("A watched pot never boils.", 69), func, /delicious.*muggachini/gmi);
 
 		it("should be a function", function() {
-			expect(utilities.toString).to.be.a("function");
+			expect(utilities.toString).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3294,7 +3294,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("June 5, 2012", "June 18, 1987 3:30 PM", "2018-02-19T06:19:33Z", testDate.getTime(), testDate.toString(), testDate.getTime().toString());
 
 		it("should be a function", function() {
-			expect(utilities.compareDates).to.be.a("function");
+			expect(utilities.compareDates).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3341,7 +3341,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("X", "y", "Ab", "cD", "if it's out there, i'll find it.", "NEED SOMETHING DESTROYED?", "xX_YoLo_420_SwAg_MaSt3r_Xx");
 
 		it("should be a function", function() {
-			expect(utilities.compareCasePercentage).to.be.a("function");
+			expect(utilities.compareCasePercentage).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3357,7 +3357,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("Take it back a little.", "XotoX");
 
 		it("should be a function", function() {
-			expect(utilities.reverseString).to.be.a("function");
+			expect(utilities.reverseString).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3403,7 +3403,7 @@ describe("Utilities", function() {
 
 	describe("createError", function() {
 		it("should be a function", function() {
-			expect(utilities.createError).to.be.a("function");
+			expect(utilities.createError).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3456,7 +3456,7 @@ describe("Utilities", function() {
 
 	describe("clone", function() {
 		it("should be a function", function() {
-			expect(utilities.clone).to.be.a("function");
+			expect(utilities.clone).to.be.an.instanceof(Function);
 		});
 
 		it("should result in primitive types being equal", function() {
@@ -3680,7 +3680,7 @@ describe("Utilities", function() {
 		newTestData.push(["ayy", "lmao"]);
 
 		it("should be a function", function() {
-			expect(utilities.merge).to.be.a("function");
+			expect(utilities.merge).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -3986,7 +3986,7 @@ describe("Utilities", function() {
 
 	describe("getFileName", function() {
 		it("should be a function", function() {
-			expect(utilities.getFileName).to.be.a("function");
+			expect(utilities.getFileName).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4002,7 +4002,7 @@ describe("Utilities", function() {
 
 	describe("getFilePath", function() {
 		it("should be a function", function() {
-			expect(utilities.getFilePath).to.be.a("function");
+			expect(utilities.getFilePath).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4020,7 +4020,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat();
 
 		it("should be a function", function() {
-			expect(utilities.getFileNameNoExtension).to.be.a("function");
+			expect(utilities.getFileNameNoExtension).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4038,7 +4038,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat();
 
 		it("should be a function", function() {
-			expect(utilities.getFileExtension).to.be.a("function");
+			expect(utilities.getFileExtension).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4056,7 +4056,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat();
 
 		it("should be a function", function() {
-			expect(utilities.fileHasExtension).to.be.a("function");
+			expect(utilities.fileHasExtension).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4084,7 +4084,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat();
 
 		it("should be a function", function() {
-			expect(utilities.reverseFileExtension).to.be.a("function");
+			expect(utilities.reverseFileExtension).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4102,7 +4102,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat();
 
 		it("should be a function", function() {
-			expect(utilities.truncateFileName).to.be.a("function");
+			expect(utilities.truncateFileName).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4158,7 +4158,7 @@ describe("Utilities", function() {
 		);
 
 		it("should be a function", function() {
-			expect(utilities.prependSlash).to.be.a("function");
+			expect(utilities.prependSlash).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4190,7 +4190,7 @@ describe("Utilities", function() {
 		);
 
 		it("should be a function", function() {
-			expect(utilities.appendSlash).to.be.a("function");
+			expect(utilities.appendSlash).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4287,7 +4287,7 @@ describe("Utilities", function() {
 		];
 
 		it("should be a function", function() {
-			expect(utilities.joinPaths).to.be.a("function");
+			expect(utilities.joinPaths).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4312,7 +4312,7 @@ describe("Utilities", function() {
 		const results = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "nice=meme", "", "", "", "", "", "pickle=surprise!", "bargain=%3D%2FbOyz%3A%20%23%26ePi%24oDe%2C%20%2B1%3F", "%23you%2Frequire%2C%20%40dd%3A%2B!onal%26%3Dpylon%24%3F=420.69", "who=%7B%22dat%22%3A%22boy%22%7D", "nice=%5B%22meme%22%2C%22m\'lady%22%5D", "a=undefined&b=null&c=false&d=true&e=false&f=true&g=-1&h=0&i=1&j=3.141592654&k=Infinity&l=-Infinity&m=&n=test&o=%20trim%09&p=%7B%7D&q=%7B%22nice%22%3A%22meme%22%7D&r=%5B%5D&s=%5B0%5D&t=" + encodedTestDateString + "&u=" + encodeURIComponent(emptyFunctionString) + "&v=%2F.%2B%2F"];
 
 		it("should be a function", function() {
-			expect(utilities.createQueryString).to.be.a("function");
+			expect(utilities.createQueryString).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value with question marks disabled", function() {
@@ -4332,7 +4332,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat(-5, -2, 4, 6);
 
 		it("should be a function", function() {
-			expect(utilities.createRange).to.be.a("function");
+			expect(utilities.createRange).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4395,7 +4395,7 @@ describe("Utilities", function() {
 		}
 
 		it("should be a function", function() {
-			expect(utilities.futureMonths).to.be.a("function");
+			expect(utilities.futureMonths).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value with no prepended zeroes", function() {
@@ -4440,7 +4440,7 @@ describe("Utilities", function() {
 		);
 
 		it("should be a function", function() {
-			expect(utilities.visibleElements).to.be.a("function");
+			expect(utilities.visibleElements).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4480,7 +4480,7 @@ describe("Utilities", function() {
 		);
 
 		it("should be a function", function() {
-			expect(utilities.hiddenElements).to.be.a("function");
+			expect(utilities.hiddenElements).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4520,7 +4520,7 @@ describe("Utilities", function() {
 		);
 
 		it("should be a function", function() {
-			expect(utilities.enabledElements).to.be.a("function");
+			expect(utilities.enabledElements).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4560,7 +4560,7 @@ describe("Utilities", function() {
 		);
 
 		it("should be a function", function() {
-			expect(utilities.disabledElements).to.be.a("function");
+			expect(utilities.disabledElements).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4604,7 +4604,7 @@ describe("Utilities", function() {
 		];
 
 		it("should be a function", function() {
-			expect(utilities.elementsWithAttribute).to.be.a("function");
+			expect(utilities.elementsWithAttribute).to.be.an.instanceof(Function);
 		});
 
 		it("should correctly handle invalid arguments", function() {
@@ -4675,7 +4675,7 @@ describe("Utilities", function() {
 		];
 
 		it("should be a function", function() {
-			expect(utilities.elementsWithoutAttribute).to.be.a("function");
+			expect(utilities.elementsWithoutAttribute).to.be.an.instanceof(Function);
 		});
 
 		it("should correctly handle invalid arguments", function() {
@@ -4716,7 +4716,7 @@ describe("Utilities", function() {
 		const values = [undefined, null, false, true, "meme", "ketchup", 420, 0, 1];
 
 		it("should be a function", function() {
-			expect(utilities.matchAttribute).to.be.a("function");
+			expect(utilities.matchAttribute).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -4775,7 +4775,7 @@ describe("Utilities", function() {
 		const additionalSuffixes = ["pepsi", "wave\t"];
 
 		it("should be a function", function() {
-			expect(utilities.generateVersions).to.be.a("function");
+			expect(utilities.generateVersions).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value with no prefix or suffix", function() {
@@ -4883,7 +4883,7 @@ describe("Utilities", function() {
 		const newTestData = testData.concat("420", "007", "2.0", "3.1.0.0", "04.2.00.0", "can't make it", "-3 -9", "00 6 04 00800 0");
 
 		it("should be a function", function() {
-			expect(utilities.parseVersion).to.be.a("function");
+			expect(utilities.parseVersion).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
@@ -5029,7 +5029,7 @@ describe("Utilities", function() {
 		};
 
 		it("should be a function", function() {
-			expect(utilities.compareVersions).to.be.a("function");
+			expect(utilities.compareVersions).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value pair with case sensitivity disabled", function() {
