@@ -3,7 +3,7 @@
 global.validator = undefined;
 global.changeCase = undefined;
 
-const utilities = require("../dist/extra-utilities.js");
+const utilities = require("../src/extra-utilities.js");
 const chai = require("chai");
 const expect = chai.expect;
 

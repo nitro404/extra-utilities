@@ -1,9 +1,10 @@
 node_modules
 bower_components
-src
+dist
 test
 coverage
 docs
+.nyc_output
 .sass-cache
 .coveralls.yml
 .travis.yml

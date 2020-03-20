@@ -2315,4 +2315,4 @@ utilities.compareVersions = function compareVersions(v1, v2, caseSensitive, thro
 	}
 };
 
-return utilities;
+module.exports = utilities;
