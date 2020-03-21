@@ -118,6 +118,56 @@ describe("Utilities", function() {
 		});
 	});
 
+	describe("isInteger", function() {
+		const newTestData = testData.concat("8675309", "4.20", "007", new Number(88), new Number(3.141592654), new Number(-32), new Number(-6.9));
+
+		it("should be a function", function() {
+			expect(utilities.isInteger).to.be.an.instanceof(Function);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			const results = [false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, true, false, true, false];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.isInteger(newTestData[i])).to.equal(results[i]);
+				expect(utilities.isInteger(newTestData[i], true)).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with number objects disallowed", function() {
+			const results = [false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.isInteger(newTestData[i], false)).to.equal(results[i]);
+			}
+		});
+	});
+
+	describe("isFloat", function() {
+		const newTestData = testData.concat("8008135", "3.50", "006", new Number(90210), new Number(1.234), new Number(-64), new Number(-9.6));
+
+		it("should be a function", function() {
+			expect(utilities.isFloat).to.be.an.instanceof(Function);
+		});
+
+		it("should produce the correct result for each test value", function() {
+			const results = [false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, true, true, true, true];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.isFloat(newTestData[i])).to.equal(results[i]);
+				expect(utilities.isFloat(newTestData[i], true)).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with number objects disallowed", function() {
+			const results = [false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.isFloat(newTestData[i], false)).to.equal(results[i]);
+			}
+		});
+	});
+
 	describe("isEmptyString", function() {
 		const newTestData = testData.concat(" ", "\t", " \t");
 
@@ -555,14 +605,14 @@ describe("Utilities", function() {
 	});
 
 	describe("parseInteger", function() {
-		const newTestData = testData.concat(-69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828");
+		const newTestData = testData.concat(-69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828", new Number(420), new Number(-3.141592654));
 
 		it("should be a function", function() {
 			expect(utilities.parseInteger).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
-			const results = [NaN, NaN, NaN, NaN, NaN, NaN, 0, 1, 3, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -69, -3, 88, -32, -1, 0, 1, 64, -1, 0, 2];
+			const results = [NaN, NaN, NaN, NaN, NaN, NaN, 0, 1, 3, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -69, -3, 88, -32, -1, 0, 1, 64, -1, 0, 2, 420, -3];
 
 			for(let i = 0; i < newTestData.length; i++) {
 				if(isNaN(results[i])) {
@@ -576,7 +626,7 @@ describe("Utilities", function() {
 
 		it("should produce the correct result for each test value with a custom default", function() {
 			const defaultInteger = 420;
-			const results = [defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, 0, 1, 3, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, -69, -3, 88, -32, -1, 0, 1, 64, -1, 0, 2];
+			const results = [defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, 0, 1, 3, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, defaultInteger, -69, -3, 88, -32, -1, 0, 1, 64, -1, 0, 2,  420, -3];
 
 			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseInteger(newTestData[i], defaultInteger)).to.equal(results[i]);
@@ -584,45 +634,45 @@ describe("Utilities", function() {
 		});
 	});
 
-	describe("parseFloatingPointNumber", function() {
-		const newTestData = testData.concat(-69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828");
+	describe("parseFloat", function() {
+		const newTestData = testData.concat(-69, -3.33333, 88, "-32", "-1", "0", "1", "64", "-1.1", "0.48", "2.71828", new Number(21), new Number(-867.5309));
 
 		it("should be a function", function() {
-			expect(utilities.parseFloatingPointNumber).to.be.an.instanceof(Function);
+			expect(utilities.parseFloat).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
-			const results = [NaN, NaN, NaN, NaN, NaN, NaN, 0, 1, 3.141592654, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -69, -3.33333, 88, -32, -1, 0, 1, 64, -1.1, 0.48, 2.71828];
+			const results = [NaN, NaN, NaN, NaN, NaN, NaN, 0, 1, 3.141592654, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -69, -3.33333, 88, -32, -1, 0, 1, 64, -1.1, 0.48, 2.71828, 21, -867.5309];
 
 			for(let i = 0; i < newTestData.length; i++) {
 				if(isNaN(results[i])) {
-					expect(isNaN(utilities.parseFloatingPointNumber(newTestData[i]))).to.equal(true);
+					expect(isNaN(utilities.parseFloat(newTestData[i]))).to.equal(true);
 				}
 				else {
-					expect(utilities.parseFloatingPointNumber(newTestData[i])).to.equal(results[i]);
+					expect(utilities.parseFloat(newTestData[i])).to.equal(results[i]);
 				}
 			}
 		});
 
 		it("should produce the correct result for each test value with a custom default", function() {
 			const defaultFloat = 6.9;
-			const results = [defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, 0, 1, 3.141592654, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, -69, -3.33333, 88, -32, -1, 0, 1, 64, -1.1, 0.48, 2.71828];
+			const results = [defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, 0, 1, 3.141592654, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, defaultFloat, -69, -3.33333, 88, -32, -1, 0, 1, 64, -1.1, 0.48, 2.71828, 21, -867.5309];
 
 			for(let i = 0; i < newTestData.length; i++) {
-				expect(utilities.parseFloatingPointNumber(newTestData[i], defaultFloat)).to.equal(results[i]);
+				expect(utilities.parseFloat(newTestData[i], defaultFloat)).to.equal(results[i]);
 			}
 		});
 	});
 
 	describe("parseDate", function() {
-		const newTestData = testData.concat("June 5, 2012", "June 18, 1987 3:30 PM", "2018-02-19T06:19:33Z", testDate.getTime(), testDate.toString(), testDate.getTime().toString());
+		const newTestData = testData.concat("June 5, 2012", "June 18, 1987 3:30 PM", "2018-02-19T06:19:33Z", testDate.getTime(), testDate.toString(), testDate.getTime().toString(), -1);
 
 		it("should be a function", function() {
 			expect(utilities.parseDate).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
-			const results = [null, null, null, null, null, null, new Date(0), new Date(1), null, null, null, null, null, null, null, null, null, null, null, testDate, null, null, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, new Date(testDate.toString()), testDate];
+			const results = [null, null, null, null, null, null, new Date(0), new Date(1), null, null, null, null, null, null, null, null, null, null, null, testDate, null, null, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, new Date(testDate.toString()), testDate, null];
 
 			for(let i = 0; i < newTestData.length; i++) {
 				if(results[i] === null) {
@@ -636,7 +686,7 @@ describe("Utilities", function() {
 
 		it("should produce the correct result for each test value with a custom default", function() {
 			const defaultDate = new Date("October 21, 2015 4:29 PM");
-			const results = [defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, new Date(0), new Date(1), defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, testDate, defaultDate, defaultDate, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, new Date(testDate.toString()), testDate];
+			const results = [defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, new Date(0), new Date(1), defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, defaultDate, testDate, defaultDate, defaultDate, new Date("June 5, 2012"), new Date("June 18, 1987 3:30 PM"), new Date("2018-02-19T06:19:33Z"), testDate, new Date(testDate.toString()), testDate, defaultDate];
 
 			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.parseDate(newTestData[i], defaultDate)).to.deep.equal(results[i]);
@@ -651,7 +701,7 @@ describe("Utilities", function() {
 			expect(utilities.parseTime).to.be.an.instanceof(Function);
 		});
 
-		it("should produce the correct result for each test value and return null for invalid values", function() {
+		it("should produce the correct result for each test value and throw an error for invalid values", function() {
 			const results = [
 				null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
 				{ regular: { raw: "9:30 AM", hour: 9, minutes: 30, period: "AM", morning: true }, military: { raw: "0930", hour: 9, minutes: 30 } },
@@ -674,51 +724,11 @@ describe("Utilities", function() {
 
 			for(let i = 0; i < newTestData.length; i++) {
 				if(results[i] === null) {
-					expect(utilities.parseTime(newTestData[i])).to.equal(null);
+					expect(function() { utilities.parseTime(newTestData[i], true); }).to.throw();
 				}
 				else {
 					expect(utilities.parseTime(newTestData[i])).to.deep.equal(results[i]);
 				}
-			}
-		});
-
-		it("should produce the correct result for each test value and throw an error when specified for invalid values", function() {
-			const results = [
-				null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-				{ regular: { raw: "9:30 AM", hour: 9, minutes: 30, period: "AM", morning: true }, military: { raw: "0930", hour: 9, minutes: 30 } },
-				{ regular: { raw: "11:59 PM", hour: 11, minutes: 59, period: "PM", morning: false }, military: { raw: "2359", hour: 23, minutes: 59 } },
-				{ regular: { raw: "12:00 AM", hour: 12, minutes: 0, period: "AM", morning: true }, military: { raw: "0000", hour: 0, minutes: 0 } },
-				{ regular: { raw: "12:01 AM", hour: 12, minutes: 1, period: "AM", morning: true }, military: { raw: "0001", hour: 0, minutes: 1 } },
-				{ regular: { raw: "11:59 AM", hour: 11, minutes: 59, period: "AM", morning: true }, military: { raw: "1159", hour: 11, minutes: 59 } },
-				{ regular: { raw: "12:00 PM", hour: 12, minutes: 0, period: "PM", morning: false }, military: { raw: "1200", hour: 12, minutes: 0 } },
-				{ regular: { raw: "12:01 PM", hour: 12, minutes: 1, period: "PM", morning: false }, military: { raw: "1201", hour: 12, minutes: 1 } },
-				{ regular: { raw: "4:32 PM", hour: 4, minutes: 32, period: "PM", morning: false }, military: { raw: "1632", hour: 16, minutes: 32 } },
-				{ regular: { raw: "11:59 PM", hour: 11, minutes: 59, period: "PM", morning: false }, military: { raw: "2359", hour: 23, minutes: 59 } },
-				{ regular: { raw: "12:00 AM", hour: 12, minutes: 0, period: "AM", morning: true }, military: { raw: "0000", hour: 0, minutes: 0 } },
-				{ regular: { raw: "12:01 AM", hour: 12, minutes: 1, period: "AM", morning: true }, military: { raw: "0001", hour: 0, minutes: 1 } },
-				{ regular: { raw: "11:59 AM", hour: 11, minutes: 59, period: "AM", morning: true }, military: { raw: "1159", hour: 11, minutes: 59 } },
-				{ regular: { raw: "12:00 PM", hour: 12, minutes: 0, period: "PM", morning: false }, military: { raw: "1200", hour: 12, minutes: 0 } },
-				{ regular: { raw: "12:01 PM", hour: 12, minutes: 1, period: "PM", morning: false }, military: { raw: "1201", hour: 12, minutes: 1 } },
-				{ regular: { raw: "12:00 AM", hour: 12, minutes: 0, period: "AM", morning: true }, military: { raw: "0000", hour: 0, minutes: 0 } },
-				null, null, null, null, null, null, null, null
-			];
-
-			for(let i = 0; i < newTestData.length; i++) {
-				let errorThrown = false;
-
-				try {
-					if(results[i] === null) {
-						utilities.parseTime(newTestData[i], true);
-					}
-					else {
-						expect(utilities.parseTime(newTestData[i], true)).to.deep.equal(results[i]);
-					}
-				}
-				catch(error) {
-					errorThrown = true;
-				}
-
-				expect(errorThrown).to.equal(results[i] === null);
 			}
 		});
 	});
@@ -1246,9 +1256,11 @@ describe("Utilities", function() {
 
 		it("should correctly format string values", function() {
 			function func() { throw new Error("Do you like your new toy?"); };
-			const values = testData.slice(2).concat(new Error("So here's this giant enemy crab."), utilities.createError("new fone who dis", 416), func, /but{1,2}s?/gmi);
+			const testError = new Error("So here's this giant enemy crab.");
+			const customTestError = utilities.createError("new fone who dis", 416);
+			const values = testData.slice(2).concat(testError, customTestError, func, /but{1,2}s?/gmi);
 			const formats = [{ type: "string"}, { type: "StRiNg" }];
-			const results = ["false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", "{\"message\":\"So here's this giant enemy crab.\"}", "{\"message\":\"new fone who dis\",\"status\":416}", func.toString(), "/but{1,2}s?/gmi"];
+			const results = ["false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", testError.stack, customTestError.stack, func.toString(), "/but{1,2}s?/gmi"];
 
 			for(let i = 0; i < values.length; i++) {
 				for(let j = 0; j < formats.length; j++) {
@@ -2088,6 +2100,9 @@ describe("Utilities", function() {
 			const objectResults = utilities.clone(objectValues);
 			objectResults.concat(objectResults);
 
+			const testError = new Error("So here's this giant enemy crab.");
+			const customTestError = utilities.createError("new fone who dis", 416);
+
 			const typedArrayValues = [
 				{
 					formats: [
@@ -2149,10 +2164,10 @@ describe("Utilities", function() {
 						{ type: "StRiNg" }
 					],
 					values: [
-						testData.slice(2).concat(new Error("So here's this giant enemy crab."), utilities.createError("new fone who dis", 416), func, /but{1,2}s?/gmi)
+						testData.slice(2).concat(testError, customTestError, func, /but{1,2}s?/gmi)
 					],
 					results: [
-						["false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", "{\"message\":\"So here's this giant enemy crab.\"}", "{\"message\":\"new fone who dis\",\"status\":416}", func.toString(), "/but{1,2}s?/gmi"]
+						["false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", testError.stack, customTestError.stack, func.toString(), "/but{1,2}s?/gmi"]
 					]
 				},
 				{
@@ -3040,6 +3055,14 @@ describe("Utilities", function() {
 				expect(utilities.trimString(newTestData[i], "empty")).to.equal(results[i]);
 			}
 		});
+
+		it("should produce the correct result for each test value with an invalid custom default value", function() {
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "broden  kelly"];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.trimString(newTestData[i], 420)).to.equal(results[i]);
+			}
+		});
 	});
 
 	describe("trimNullTerminatedString", function() {
@@ -3062,6 +3085,14 @@ describe("Utilities", function() {
 
 			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.trimNullTerminatedString(newTestData[i], "nil")).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with an invalid custom default", function() {
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim\t", null, null, null, null, null, null, null, "   \t broden  kelly\t    \t", "", "MODMGR.EXE", "", "2009.MAP", "EI.GRP", "1999.GRP"];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.trimNullTerminatedString(newTestData[i], new Error("wat"))).to.equal(results[i]);
 			}
 		});
 	});
@@ -3088,6 +3119,38 @@ describe("Utilities", function() {
 				expect(utilities.trimWhitespace(newTestData[i], true)).to.equal(results[i]);
 			}
 		});
+
+		it("should produce the correct result for each test value with trim new lines set to false and a valid default string value is provided", function() {
+			const results = ["wat", "wat", "wat", "wat", "wat", "wat", "wat", "wat", "wat", "wat", "wat", "wat", "", "test", "trim", "wat", "wat", "wat", "wat", "wat", "wat", "wat", "white space", "new\r\nlines\n"];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.trimWhitespace(newTestData[i], false, "wat")).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with trim new lines set to true and a valid default string value is provided", function() {
+			const results = ["huh", "huh", "huh", "huh", "huh", "huh", "huh", "huh", "huh", "huh", "huh", "huh", "", "test", "trim", "huh", "huh", "huh", "huh", "huh", "huh", "huh", "white space", "newlines"];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.trimWhitespace(newTestData[i], true, "huh")).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with trim new lines set to false and an invalid default value is provided", function() {
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "white space", "new\r\nlines\n"];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.trimWhitespace(newTestData[i], false, NaN)).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with trim new lines set to true and a valid default value is provided", function() {
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", "trim", null, null, null, null, null, null, null, "white space", "newlines"];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.trimWhitespace(newTestData[i], true, [])).to.equal(results[i]);
+			}
+		});
 	});
 
 	describe("trimTrailingNewlines", function() {
@@ -3102,6 +3165,22 @@ describe("Utilities", function() {
 
 			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.trimTrailingNewlines(newTestData[i])).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with a custom default string value", function() {
+			const results = ["no", "no", "no", "no", "no", "no", "no", "no", "no", "no", "no", "no", "", "test", " trim", "no", "no", "no", "no", "no", "no", "no", "new\r\nlines", "windows", "mac"];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.trimTrailingNewlines(newTestData[i], "no")).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value with an invalid custom default value", function() {
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test", " trim", null, null, null, null, null, null, null, "new\r\nlines", "windows", "mac"];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.trimTrailingNewlines(newTestData[i], Infinity)).to.equal(results[i]);
 			}
 		});
 	});
@@ -3275,14 +3354,16 @@ describe("Utilities", function() {
 	describe("toString", function() {
 		function func() { console.log("All this talk of tea is getting me thirsty, shall I pop the kettle on?"); };
 
-		const newTestData = testData.concat(new Error("There are tales of pots."), utilities.createError("A watched pot never boils.", 69), func, /delicious.*muggachini/gmi);
+		const testError = new Error("There are tales of pots.");
+		const customTestError = utilities.createError("A watched pot never boils.", 69);
+		const newTestData = testData.concat(testError, customTestError, func, /delicious.*muggachini/gmi);
 
 		it("should be a function", function() {
 			expect(utilities.toString).to.be.an.instanceof(Function);
 		});
 
 		it("should produce the correct result for each test value", function() {
-			const results = ["undefined", "null", "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", "{\"message\":\"There are tales of pots.\"}", "{\"message\":\"A watched pot never boils.\",\"status\":69}", func.toString(), "/delicious.*muggachini/gmi"];
+			const results = ["undefined", "null", "false", "true", "false", "true", "0", "1", "3.141592654", "NaN", "Infinity", "-Infinity", "", "test", " trim\t", "{}", "{\"nice\":\"meme\"}", "[]", "[0]", testDate.toString(), emptyFunctionString, "/.+/", testError.stack, customTestError.stack, func.toString(), "/delicious.*muggachini/gmi"];
 
 			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.toString(newTestData[i])).to.equal(results[i]);
@@ -4166,6 +4247,15 @@ describe("Utilities", function() {
 
 			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.prependSlash(newTestData[i])).to.equal(results[i]);
+				expect(utilities.prependSlash(newTestData[i], true)).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value when using backslashes", function() {
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "\\test", "\\trim", null, null, null, null, null, null, null, "", "", "/", "/", "/", "\\", "\\", "\\", "\\", "/ocean/man", "/no/u", "\\habib/tahktar/", "\\goliath\\online", "\\im\\in\\a\\pickle", "\\finally\\"];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.prependSlash(newTestData[i], false)).to.equal(results[i]);
 			}
 		});
 	});
@@ -4198,6 +4288,15 @@ describe("Utilities", function() {
 
 			for(let i = 0; i < newTestData.length; i++) {
 				expect(utilities.appendSlash(newTestData[i])).to.equal(results[i]);
+				expect(utilities.appendSlash(newTestData[i], true)).to.equal(results[i]);
+			}
+		});
+
+		it("should produce the correct result for each test value when using backslashes", function() {
+			const results = [null, null, null, null, null, null, null, null, null, null, null, null, "", "test\\", "trim\\", null, null, null, null, null, null, null, "", "", "/", "/", "/", "\\", "\\", "\\", "\\", "/take/me/by/the/hand\\", "/ayy/lmao\\", "northern/petrol/", "\\door\\stuck\\", "\\do\\u\\kno\\da\\wae\\", "wau\\"];
+
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.appendSlash(newTestData[i], false)).to.equal(results[i]);
 			}
 		});
 	});
@@ -4205,84 +4304,139 @@ describe("Utilities", function() {
 	describe("joinPaths", function() {
 		const newTestData = [
 			{
-				left: null,
-				right: null,
-				result: ""
+				paths: [],
+				result: "",
+				customResult: ""
 			},
 			{
-				left: null,
-				right: "readme.txt",
-				result: "readme.txt"
+				paths: [null],
+				result: "",
+				customResult: ""
 			},
 			{
-				left: "http://www.nitro404.com",
-				right: null,
-				result: "http://www.nitro404.com"
+				paths: [""],
+				result: "",
+				customResult: ""
 			},
 			{
-				left: "https://api.test.com",
-				right: "status",
-				result: "https://api.test.com/status"
+				paths: ["/"],
+				result: "/",
+				customResult: "\\"
 			},
 			{
-				left: "https://www.youtube.com/",
-				right: "watch?v=TBsdWW7MOew",
-				result: "https://www.youtube.com/watch?v=TBsdWW7MOew"
+				paths: ["."],
+				result: ".",
+				customResult: "."
 			},
 			{
-				left: "https://www.reddit.com",
-				right: "/r/circlejerk",
-				result: "https://www.reddit.com/r/circlejerk"
+				paths: [null, null],
+				result: "",
+				customResult: ""
 			},
 			{
-				left: "https://steamcommunity.com/id/",
-				right: "/gabelogannewell",
-				result: "https://steamcommunity.com/id/gabelogannewell"
+				paths: [null, "readme.txt"],
+				result: "readme.txt",
+				customResult: "readme.txt"
 			},
 			{
-				left: "https://www.youtube.com\\",
-				right: "watch?v=FuraQCCsKgE",
-				result: "https://www.youtube.com/watch?v=FuraQCCsKgE"
+				paths: ["/", "/"],
+				result: "/",
+				customResult: "\\"
 			},
 			{
-				left: "https://www.youtube.com",
-				right: "\\watch?v=eOrMzdXEfhA",
-				result: "https://www.youtube.com/watch?v=eOrMzdXEfhA"
+				paths: [".", "/"],
+				result: ".",
+				customResult: "."
 			},
 			{
-				left: "https://www.youtube.com\\",
-				right: "\\watch?v=6HFw8TNexyU",
-				result: "https://www.youtube.com/watch?v=6HFw8TNexyU"
+				paths: ["./", "/test"],
+				result: "./test",
+				customResult: ".\\test"
 			},
 			{
-				left: "https://www.youtube.com//",
-				right: "watch?v=NgWn7zbgxZ4",
-				result: "https://www.youtube.com/watch?v=NgWn7zbgxZ4"
+				paths: ["/var/", "/tmp"],
+				result: "/var/tmp",
+				customResult: "\\var\\tmp"
 			},
 			{
-				left: "https://www.youtube.com",
-				right: "//watch?v=0tdyU_gW6WE",
-				result: "https://www.youtube.com/watch?v=0tdyU_gW6WE"
+				paths: ["/dev//", "\\/null"],
+				result: "/dev/null",
+				customResult: "\\dev\\null"
 			},
 			{
-				left: "https://www.youtube.com//",
-				right: "//watch?v=ygI-2F8ApUM",
-				result: "https://www.youtube.com/watch?v=ygI-2F8ApUM"
+				paths: ["http://www.nitro404.com", null],
+				result: "http://www.nitro404.com",
+				customResult: "http:\\\\www.nitro404.com"
 			},
 			{
-				left: "https://www.youtube.com\\/",
-				right: "watch?v=nxg4C365LbQ",
-				result: "https://www.youtube.com/watch?v=nxg4C365LbQ"
+				paths: ["https://api.test.com", "status"],
+				result: "https://api.test.com/status",
+				customResult: "https:\\\\api.test.com\\status"
 			},
 			{
-				left: "https://www.youtube.com",
-				right: "\\/watch?v=1wl5BbUg05M",
-				result: "https://www.youtube.com/watch?v=1wl5BbUg05M"
+				paths: ["https://www.youtube.com/", "watch?v=TBsdWW7MOew"],
+				result: "https://www.youtube.com/watch?v=TBsdWW7MOew",
+				customResult: "https:\\\\www.youtube.com\\watch?v=TBsdWW7MOew"
 			},
 			{
-				left: "https://www.youtube.com\\/",
-				right: "\\/watch?v=JjJ90jhS84A",
-				result: "https://www.youtube.com/watch?v=JjJ90jhS84A"
+				paths: ["https://www.reddit.com", "/r/circlejerk"],
+				result: "https://www.reddit.com/r/circlejerk",
+				customResult: "https:\\\\www.reddit.com\\r\\circlejerk"
+			},
+			{
+				paths: ["https://steamcommunity.com/id/", "/gabelogannewell"],
+				result: "https://steamcommunity.com/id/gabelogannewell",
+				customResult: "https:\\\\steamcommunity.com\\id\\gabelogannewell"
+			},
+			{
+				paths: ["https://www.youtube.com\\", "watch?v=FuraQCCsKgE"],
+				result: "https://www.youtube.com/watch?v=FuraQCCsKgE",
+				customResult: "https:\\\\www.youtube.com\\watch?v=FuraQCCsKgE"
+			},
+			{
+				paths: ["https://www.youtube.com", "\\watch?v=eOrMzdXEfhA"],
+				result: "https://www.youtube.com/watch?v=eOrMzdXEfhA",
+				customResult: "https:\\\\www.youtube.com\\watch?v=eOrMzdXEfhA"
+			},
+			{
+				paths: ["https://www.youtube.com\\", "\\watch?v=6HFw8TNexyU"],
+				result: "https://www.youtube.com/watch?v=6HFw8TNexyU",
+				customResult: "https:\\\\www.youtube.com\\watch?v=6HFw8TNexyU"
+			},
+			{
+				paths: ["https://www.youtube.com//", "watch?v=NgWn7zbgxZ4"],
+				result: "https://www.youtube.com/watch?v=NgWn7zbgxZ4",
+				customResult: "https:\\\\www.youtube.com\\watch?v=NgWn7zbgxZ4"
+			},
+			{
+				paths: ["https://www.youtube.com", "//watch?v=0tdyU_gW6WE"],
+				result: "https://www.youtube.com/watch?v=0tdyU_gW6WE",
+				customResult: "https:\\\\www.youtube.com\\watch?v=0tdyU_gW6WE"
+			},
+			{
+				paths: ["https://www.youtube.com//", "//watch?v=ygI-2F8ApUM"],
+				result: "https://www.youtube.com/watch?v=ygI-2F8ApUM",
+				customResult: "https:\\\\www.youtube.com\\watch?v=ygI-2F8ApUM"
+			},
+			{
+				paths: ["https://www.youtube.com\\/", "watch?v=nxg4C365LbQ"],
+				result: "https://www.youtube.com/watch?v=nxg4C365LbQ",
+				customResult: "https:\\\\www.youtube.com\\watch?v=nxg4C365LbQ"
+			},
+			{
+				paths: ["https://www.youtube.com", "\\/watch?v=1wl5BbUg05M"],
+				result: "https://www.youtube.com/watch?v=1wl5BbUg05M",
+				customResult: "https:\\\\www.youtube.com\\watch?v=1wl5BbUg05M"
+			},
+			{
+				paths: ["https://www.youtube.com\\/", "\\/watch?v=JjJ90jhS84A"],
+				result: "https://www.youtube.com/watch?v=JjJ90jhS84A",
+				customResult: "https:\\\\www.youtube.com\\watch?v=JjJ90jhS84A"
+			},
+			{
+				paths: ["door", "stuck", "cant", "make", "it"],
+				result: "door/stuck/cant/make/it",
+				customResult: "door\\stuck\\cant\\make\\it"
 			}
 		];
 
@@ -4292,7 +4446,24 @@ describe("Utilities", function() {
 
 		it("should produce the correct result for each test value", function() {
 			for(let i = 0; i < newTestData.length; i++) {
-				expect(utilities.joinPaths(newTestData[i].left, newTestData[i].right)).to.equal(newTestData[i].result);
+				expect(utilities.joinPaths(newTestData[i].paths)).to.equal(newTestData[i].result);
+				expect(utilities.joinPaths(...newTestData[i].paths)).to.equal(newTestData[i].result);
+			}
+		});
+
+		it("should produce the correct result for each test value with a custom separator character", function() {
+			for(let i = 0; i < newTestData.length; i++) {
+				expect(utilities.joinPaths(newTestData[i].paths, { separator: "/" })).to.equal(newTestData[i].result);
+				expect(utilities.joinPaths(newTestData[i].paths.concat({ separator: "/" }))).to.equal(newTestData[i].result);
+				expect(utilities.joinPaths(...newTestData[i].paths, { separator: "/" })).to.equal(newTestData[i].result);
+
+				expect(utilities.joinPaths(newTestData[i].paths, { separator: "\\" })).to.equal(newTestData[i].customResult);
+				expect(utilities.joinPaths(newTestData[i].paths.concat({ separator: "\\" }))).to.equal(newTestData[i].customResult);
+				expect(utilities.joinPaths(...newTestData[i].paths, { separator: "\\" })).to.equal(newTestData[i].customResult);
+
+				expect(utilities.joinPaths(newTestData[i].paths, { separator: "wat" })).to.equal(newTestData[i].result);
+				expect(utilities.joinPaths(newTestData[i].paths.concat({ separator: "is" }))).to.equal(newTestData[i].result);
+				expect(utilities.joinPaths(...newTestData[i].paths, { separator: "dis" })).to.equal(newTestData[i].result);
 			}
 		});
 	});
@@ -4387,7 +4558,10 @@ describe("Utilities", function() {
 			new Date("July 1, " + (testDate.getFullYear() + 1))
 		);
 
-		const allMonths = utilities.createRange(1, 12);
+		const allMonths = utilities.createRange(1, 12).map(function(month) {
+			return month.toString();
+		});
+
 		const allMonthsPadded = [];
 
 		for(let i = 0; i < allMonths.length; i++) {
@@ -4781,13 +4955,13 @@ describe("Utilities", function() {
 		it("should produce the correct result for each test value with no prefix or suffix", function() {
 			const results = [
 				["420"],
-				["7"],
+				["007"],
 				["2", "2_0"],
 				["3", "3_1", "3_1_0", "3_1_0_0"],
-				["4", "4_2", "4_2_0", "4_2_0_0"],
+				["04", "04_2", "04_2_00", "04_2_00_0"],
 				["can\'t", "can\'t_make", "can\'t_make_it"],
 				null,
-				["0","0_6", "0_6_4", "0_6_4_800", "0_6_4_800_0"]
+				["00","00_6", "00_6_04", "00_6_04_00800", "00_6_04_00800_0"]
 			];
 
 			for(let i = 0; i < additionalTestData.length; i++) {
@@ -4798,13 +4972,13 @@ describe("Utilities", function() {
 		it("should produce the correct result for each test value and prefix", function() {
 			const results = [
 				[["saint420"], ["vapor420"]],
-				[["saint7"], ["vapor7"]],
+				[["saint007"], ["vapor007"]],
 				[["saint2", "saint2_0"], ["vapor2", "vapor2_0"]],
 				[["saint3", "saint3_1", "saint3_1_0", "saint3_1_0_0"], ["vapor3", "vapor3_1", "vapor3_1_0", "vapor3_1_0_0"]],
-				[["saint4", "saint4_2", "saint4_2_0", "saint4_2_0_0"], ["vapor4", "vapor4_2", "vapor4_2_0", "vapor4_2_0_0"]],
+				[["saint04", "saint04_2", "saint04_2_00", "saint04_2_00_0"], ["vapor04", "vapor04_2", "vapor04_2_00", "vapor04_2_00_0"]],
 				[["saintcan\'t", "saintcan\'t_make", "saintcan\'t_make_it"], ["vaporcan\'t", "vaporcan\'t_make", "vaporcan\'t_make_it"]],
 				[null, null],
-				[["saint0", "saint0_6", "saint0_6_4", "saint0_6_4_800", "saint0_6_4_800_0"], ["vapor0", "vapor0_6", "vapor0_6_4", "vapor0_6_4_800", "vapor0_6_4_800_0"]]
+				[["saint00", "saint00_6", "saint00_6_04", "saint00_6_04_00800", "saint00_6_04_00800_0"], ["vapor00", "vapor00_6", "vapor00_6_04", "vapor00_6_04_00800", "vapor00_6_04_00800_0"]]
 			];
 
 			for(let i = 0; i < additionalTestData.length; i++) {
@@ -4817,13 +4991,13 @@ describe("Utilities", function() {
 		it("should produce the correct result for each test value and suffix", function() {
 			const results = [
 				[["420pepsi"], ["420wave"]],
-				[["7pepsi"], ["7wave"]],
+				[["007pepsi"], ["007wave"]],
 				[["2pepsi", "2_0pepsi"], ["2wave", "2_0wave"]],
 				[["3pepsi", "3_1pepsi", "3_1_0pepsi", "3_1_0_0pepsi"], ["3wave", "3_1wave", "3_1_0wave", "3_1_0_0wave"]],
-				[["4pepsi", "4_2pepsi", "4_2_0pepsi", "4_2_0_0pepsi"], ["4wave", "4_2wave", "4_2_0wave", "4_2_0_0wave"]],
+				[["04pepsi", "04_2pepsi", "04_2_00pepsi", "04_2_00_0pepsi"], ["04wave", "04_2wave", "04_2_00wave", "04_2_00_0wave"]],
 				[["can\'tpepsi", "can\'t_makepepsi", "can\'t_make_itpepsi"], ["can\'twave", "can\'t_makewave", "can\'t_make_itwave"]],
 				[null, null],
-				[["0pepsi", "0_6pepsi", "0_6_4pepsi", "0_6_4_800pepsi", "0_6_4_800_0pepsi"], ["0wave", "0_6wave", "0_6_4wave", "0_6_4_800wave", "0_6_4_800_0wave"]]
+				[["00pepsi", "00_6pepsi", "00_6_04pepsi", "00_6_04_00800pepsi", "00_6_04_00800_0pepsi"], ["00wave", "00_6wave", "00_6_04wave", "00_6_04_00800wave", "00_6_04_00800_0wave"]]
 			];
 
 			for(let i = 0; i < additionalTestData.length; i++) {
@@ -4840,8 +5014,8 @@ describe("Utilities", function() {
 					[["vapor420pepsi"], ["vapor420wave"]]
 				],
 				[
-					[["saint7pepsi"], ["saint7wave"]],
-					[["vapor7pepsi"], ["vapor7wave"]]
+					[["saint007pepsi"], ["saint007wave"]],
+					[["vapor007pepsi"], ["vapor007wave"]]
 				],
 				[
 					[["saint2pepsi", "saint2_0pepsi"], ["saint2wave", "saint2_0wave"]],
@@ -4852,8 +5026,8 @@ describe("Utilities", function() {
 					[["vapor3pepsi", "vapor3_1pepsi", "vapor3_1_0pepsi", "vapor3_1_0_0pepsi"], ["vapor3wave", "vapor3_1wave", "vapor3_1_0wave", "vapor3_1_0_0wave"]]
 				],
 				[
-					[["saint4pepsi", "saint4_2pepsi", "saint4_2_0pepsi", "saint4_2_0_0pepsi"], ["saint4wave", "saint4_2wave", "saint4_2_0wave", "saint4_2_0_0wave"]],
-					[["vapor4pepsi", "vapor4_2pepsi", "vapor4_2_0pepsi", "vapor4_2_0_0pepsi"], ["vapor4wave", "vapor4_2wave", "vapor4_2_0wave", "vapor4_2_0_0wave"]]
+					[["saint04pepsi", "saint04_2pepsi", "saint04_2_00pepsi", "saint04_2_00_0pepsi"], ["saint04wave", "saint04_2wave", "saint04_2_00wave", "saint04_2_00_0wave"]],
+					[["vapor04pepsi", "vapor04_2pepsi", "vapor04_2_00pepsi", "vapor04_2_00_0pepsi"], ["vapor04wave", "vapor04_2wave", "vapor04_2_00wave", "vapor04_2_00_0wave"]]
 				],
 				[
 					[["saintcan\'tpepsi", "saintcan\'t_makepepsi", "saintcan\'t_make_itpepsi"], ["saintcan\'twave", "saintcan\'t_makewave", "saintcan\'t_make_itwave"]],
@@ -4864,8 +5038,8 @@ describe("Utilities", function() {
 					[null, null]
 				],
 				[
-					[["saint0pepsi", "saint0_6pepsi", "saint0_6_4pepsi", "saint0_6_4_800pepsi", "saint0_6_4_800_0pepsi"], ["saint0wave", "saint0_6wave", "saint0_6_4wave", "saint0_6_4_800wave", "saint0_6_4_800_0wave"]],
-					[["vapor0pepsi", "vapor0_6pepsi", "vapor0_6_4pepsi", "vapor0_6_4_800pepsi", "vapor0_6_4_800_0pepsi"], ["vapor0wave", "vapor0_6wave", "vapor0_6_4wave", "vapor0_6_4_800wave", "vapor0_6_4_800_0wave"]]
+					[["saint00pepsi", "saint00_6pepsi", "saint00_6_04pepsi", "saint00_6_04_00800pepsi", "saint00_6_04_00800_0pepsi"], ["saint00wave", "saint00_6wave", "saint00_6_04wave", "saint00_6_04_00800wave", "saint00_6_04_00800_0wave"]],
+					[["vapor00pepsi", "vapor00_6pepsi", "vapor00_6_04pepsi", "vapor00_6_04_00800pepsi", "vapor00_6_04_00800_0pepsi"], ["vapor00wave", "vapor00_6wave", "vapor00_6_04wave", "vapor00_6_04_00800wave", "vapor00_6_04_00800_0wave"]]
 				]
 			];
 
@@ -4888,7 +5062,7 @@ describe("Utilities", function() {
 
 		it("should produce the correct result for each test value", function() {
 			const results = [
-				null, null, null, null, null, null, ["0"], ["1"], ["3", "141592654"], null, null, null, null, ["test"], ["trim"], null, null, null, null, null, null, null, ["420"], ["7"], ["2", "0"], ["3", "1", "0", "0"], ["4", "2", "0", "0"], ["can't", "make", "it"], null, ["0", "6", "4", "800", "0"]
+				null, null, null, null, null, null, ["0"], ["1"], ["3", "141592654"], null, null, null, null, ["test"], ["trim"], null, null, null, null, null, null, null, ["420"], ["007"], ["2", "0"], ["3", "1", "0", "0"], ["04", "2", "00", "0"], ["can't", "make", "it"], null, ["00", "6", "04", "00800", "0"]
 			];
 
 			for(let i = 0; i < newTestData.length; i++) {
@@ -4902,7 +5076,7 @@ describe("Utilities", function() {
 
 		it("should produce the correct result for each test value with trim trailing zeroes enabled", function() {
 			const results = [
-				null, null, null, null, null, null, ["0"], ["1"], ["3", "141592654"], null, null, null, null, ["test"], ["trim"], null, null, null, null, null, null, null, ["420"], ["7"], ["2"], ["3", "1"], ["4", "2"], ["can't", "make", "it"], null, ["0", "6", "4", "800"]
+				null, null, null, null, null, null, ["0"], ["1"], ["3", "141592654"], null, null, null, null, ["test"], ["trim"], null, null, null, null, null, null, null, ["420"], ["007"], ["2"], ["3", "1"], ["04", "2", "00"], ["can't", "make", "it"], null, ["00", "6", "04", "00800"]
 			];
 
 			for(let i = 0; i < newTestData.length; i++) {
@@ -4973,25 +5147,25 @@ describe("Utilities", function() {
 
 		const additionalResults = {
 			caseInsensitive: [
-				[ 0,    0,   -1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[ 0,    0,   -1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[ 1,    1,    0,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,    0,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    0,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    0,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    1,    1,    0,    0,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    1,    1,    0,    0,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    0,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    0,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    1,    0,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    1,    1,    0,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 0,    0,   -1,   -1,    1,    1,    1,    1,    1,    1,    1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 0,    0,   -1,   -1,    1,    1,    1,    1,    1,    1,    1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    0,   -1,    1,    1,    1,    1,    1,    1,    1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    1,    0,    1,    1,    1,    1,    1,    1,    1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    0,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    0,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    0,    0,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    0,    0,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    0,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    0,   -1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    1,    0,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    0,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
 				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    0,   null,  1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   -1  ],
 				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    1,   -1,    1,    1,    1,    1,    1,    1,    1,   -1,   -1,   null,  0,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null, -1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1  ],
 				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,    0,    0,   -1,   -1,   -1,   -1  ],
 				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,    0,    0,   -1,   -1,   -1,   -1  ],
 				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,    1,    1,    0,    0,   -1,   -1  ],
@@ -5000,25 +5174,25 @@ describe("Utilities", function() {
 				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   null,  1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    0  ],
 			],
 			caseSensitive: [
-				[ 0,    0,   -1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[ 0,    0,   -1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[ 1,    1,    0,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,    0,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    0,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    0,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    1,    1,    0,    0,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    1,    1,    0,    0,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    0,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    0,   -1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    1,    0,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    1,    1,    0,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 0,    0,   -1,   -1,    1,    1,    1,    1,    1,    1,    1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 0,    0,   -1,   -1,    1,    1,    1,    1,    1,    1,    1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    0,   -1,    1,    1,    1,    1,    1,    1,    1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    1,    0,    1,    1,    1,    1,    1,    1,    1,   -1,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    0,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    0,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    0,    0,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    0,    0,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    0,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    0,   -1,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,    1,    1,    1,    1,    1,    1,    0,   -1,   -1,   null, -1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    0,   -1,   null,  1,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
 				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    0,   null,  1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1  ],
 				[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
-				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null,  1,    1,    1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[ 1,    1,    1,   -1,    1,    1,    1,    1,    1,    1,    1,   -1,   -1,   null,  0,    1,    1,    1,    1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null, -1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1,   -1  ],
+				[-1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   null, -1,    1,    1,    1,    0,   -1,   -1,   -1,   -1,   -1,   -1  ],
 				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,    0,    1,   -1,    1,    1,   -1  ],
 				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,   -1,    0,   -1,   -1,   -1,   -1  ],
 				[ 1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,   -1,   null,  1,    1,    1,    1,    1,    1,    1,    0,    1,    1,   -1  ],
@@ -5032,116 +5206,66 @@ describe("Utilities", function() {
 			expect(utilities.compareVersions).to.be.an.instanceof(Function);
 		});
 
-		it("should produce the correct result for each test value pair with case sensitivity disabled", function() {
+		it("should produce the correct result for each test value pair or throw an error for any invalid values with case sensitivity disabled", function() {
 			for(let i = 0; i < newTestData.length; i++) {
 				for(let j = 0; j < newTestData.length; j++) {
-					expect(utilities.compareVersions(newTestData[i], newTestData[j])).to.equal(newResults.caseInsensitive[i][j]);
-					expect(utilities.compareVersions(newTestData[i], newTestData[j], false)).to.equal(newResults.caseInsensitive[i][j]);
-					expect(utilities.compareVersions(newTestData[i], newTestData[j], false, false)).to.equal(newResults.caseInsensitive[i][j]);
+					const result = newResults.caseInsensitive[i][j];
+
+					if(result === null) {
+						expect(function() { utilities.compareVersions(newTestData[i], newTestData[j]); }).to.throw();
+						expect(function() { utilities.compareVersions(newTestData[i], newTestData[j], false); }).to.throw();
+					}
+					else {
+						expect(utilities.compareVersions(newTestData[i], newTestData[j])).to.equal(result);
+						expect(utilities.compareVersions(newTestData[i], newTestData[j], false)).to.equal(result);
+					}
 				}
 			}
 		});
 
-		it("should produce the correct result for each test value pair with case sensitivity enabled", function() {
+		it("should produce the correct result for each test value pair or throw an error for any invalid values with case sensitivity enabled", function() {
 			for(let i = 0; i < newTestData.length; i++) {
 				for(let j = 0; j < newTestData.length; j++) {
-					expect(utilities.compareVersions(newTestData[i], newTestData[j], true)).to.equal(newResults.caseSensitive[i][j]);
-					expect(utilities.compareVersions(newTestData[i], newTestData[j], true, false)).to.equal(newResults.caseSensitive[i][j]);
+					const result = newResults.caseSensitive[i][j];
+
+					if(result === null) {
+						expect(function() { utilities.compareVersions(newTestData[i], newTestData[j], true); }).to.throw();
+					}
+					else {
+						expect(utilities.compareVersions(newTestData[i], newTestData[j], true)).to.equal(result);
+					}
 				}
 			}
 		});
 
-		it("should correctly throw errors when enabled for each test value pair with case sensitivity disabled", function() {
-			let errorThrown = null;
-
-			for(let i = 0; i < newTestData.length; i++) {
-				for(let j = 0; j < newTestData.length; j++) {
-					errorThrown = false;
-
-					try {
-						utilities.compareVersions(newTestData[i], newTestData[j], false, true);
-					}
-					catch(error) {
-						errorThrown = true;
-					}
-
-					expect(errorThrown).to.equal(newResults.caseInsensitive[i][j] === null);
-				}
-			}
-		});
-
-		it("should correctly throw errors when enabled for each test value pair with case sensitivity enabled", function() {
-			let errorThrown = null;
-
-			for(let i = 0; i < newTestData.length; i++) {
-				for(let j = 0; j < newTestData.length; j++) {
-					errorThrown = false;
-
-					try {
-						utilities.compareVersions(newTestData[i], newTestData[j], true, true);
-					}
-					catch(error) {
-						errorThrown = true;
-					}
-
-					expect(errorThrown).to.equal(newResults.caseSensitive[i][j] === null);
-				}
-			}
-		});
-
-		it("should produce the correct result for each additional test value pair with case sensitivity disabled", function() {
+		it("should produce the correct result for each additional test value pair or throw an error for any invalid values with case sensitivity disabled", function() {
 			for(let i = 0; i < additionalTestData.length; i++) {
 				for(let j = 0; j < additionalTestData.length; j++) {
-					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j])).to.equal(additionalResults.caseInsensitive[i][j]);
-					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], false)).to.equal(additionalResults.caseInsensitive[i][j]);
-					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], false, false)).to.equal(additionalResults.caseInsensitive[i][j]);
+					const result = additionalResults.caseInsensitive[i][j];
+
+					if(result === null) {
+						expect(function() { utilities.compareVersions(additionalTestData[i], additionalTestData[j]); }).to.throw();
+						expect(function() { utilities.compareVersions(additionalTestData[i], additionalTestData[j], false); }).to.throw();
+					}
+					else {
+						expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j])).to.equal(result);
+						expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], false)).to.equal(result);
+					}
 				}
 			}
 		});
 
-		it("should produce the correct result for each additional test value pair with case sensitivity enabled", function() {
+		it("should produce the correct result for each additional test value pair or throw an error for any invalid values with case sensitivity enabled", function() {
 			for(let i = 0; i < additionalTestData.length; i++) {
 				for(let j = 0; j < additionalTestData.length; j++) {
-					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], true)).to.equal(additionalResults.caseSensitive[i][j]);
-					expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], true, false)).to.equal(additionalResults.caseSensitive[i][j]);
-				}
-			}
-		});
+					const result = additionalResults.caseSensitive[i][j];
 
-		it("should correctly throw errors when enabled for each additional test value pair with case sensitivity disabled", function() {
-			let errorThrown = null;
-
-			for(let i = 0; i < additionalTestData.length; i++) {
-				for(let j = 0; j < additionalTestData.length; j++) {
-					errorThrown = false;
-
-					try {
-						utilities.compareVersions(additionalTestData[i], additionalTestData[j], false, true);
+					if(result === null) {
+						expect(function() { utilities.compareVersions(additionalTestData[i], additionalTestData[j], true); }).to.throw();
 					}
-					catch(error) {
-						errorThrown = true;
+					else {
+						expect(utilities.compareVersions(additionalTestData[i], additionalTestData[j], true)).to.equal(result);
 					}
-
-					expect(errorThrown).to.equal(additionalResults.caseInsensitive[i][j] === null);
-				}
-			}
-		});
-
-		it("should correctly throw errors when enabled for each additional test value pair with case sensitivity enabled", function() {
-			let errorThrown = null;
-
-			for(let i = 0; i < additionalTestData.length; i++) {
-				for(let j = 0; j < additionalTestData.length; j++) {
-					errorThrown = false;
-
-					try {
-						utilities.compareVersions(additionalTestData[i], additionalTestData[j], true, true);
-					}
-					catch(error) {
-						errorThrown = true;
-					}
-
-					expect(errorThrown).to.equal(additionalResults.caseSensitive[i][j] === null);
 				}
 			}
 		});

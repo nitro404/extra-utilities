@@ -7,10 +7,6 @@
 	"use strict";
 
 	if(typeof require !== "undefined") {
-		if(typeof validator === "undefined") {
-			global.validator = require("validator");
-		}
-
 		if(typeof changeCase === "undefined") {
 			global.changeCase = require("change-case-bundled");
 		}
@@ -67,6 +63,38 @@
 
 	utilities.isInvalidNumber = function isInvalidNumber(value) {
 		return typeof value !== "number" || isNaN(value) || value === -Infinity || value === Infinity;
+	};
+
+	utilities.isInteger = function isInteger(value, allowObjects) {
+		if(Number.isInteger(value)) {
+			return true;
+		}
+
+		if(value instanceof Number && utilities.parseBoolean(allowObjects, true)) {
+			return Number.isInteger(value.valueOf());
+		}
+
+		if(typeof value !== "string") {
+			return false;
+		}
+
+		return !!value.match(/^([+-]?[1-9][0-9]*|0)$/);
+	};
+
+	utilities.isFloat =  function isFloat(value, allowObjects) {
+		if(typeof value === "number") {
+			return !isNaN(value) && isFinite(value);
+		}
+
+		if(value instanceof Number && utilities.parseBoolean(allowObjects, true)) {
+			return true;
+		}
+
+		if(typeof value !== "string") {
+			return false;
+		}
+
+		return !!value.match(/^([+-]?(((([1-9][0-9]*|0)?\.)[0-9]+)|([1-9][0-9]*|0)))$/);
 	};
 
 	utilities.isEmptyString = function isEmptyString(value, trim) {
@@ -321,9 +349,12 @@
 			newValue = parseInt(value);
 		}
 		else if(typeof value === "string") {
-			if(validator.isFloat(value)) {
+			if(utilities.isFloat(value)) {
 				newValue = parseInt(value);
 			}
+		}
+		else if(value instanceof Number) {
+			newValue = parseInt(value.valueOf());
 		}
 
 		if(utilities.isInvalidNumber(newValue)) {
@@ -335,16 +366,19 @@
 		return newValue;
 	};
 
-	utilities.parseFloatingPointNumber = function parseFloatingPointNumber(value, defaultValue) {
+	utilities.parseFloat = function parseFloatingPointNumber(value, defaultValue) {
 		var newValue = NaN;
 
 		if(typeof value === "number") {
 			newValue = value;
 		}
 		else if(typeof value === "string") {
-			if(validator.isFloat(value)) {
+			if(utilities.isFloat(value)) {
 				newValue = parseFloat(value);
 			}
+		}
+		else if(value instanceof Number) {
+			newValue = value.valueOf();
 		}
 
 		if(utilities.isInvalidNumber(newValue)) {
@@ -354,13 +388,15 @@
 		return newValue;
 	};
 
+	utilities.parseFloatingPointNumber = utilities.parseFloat;
+
 	utilities.parseDate = function parseDate(value, defaultValue) {
 		if(!utilities.isDate(defaultValue)) {
 			defaultValue = null;
 		}
 
 		if(typeof value === "number") {
-			if(utilities.isInvalidNumber(value) || !Number.isInteger(value)) {
+			if(utilities.isInvalidNumber(value) || !Number.isInteger(value) || value < 0) {
 				return defaultValue;
 			}
 
@@ -375,7 +411,7 @@
 
 			var timestamp = null;
 
-			if(validator.isInt(formattedValue)) {
+			if(utilities.isInteger(formattedValue)) {
 				timestamp = parseInt(formattedValue);
 			}
 			else {
@@ -395,15 +431,9 @@
 		return defaultValue;
 	};
 
-	utilities.parseTime = function parseTime(value, throwErrors) {
-		throwErrors = utilities.parseBoolean(throwErrors);
-
+	utilities.parseTime = function parseTime(value) {
 		if(utilities.isEmptyString(value)) {
-			if(throwErrors) {
-				throw new Error("Invalid or empty time value.");
-			}
-
-			return null;
+			throw new Error("Invalid or empty time value.");
 		}
 
 		var formattedValue = value.trim();
@@ -415,11 +445,7 @@
 			var regularHour = utilities.parseInteger(utilities.trimLeadingZeroes(regularTime[2]));
 
 			if(utilities.isInvalidNumber(regularHour)) {
-				if(throwErrors) {
-					throw new Error("Invalid regular hour: \"" + regularTime[2] + "\".");
-				}
-
-				return null;
+				throw new Error("Invalid regular hour: \"" + regularTime[2] + "\".");
 			}
 
 			minutes = utilities.parseInteger(utilities.trimLeadingZeroes(regularTime[4]));
@@ -432,11 +458,7 @@
 			var morning = period === "AM" ? true : (period === "PM" ? false : null);
 
 			if(morning === null) {
-				if(throwErrors) {
-					throw new Error("Invalid period: \"" + regularTime[5] + "\".");
-				}
-
-				return null;
+				throw new Error("Invalid period: \"" + regularTime[5] + "\".");
 			}
 
 			hour = morning ? regularHour + (regularHour === 12 ? 12 : 0) : regularHour + (regularHour === 12 ? 0 : 12);
@@ -461,31 +483,19 @@
 				}
 
 				if(utilities.isInvalid(militaryHour) || utilities.isInvalid(militaryMinutes)) {
-					if(throwErrors) {
-						throw new Error("Invalid military time: \"" + formattedValue + "\".");
-					}
-
-					return null;
+					throw new Error("Invalid military time: \"" + formattedValue + "\".");
 				}
 
 				hour = utilities.parseInteger(utilities.trimLeadingZeroes(militaryHour));
 
 				if(utilities.isInvalidNumber(hour)) {
-					if(throwErrors) {
-						throw new Error("Invalid military time hour: \"" + militaryHour + "\".");
-					}
-
-					return null;
+					throw new Error("Invalid military time hour: \"" + militaryHour + "\".");
 				}
 
 				minutes = utilities.parseInteger(utilities.trimLeadingZeroes(militaryMinutes));
 
 				if(utilities.isInvalidNumber(minutes)) {
-					if(throwErrors) {
-						throw new Error("Invalid military time minutes: \"" + militaryMinutes + "\".");
-					}
-
-					return null;
+					throw new Error("Invalid military time minutes: \"" + militaryMinutes + "\".");
 				}
 
 				if(hour === 24 && minutes === 0) {
@@ -493,27 +503,15 @@
 				}
 			}
 			else {
-				if(throwErrors) {
-					throw new Error("Invalid time: \"" + formattedValue + "\".");
-				}
-
-				return null;
+				throw new Error("Invalid time: \"" + formattedValue + "\".");
 			}
 		}
 
 		if(hour < 0 || hour > 23) {
-			if(throwErrors) {
-				throw new Error("Time hour is out of range (0 - 23): \"" + hour + "\".");
-			}
-
-			return null;
+			throw new Error("Time hour is out of range (0 - 23): \"" + hour + "\".");
 		}
 		else if(minutes < 0 || minutes > 59) {
-			if(throwErrors) {
-				throw new Error("Time minutes is out of range (0 - 59): \"" + minutes + "\".");
-			}
-
-			return null;
+			throw new Error("Time minutes is out of range (0 - 59): \"" + minutes + "\".");
 		}
 
 		var regularHour = hour === 0 ? 12 : (hour <= 12 ? hour : hour - 12);
@@ -614,14 +612,14 @@
 			return null;
 		}
 
-		if(throwErrors) {
-			return new RegExp(regExpData[1], regExpData[2]);
-		}
-
 		try {
 			return new RegExp(regExpData[1], regExpData[2]);
 		}
 		catch(error) {
+			if(throwErrors) {
+				throw error;
+			}
+
 			return null;
 		}
 	};
@@ -1411,12 +1409,12 @@
 	};
 
 	utilities.trimString = function trimString(value, defaultValue) {
-		return typeof value === "string" ? value.trim() : (defaultValue === undefined ? null : defaultValue);
+		return typeof value === "string" ? value.trim() : (typeof defaultValue === "string" ? defaultValue : null);
 	};
 
 	utilities.trimNullTerminatedString = function trimNullTerminatedString(value, defaultValue) {
 		if(typeof value !== "string") {
-			return defaultValue === undefined ? null : defaultValue;
+			return typeof defaultValue === "string" ? defaultValue : null;
 		}
 
 		var nullTerminatorIndex = value.indexOf("\0");
@@ -1428,9 +1426,9 @@
 		return value;
 	};
 
-	utilities.trimWhitespace = function trimWhitespace(value, trimNewlines) {
+	utilities.trimWhitespace = function trimWhitespace(value, trimNewlines, defaultValue) {
 		if(typeof value !== "string") {
-			return null;
+			return typeof defaultValue === "string" ? defaultValue : null;
 		}
 
 		var trimmedString = value.replace(/^[ \t]+|[ \t]+$/gm, "");
@@ -1442,9 +1440,9 @@
 		return trimmedString;
 	};
 
-	utilities.trimTrailingNewlines = function trimTrailingNewlines(value) {
+	utilities.trimTrailingNewlines = function trimTrailingNewlines(value, defaultValue) {
 		if(typeof value !== "string") {
-			return null;
+			return typeof defaultValue === "string" ? defaultValue : null;
 		}
 
 		if(utilities.isEmptyString(value)) {
@@ -1553,10 +1551,10 @@
 		else if(typeof value === "number" && isNaN(value)) {
 			return "NaN";
 		}
-		else if(utilities.isDate(value)) {
+		else if(value instanceof Date) {
 			return value.toString();
 		}
-		else if(utilities.isRegularExpression(value)) {
+		else if(value instanceof RegExp) {
 			var flags = "";
 
 			for(var flag in regExpFlags) {
@@ -1567,17 +1565,11 @@
 
 			return "/" + value.source + "/" + flags;
 		}
-		else if(utilities.isFunction(value)) {
+		else if(value instanceof Function) {
 			return value.toString();
 		}
-		else if(utilities.isError(value)) {
-			var error = { message: value.message };
-
-			for(var attribute in value) {
-				error[attribute] = value[attribute];
-			}
-
-			return JSON.stringify(error);
+		else if(value instanceof Error) {
+			return value.stack;
 		}
 
 		return JSON.stringify(value);
@@ -1913,10 +1905,12 @@
 		return originalFileName.substring(0, maxLength - extension.length - (extension.length > 0 ? 1 : 0)) + (extension.length > 0 ? "." + extension : "");
 	};
 
-	utilities.prependSlash = function prependSlash(value) {
+	utilities.prependSlash = function prependSlash(value, forwardSlash) {
 		if(typeof value !== "string") {
 			return null;
 		}
+
+		forwardSlash = utilities.parseBoolean(forwardSlash, true);
 
 		var formattedValue = value.trim();
 
@@ -1925,16 +1919,18 @@
 		}
 
 		if(formattedValue[0] !== "/" && formattedValue[0] !== "\\") {
-			formattedValue = "/" + formattedValue;
+			formattedValue = (forwardSlash ? "/" : "\\") + formattedValue;
 		}
 
 		return formattedValue;
 	};
 
-	utilities.appendSlash = function appendSlash(value) {
+	utilities.appendSlash = function appendSlash(value, forwardSlash) {
 		if(typeof value !== "string") {
 			return null;
 		}
+
+		forwardSlash = utilities.parseBoolean(forwardSlash, true);
 
 		var formattedValue = value.trim();
 
@@ -1943,30 +1939,62 @@
 		}
 
 		if(formattedValue[formattedValue.length - 1] !== "/" && formattedValue[formattedValue.length - 1] !== "\\") {
-			formattedValue += "/";
+			formattedValue += (forwardSlash ? "/" : "\\");
 		}
 
 		return formattedValue;
 	};
 
-	utilities.joinPaths = function joinPaths(base, path) {
-		var formattedBase = typeof base === "string" ? base.trim().replace(/[\/\\]+$/, "") : null;
-		var formattedPath = typeof path === "string" ? path.trim().replace(/^[\/\\]+/, "") : null;
+	utilities.joinPaths = function joinPaths(paths, options) {
+		if(!Array.isArray(paths)) {
+			paths = Array.prototype.slice.call(arguments);
+		}
+
+		if(paths.length !== 0 && utilities.isObjectStrict(paths[paths.length - 1])) {
+			options = paths.splice(paths.length - 1, 1)[0];
+		}
+
+		if(!utilities.isObjectStrict(options)) {
+			options = { };
+		}
+
+		options.separator = utilities.trimString(options.separator);
+
+		if(options.separator !== "/" && options.separator !== "\\") {
+			options.separator = "/";
+		}
+
 		var newPath = "";
 
-		if(utilities.isNonEmptyString(formattedBase)) {
-			newPath += formattedBase;
+		for(var i = 0; i < paths.length; i++) {
+			var path = utilities.trimString(paths[i]);
 
-			if(utilities.isNonEmptyString(formattedPath)) {
-				newPath += "/";
+			if(utilities.isEmptyString(path)) {
+				continue;
+			}
+
+			if(utilities.isEmptyString(newPath)) {
+				if(path === "/" || path === "\\") {
+					newPath = path;
+				}
+				else {
+					newPath = path.replace(/[\/\\]+$/, "");
+				}
+			}
+			else {
+				path = path.replace(/^[\/\\]+/, "");
+
+				if(utilities.isNonEmptyString(path)) {
+					if(newPath[newPath.length - 1] !== options.separator) {
+						newPath += options.separator;
+					}
+
+					newPath += path;
+				}
 			}
 		}
 
-		if(utilities.isNonEmptyString(formattedPath)) {
-			newPath += formattedPath;
-		}
-
-		return newPath;
+		return newPath.replace(/[\/\\]/g, options.separator);
 	};
 
 	utilities.createQueryString = function createQueryString(value, includeQuestionMark) {
@@ -2031,7 +2059,7 @@
 					months.push((i <= 8 ? "0" : "") + (i + 1));
 				}
 				else {
-					months.push(i + 1);
+					months.push((i + 1).toString());
 				}
 			}
 		}
@@ -2207,7 +2235,7 @@
 		var part = null;
 
 		for(var i = 0; i < versionData.length; i++) {
-			if(validator.isInt(versionData[i])) {
+			if(utilities.isInteger(versionData[i])) {
 				part = utilities.parseInteger(versionData[i]);
 
 				if(utilities.isInvalidNumber(part) || part < 0) {
@@ -2239,28 +2267,19 @@
 		return version.length === 0 ? null : version;
 	};
 
-	utilities.compareVersions = function compareVersions(v1, v2, caseSensitive, throwErrors) {
+	utilities.compareVersions = function compareVersions(v1, v2, caseSensitive) {
 		caseSensitive = utilities.parseBoolean(caseSensitive, false);
-		throwErrors = utilities.parseBoolean(throwErrors, false);
 
 		v1 = utilities.parseVersion(v1);
 
 		if(v1 === null) {
-			if(throwErrors) {
-				throw new Error("Cannot compare invalid or empty first version.");
-			}
-
-			return null;
+			throw new Error("Cannot compare invalid or empty first version.");
 		}
 
 		v2 = utilities.parseVersion(v2);
 
 		if(v2 === null) {
-			if(throwErrors) {
-				throw new Error("Cannot compare invalid or empty second version.");
-			}
-
-			return null;
+			throw new Error("Cannot compare invalid or empty second version.");
 		}
 
 		var index = 0;

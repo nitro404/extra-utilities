@@ -1,4 +1,50 @@
-"use strict";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>extra-utilities.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/nitro404/extra-utilities" >Repository</a></h2><h3>Modules</h3><ul><li><a href="module-utilities.html">utilities</a><ul class='methods'><li data-type='method'><a href="module-utilities.html#.addLeadingZeroes">addLeadingZeroes</a></li><li data-type='method'><a href="module-utilities.html#.appendSlash">appendSlash</a></li><li data-type='method'><a href="module-utilities.html#.clone">clone</a></li><li data-type='method'><a href="module-utilities.html#.compareCasePercentage">compareCasePercentage</a></li><li data-type='method'><a href="module-utilities.html#.compareDates">compareDates</a></li><li data-type='method'><a href="module-utilities.html#.compareVersions">compareVersions</a></li><li data-type='method'><a href="module-utilities.html#.createError">createError</a></li><li data-type='method'><a href="module-utilities.html#.createQueryString">createQueryString</a></li><li data-type='method'><a href="module-utilities.html#.createRange">createRange</a></li><li data-type='method'><a href="module-utilities.html#.disabledElements">disabledElements</a></li><li data-type='method'><a href="module-utilities.html#.elementsWithAttribute">elementsWithAttribute</a></li><li data-type='method'><a href="module-utilities.html#.elementsWithoutAttribute">elementsWithoutAttribute</a></li><li data-type='method'><a href="module-utilities.html#.enabledElements">enabledElements</a></li><li data-type='method'><a href="module-utilities.html#.equalsIgnoreCase">equalsIgnoreCase</a></li><li data-type='method'><a href="module-utilities.html#.fileHasExtension">fileHasExtension</a></li><li data-type='method'><a href="module-utilities.html#.formatObject">formatObject</a></li><li data-type='method'><a href="module-utilities.html#.formatStringList">formatStringList</a></li><li data-type='method'><a href="module-utilities.html#.formatValue">formatValue</a></li><li data-type='method'><a href="module-utilities.html#.futureMonths">futureMonths</a></li><li data-type='method'><a href="module-utilities.html#.generateVersions">generateVersions</a></li><li data-type='method'><a href="module-utilities.html#.getFileExtension">getFileExtension</a></li><li data-type='method'><a href="module-utilities.html#.getFileName">getFileName</a></li><li data-type='method'><a href="module-utilities.html#.getFileNameNoExtension">getFileNameNoExtension</a></li><li data-type='method'><a href="module-utilities.html#.getFilePath">getFilePath</a></li><li data-type='method'><a href="module-utilities.html#.hiddenElements">hiddenElements</a></li><li data-type='method'><a href="module-utilities.html#.indentText">indentText</a></li><li data-type='method'><a href="module-utilities.html#.isBoolean">isBoolean</a></li><li data-type='method'><a href="module-utilities.html#.isComment">isComment</a></li><li data-type='method'><a href="module-utilities.html#.isDate">isDate</a></li><li data-type='method'><a href="module-utilities.html#.isDisabled">isDisabled</a></li><li data-type='method'><a href="module-utilities.html#.isEmptyArray">isEmptyArray</a></li><li data-type='method'><a href="module-utilities.html#.isEmptyObject">isEmptyObject</a></li><li data-type='method'><a href="module-utilities.html#.isEmptyString">isEmptyString</a></li><li data-type='method'><a href="module-utilities.html#.isEnabled">isEnabled</a></li><li data-type='method'><a href="module-utilities.html#.isError">isError</a></li><li data-type='method'><a href="module-utilities.html#.isFloat">isFloat</a></li><li data-type='method'><a href="module-utilities.html#.isFunction">isFunction</a></li><li data-type='method'><a href="module-utilities.html#.isHidden">isHidden</a></li><li data-type='method'><a href="module-utilities.html#.isInteger">isInteger</a></li><li data-type='method'><a href="module-utilities.html#.isInvalid">isInvalid</a></li><li data-type='method'><a href="module-utilities.html#.isInvalidNumber">isInvalidNumber</a></li><li data-type='method'><a href="module-utilities.html#.isNonEmptyArray">isNonEmptyArray</a></li><li data-type='method'><a href="module-utilities.html#.isNonEmptyObject">isNonEmptyObject</a></li><li data-type='method'><a href="module-utilities.html#.isNonEmptyString">isNonEmptyString</a></li><li data-type='method'><a href="module-utilities.html#.isObject">isObject</a></li><li data-type='method'><a href="module-utilities.html#.isObjectStrict">isObjectStrict</a></li><li data-type='method'><a href="module-utilities.html#.isRegularExpression">isRegularExpression</a></li><li data-type='method'><a href="module-utilities.html#.isValid">isValid</a></li><li data-type='method'><a href="module-utilities.html#.isValidNumber">isValidNumber</a></li><li data-type='method'><a href="module-utilities.html#.isVisible">isVisible</a></li><li data-type='method'><a href="module-utilities.html#.joinPaths">joinPaths</a></li><li data-type='method'><a href="module-utilities.html#.leftShift">leftShift</a></li><li data-type='method'><a href="module-utilities.html#.matchAttribute">matchAttribute</a></li><li data-type='method'><a href="module-utilities.html#.merge">merge</a></li><li data-type='method'><a href="module-utilities.html#.parseBoolean">parseBoolean</a></li><li data-type='method'><a href="module-utilities.html#.parseDate">parseDate</a></li><li data-type='method'><a href="module-utilities.html#.parseEmail">parseEmail</a></li><li data-type='method'><a href="module-utilities.html#.parseEmailDomain">parseEmailDomain</a></li><li data-type='method'><a href="module-utilities.html#.parseFloat">parseFloat</a></li><li data-type='method'><a href="module-utilities.html#.parseFloatingPointNumber">parseFloatingPointNumber</a></li><li data-type='method'><a href="module-utilities.html#.parseInteger">parseInteger</a></li><li data-type='method'><a href="module-utilities.html#.parseRegularExpression">parseRegularExpression</a></li><li data-type='method'><a href="module-utilities.html#.parseStringList">parseStringList</a></li><li data-type='method'><a href="module-utilities.html#.parseTime">parseTime</a></li><li data-type='method'><a href="module-utilities.html#.parseVersion">parseVersion</a></li><li data-type='method'><a href="module-utilities.html#.parseYouTubeLink">parseYouTubeLink</a></li><li data-type='method'><a href="module-utilities.html#.prependSlash">prependSlash</a></li><li data-type='method'><a href="module-utilities.html#.replaceNonBreakingSpaces">replaceNonBreakingSpaces</a></li><li data-type='method'><a href="module-utilities.html#.reverseFileExtension">reverseFileExtension</a></li><li data-type='method'><a href="module-utilities.html#.reverseString">reverseString</a></li><li data-type='method'><a href="module-utilities.html#.rightShift">rightShift</a></li><li data-type='method'><a href="module-utilities.html#.toString">toString</a></li><li data-type='method'><a href="module-utilities.html#.trimLeadingZeroes">trimLeadingZeroes</a></li><li data-type='method'><a href="module-utilities.html#.trimNullTerminatedString">trimNullTerminatedString</a></li><li data-type='method'><a href="module-utilities.html#.trimString">trimString</a></li><li data-type='method'><a href="module-utilities.html#.trimTrailingNewlines">trimTrailingNewlines</a></li><li data-type='method'><a href="module-utilities.html#.trimWhitespace">trimWhitespace</a></li><li data-type='method'><a href="module-utilities.html#.truncateFileName">truncateFileName</a></li><li data-type='method'><a href="module-utilities.html#.visibleElements">visibleElements</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">extra-utilities.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
 
 if(typeof require !== "undefined") {
 	if(typeof changeCase === "undefined") {
@@ -56,7 +102,7 @@ var stringCaseFunctions = {
  * console.log(utilities.isValid(null)); // false
  */
 utilities.isValid = function isValid(value) {
-	return value !== undefined && value !== null;
+	return value !== undefined &amp;&amp; value !== null;
 };
 
 /**
@@ -93,7 +139,7 @@ utilities.isInvalid = function isInvalid(value) {
  * console.log(utilities.isBoolean(new Boolean(false), true)); // true
  */
 utilities.isBoolean = function isBoolean(value, allowObjects) {
-	return value === true || value === false || (!!allowObjects && value instanceof Boolean);
+	return value === true || value === false || (!!allowObjects &amp;&amp; value instanceof Boolean);
 };
 
 /**
@@ -117,7 +163,7 @@ utilities.isBoolean = function isBoolean(value, allowObjects) {
  * console.log(utilities.isValidNumber(-Infinity)); // false
  */
 utilities.isValidNumber = function isValidNumber(value) {
-	return typeof value === "number" && !isNaN(value) && value !== -Infinity && value !== Infinity;
+	return typeof value === "number" &amp;&amp; !isNaN(value) &amp;&amp; value !== -Infinity &amp;&amp; value !== Infinity;
 };
 
 /**
@@ -172,7 +218,7 @@ utilities.isInteger = function isInteger(value, allowObjects) {
 		return true;
 	}
 
-	if(value instanceof Number && utilities.parseBoolean(allowObjects, true)) {
+	if(value instanceof Number &amp;&amp; utilities.parseBoolean(allowObjects, true)) {
 		return Number.isInteger(value.valueOf());
 	}
 
@@ -209,10 +255,10 @@ utilities.isInteger = function isInteger(value, allowObjects) {
  */
 utilities.isFloat =  function isFloat(value, allowObjects) {
 	if(typeof value === "number") {
-		return !isNaN(value) && isFinite(value);
+		return !isNaN(value) &amp;&amp; isFinite(value);
 	}
 
-	if(value instanceof Number && utilities.parseBoolean(allowObjects, true)) {
+	if(value instanceof Number &amp;&amp; utilities.parseBoolean(allowObjects, true)) {
 		return true;
 	}
 
@@ -278,7 +324,7 @@ utilities.isEmptyString = function isEmptyString(value, trim) {
  * console.log(utilities.isNonEmptyString(NaN)); // false
  */
 utilities.isNonEmptyString = function isNonEmptyString(value, trim) {
-	return typeof value === "string" && (utilities.parseBoolean(trim, true) ? value.trim().length !== 0 : value.length !== 0);
+	return typeof value === "string" &amp;&amp; (utilities.parseBoolean(trim, true) ? value.trim().length !== 0 : value.length !== 0);
 };
 
 /**
@@ -305,7 +351,7 @@ utilities.isNonEmptyString = function isNonEmptyString(value, trim) {
  * console.log(utilities.isObject(null)); // false
  */
 utilities.isObject = function isObject(value, strict) {
-	return value !== undefined && (strict ? value !== null && value.constructor === Object : value instanceof Object && !(value instanceof Function));
+	return value !== undefined &amp;&amp; (strict ? value !== null &amp;&amp; value.constructor === Object : value instanceof Object &amp;&amp; !(value instanceof Function));
 };
 
 /**
@@ -330,7 +376,7 @@ utilities.isObject = function isObject(value, strict) {
  * console.log(utilities.isObjectStrict(null)); // false
  */
 utilities.isObjectStrict = function isObjectStrict(value) {
-	return value !== undefined && value !== null && value.constructor === Object;
+	return value !== undefined &amp;&amp; value !== null &amp;&amp; value.constructor === Object;
 };
 
 /**
@@ -355,7 +401,7 @@ utilities.isObjectStrict = function isObjectStrict(value) {
  * console.log(utilities.isEmptyObject(null)); // false
  */
 utilities.isEmptyObject = function isEmptyObject(value) {
-	return value !== undefined && value !== null && value.constructor === Object && Object.keys(value).length === 0;
+	return value !== undefined &amp;&amp; value !== null &amp;&amp; value.constructor === Object &amp;&amp; Object.keys(value).length === 0;
 };
 
 /**
@@ -380,7 +426,7 @@ utilities.isEmptyObject = function isEmptyObject(value) {
  * console.log(utilities.isEmptyObject(null)); // false
  */
 utilities.isNonEmptyObject = function isNonEmptyObject(value) {
-	return value !== undefined && value !== null && value.constructor === Object && Object.keys(value).length !== 0;
+	return value !== undefined &amp;&amp; value !== null &amp;&amp; value.constructor === Object &amp;&amp; Object.keys(value).length !== 0;
 };
 
 /**
@@ -423,7 +469,7 @@ utilities.isEmptyArray = function isEmptyArray(value) {
  * console.log(utilities.isEmptyArray(null)); // false
  */
 utilities.isNonEmptyArray = function isNonEmptyArray(value) {
-	return Array.isArray(value) && value.length !== 0;
+	return Array.isArray(value) &amp;&amp; value.length !== 0;
 };
 
 /**
@@ -532,7 +578,7 @@ utilities.isComment = function isComment(value, comment) {
 
 	var commentStartIndex = -1;
 
-	for(var i = 0; i < value.length; i++) {
+	for(var i = 0; i &lt; value.length; i++) {
 		if(value[i] === " " || value[i] == "\t") {
 			continue;
 		}
@@ -546,11 +592,11 @@ utilities.isComment = function isComment(value, comment) {
 		}
 	}
 
-	if(commentStartIndex < 0 || value.length - commentStartIndex < comment.length) {
+	if(commentStartIndex &lt; 0 || value.length - commentStartIndex &lt; comment.length) {
 		return false;
 	}
 
-	for(var i = commentStartIndex; i < value.length; i++) {
+	for(var i = commentStartIndex; i &lt; value.length; i++) {
 		if(i - commentStartIndex >= comment.length) {
 			break;
 		}
@@ -1011,7 +1057,7 @@ utilities.parseDate = function parseDate(value, defaultValue) {
 	}
 
 	if(typeof value === "number") {
-		if(utilities.isInvalidNumber(value) || !Number.isInteger(value) || value < 0) {
+		if(utilities.isInvalidNumber(value) || !Number.isInteger(value) || value &lt; 0) {
 			return defaultValue;
 		}
 
@@ -1052,16 +1098,16 @@ utilities.parseDate = function parseDate(value, defaultValue) {
  * ```javascript
  *{
  *	regular: {
- *		raw: <string>, // a string representing the time in 12 hour format
- *		hour: <number>, // the hour component of the time value
- *		minutes: <number>, // the minute component of the time value
- *		period: <string>, // will be "AM" if the time is prior to 12:00 in the afternoon, otherwise "PM"
- *		morning: <boolean> // will be true if the time is prior to 12:00 in the afternoon
+ *		raw: &lt;string>, // a string representing the time in 12 hour format
+ *		hour: &lt;number>, // the hour component of the time value
+ *		minutes: &lt;number>, // the minute component of the time value
+ *		period: &lt;string>, // will be "AM" if the time is prior to 12:00 in the afternoon, otherwise "PM"
+ *		morning: &lt;boolean> // will be true if the time is prior to 12:00 in the afternoon
  *	},
  *	military: {
- *		raw: <string>, // a string representing the time in 24 hour format
- *		hour: <nubmer>, // the hour component of the time value
- *		minutes: <number> // the minute component of the time value
+ *		raw: &lt;string>, // a string representing the time in 24 hour format
+ *		hour: &lt;nubmer>, // the hour component of the time value
+ *		minutes: &lt;number> // the minute component of the time value
  *	}
  *}
  *```
@@ -1149,7 +1195,7 @@ utilities.parseTime = function parseTime(value) {
 				throw new Error("Invalid military time minutes: \"" + militaryMinutes + "\".");
 			}
 
-			if(hour === 24 && minutes === 0) {
+			if(hour === 24 &amp;&amp; minutes === 0) {
 				hour = 0;
 			}
 		}
@@ -1158,15 +1204,15 @@ utilities.parseTime = function parseTime(value) {
 		}
 	}
 
-	if(hour < 0 || hour > 23) {
+	if(hour &lt; 0 || hour > 23) {
 		throw new Error("Time hour is out of range (0 - 23): \"" + hour + "\".");
 	}
-	else if(minutes < 0 || minutes > 59) {
+	else if(minutes &lt; 0 || minutes > 59) {
 		throw new Error("Time minutes is out of range (0 - 59): \"" + minutes + "\".");
 	}
 
-	var regularHour = hour === 0 ? 12 : (hour <= 12 ? hour : hour - 12);
-	var period = hour < 12 ? "AM" : "PM";
+	var regularHour = hour === 0 ? 12 : (hour &lt;= 12 ? hour : hour - 12);
+	var period = hour &lt; 12 ? "AM" : "PM";
 
 	return {
 		regular: {
@@ -1174,7 +1220,7 @@ utilities.parseTime = function parseTime(value) {
 			hour: regularHour,
 			minutes: minutes,
 			period: period,
-			morning: hour < 12
+			morning: hour &lt; 12
 		},
 		military: {
 			raw: utilities.addLeadingZeroes(hour, 2) + utilities.addLeadingZeroes(minutes, 2),
@@ -1206,7 +1252,7 @@ utilities.parseEmail = function parseEmail(value) {
 
 	var emailData = value.trim().toLowerCase().match(/([^+@]+)(\+.*)?(@.+\..+)/);
 
-	if(utilities.isInvalid(emailData) || emailData.length < 4) {
+	if(utilities.isInvalid(emailData) || emailData.length &lt; 4) {
 		return null;
 	}
 
@@ -1236,7 +1282,7 @@ utilities.parseEmailDomain = function parseEmailDomain(value) {
 
 	var emailDomainData = value.trim().toLowerCase().match(/([^+@]+)(\+.*)?@(.+\..+)/);
 
-	if(utilities.isInvalid(emailDomainData) || emailDomainData.length < 4) {
+	if(utilities.isInvalid(emailDomainData) || emailDomainData.length &lt; 4) {
 		return null;
 	}
 
@@ -1270,7 +1316,7 @@ utilities.parseStringList = function parseStringList(value) {
 	var formattedList = [];
 	var formattedValue = null;
 
-	for(var i = 0; i < data.length; i++) {
+	for(var i = 0; i &lt; data.length; i++) {
 		formattedValue = data[i].trim();
 
 		if(formattedValue.length === 0) {
@@ -1359,9 +1405,9 @@ utilities.parseYouTubeLink = function parseYouTubeLink(value) {
 	}
 
 	var formattedValue = value.trim();
-	var linkData = formattedValue.match(/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/i);
+	var linkData = formattedValue.match(/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&amp;\?]*).*/i);
 
-	if(linkData && linkData[1].length >= 11) {
+	if(linkData &amp;&amp; linkData[1].length >= 11) {
 		return linkData[1];
 	}
 
@@ -1419,7 +1465,7 @@ utilities.formatValue = function formatValue(value, format, options) {
 
 		var validFormatType = false;
 
-		for(var i = 0; i < formatTypes.length; i++) {
+		for(var i = 0; i &lt; formatTypes.length; i++) {
 			if(format.type === formatTypes[i]) {
 				validFormatType = true;
 				break;
@@ -1523,7 +1569,7 @@ utilities.formatValue = function formatValue(value, format, options) {
 
 			if(utilities.isInvalid(errorMessage)) {
 				if(format.type === "object" || format.type === "array") {
-					if(format.format !== undefined && !utilities.isObjectStrict(format.format)) {
+					if(format.format !== undefined &amp;&amp; !utilities.isObjectStrict(format.format)) {
 						errorMessage = "Invalid optional format format value - expected object, received \"" + utilities.toString(format.format) + "\".";
 					}
 				}
@@ -1670,7 +1716,7 @@ utilities.formatValue = function formatValue(value, format, options) {
 			formattedValue = stringCaseFunctions[format.case](formattedValue);
 		}
 
-		if(format.nonEmpty && formattedValue.length === 0) {
+		if(format.nonEmpty &amp;&amp; formattedValue.length === 0) {
 			var message = "String value cannot be empty.";
 
 			if(options.throwErrors) {
@@ -1710,7 +1756,7 @@ utilities.formatValue = function formatValue(value, format, options) {
 				if(utilities.isObjectStrict(format.format)) {
 					var formattedElement = null;
 
-					for(var i = 0; i < formattedValue.length; i++) {
+					for(var i = 0; i &lt; formattedValue.length; i++) {
 						if(formattedValue[i] === undefined) {
 							continue;
 						}
@@ -1739,7 +1785,7 @@ utilities.formatValue = function formatValue(value, format, options) {
 					}
 				}
 				else {
-					for(var i = 0; i < formattedValue.length; i++) {
+					for(var i = 0; i &lt; formattedValue.length; i++) {
 						if(formattedValue[i] === undefined) {
 							continue;
 						}
@@ -1750,7 +1796,7 @@ utilities.formatValue = function formatValue(value, format, options) {
 
 				formattedValue = formattedArray;
 
-				if(format.nonEmpty && formattedValue.length === 0) {
+				if(format.nonEmpty &amp;&amp; formattedValue.length === 0) {
 					var message = "Array value cannot be empty.";
 
 					if(options.throwErrors) {
@@ -1827,16 +1873,16 @@ utilities.formatValue = function formatValue(value, format, options) {
 
 			if(utilities.isInvalid(errorMessage)) {
 				if(utilities.isInvalid(formattedValue)) {
-					if(format.autopopulate && !utilities.isObject(formattedValue, format.strict)) {
+					if(format.autopopulate &amp;&amp; !utilities.isObject(formattedValue, format.strict)) {
 						formattedValue = { };
 					}
 				}
 
-				if(utilities.isObjectStrict(format.format) && utilities.isObject(formattedValue)) {
+				if(utilities.isObjectStrict(format.format) &amp;&amp; utilities.isObject(formattedValue)) {
 					var attribute = null;
 					var attributes = Object.keys(format.format);
 
-					for(var i = 0; i < attributes.length; i++) {
+					for(var i = 0; i &lt; attributes.length; i++) {
 						attribute = attributes[i];
 
 						if(options.throwErrors) {
@@ -1873,7 +1919,7 @@ utilities.formatValue = function formatValue(value, format, options) {
 
 						attributes = Object.keys(formattedValue);
 
-						for(var i = 0; i < attributes.length; i++) {
+						for(var i = 0; i &lt; attributes.length; i++) {
 							attribute = attributes[i];
 
 							if(utilities.isValid(format.format[attribute])) {
@@ -1889,7 +1935,7 @@ utilities.formatValue = function formatValue(value, format, options) {
 
 						attributes = Object.keys(format.format);
 
-						for(var i = 0; i < attributes.length; i++) {
+						for(var i = 0; i &lt; attributes.length; i++) {
 							attribute = attributes[i];
 
 							if(formattedValue[attribute] !== undefined) {
@@ -1901,7 +1947,7 @@ utilities.formatValue = function formatValue(value, format, options) {
 
 						var extraAttributes = Object.keys(formattedValue);
 
-						for(var i = 0; i < extraAttributes.length; i++) {
+						for(var i = 0; i &lt; extraAttributes.length; i++) {
 							attribute = extraAttributes[i];
 
 							orderedObject[attribute] = formattedValue[attribute];
@@ -1911,7 +1957,7 @@ utilities.formatValue = function formatValue(value, format, options) {
 					}
 				}
 
-				if(format.nonEmpty && utilities.isEmptyObject(formattedValue)) {
+				if(format.nonEmpty &amp;&amp; utilities.isEmptyObject(formattedValue)) {
 					var message = "Object value must contain at least one attribute.";
 
 					if(options.throwErrors) {
@@ -2024,7 +2070,7 @@ utilities.formatValue = function formatValue(value, format, options) {
  * console.log(utilities.formatObject()); // TODO_RESULT
  */
 utilities.formatObject = function formatObject(object, format, removeExtra, throwErrors) {
-	if(!utilities.isObjectStrict(object) && (!utilities.isObjectStrict(removeExtra) || !utilities.isFunction(removeExtra.parser))) {
+	if(!utilities.isObjectStrict(object) &amp;&amp; (!utilities.isObjectStrict(removeExtra) || !utilities.isFunction(removeExtra.parser))) {
 		return { };
 	}
 
@@ -2098,7 +2144,7 @@ utilities.formatObject = function formatObject(object, format, removeExtra, thro
 		}
 	}
 
-	return utilities.isObjectStrict(formattedObject) || (utilities.isObjectStrict(removeExtra) && utilities.isFunction(removeExtra.parser)) ? formattedObject : { };
+	return utilities.isObjectStrict(formattedObject) || (utilities.isObjectStrict(removeExtra) &amp;&amp; utilities.isFunction(removeExtra.parser)) ? formattedObject : { };
 };
 
 /**
@@ -2135,7 +2181,7 @@ utilities.formatStringList = function formatStringList(value, stringify) {
 
 	stringify = utilities.parseBoolean(stringify);
 
-	for(var i = 0; i < data.length; i++) {
+	for(var i = 0; i &lt; data.length; i++) {
 		if(typeof data[i] !== "string") {
 			if(stringify === null) {
 				continue;
@@ -2342,7 +2388,7 @@ utilities.trimTrailingNewlines = function trimTrailingNewlines(value, defaultVal
  * console.log(utilities.replaceNonBreakingSpaces()); // TODO_RESULT
  */
 utilities.replaceNonBreakingSpaces = function replaceNonBreakingSpaces(value) {
-	return typeof value === "string" ? value.replace(/&nbsp;/gi, " ") : null;
+	return typeof value === "string" ? value.replace(/&amp;nbsp;/gi, " ") : null;
 };
 
 /**
@@ -2368,7 +2414,7 @@ utilities.indentText = function indentText(value, amount, indentation, clearEmpt
 
 	amount = utilities.parseInteger(amount, 1);
 
-	if(amount < 0) {
+	if(amount &lt; 0) {
 		amount = 0;
 	}
 
@@ -2376,7 +2422,7 @@ utilities.indentText = function indentText(value, amount, indentation, clearEmpt
 
 	var totalIndentation = "";
 
-	for(var i = 0; i < amount; i++) {
+	for(var i = 0; i &lt; amount; i++) {
 		totalIndentation += indentation;
 	}
 
@@ -2384,10 +2430,10 @@ utilities.indentText = function indentText(value, amount, indentation, clearEmpt
 	var lines = value.split(/\r\n?|\n/g);
 	var indentedParagraph = "";
 
-	for(var i = 0; i < lines.length; i++) {
+	for(var i = 0; i &lt; lines.length; i++) {
 		line = lines[i];
 
-		indentedParagraph += (utilities.isEmptyString(line) && clearEmptyLines ? "" : totalIndentation + line) + ((i < lines.length - 1) ? "\n" : "");
+		indentedParagraph += (utilities.isEmptyString(line) &amp;&amp; clearEmptyLines ? "" : totalIndentation + line) + ((i &lt; lines.length - 1) ? "\n" : "");
 	}
 
 	return indentedParagraph;
@@ -2447,13 +2493,13 @@ utilities.addLeadingZeroes = function addLeadingZeroes(value, expectedLength) {
 	value = value.toString();
 	expectedLength = utilities.parseInteger(expectedLength);
 
-	if(utilities.isInvalidNumber(expectedLength) || expectedLength < 0) {
+	if(utilities.isInvalidNumber(expectedLength) || expectedLength &lt; 0) {
 		return value;
 	}
 
 	var numberOfZeroes = expectedLength - value.length;
 
-	for(var i = 0; i < numberOfZeroes; i++) {
+	for(var i = 0; i &lt; numberOfZeroes; i++) {
 		value = "0" + value;
 	}
 
@@ -2496,7 +2542,7 @@ utilities.toString = function toString(value) {
 	else if(value === -Infinity) {
 		return "-Infinity";
 	}
-	else if(typeof value === "number" && isNaN(value)) {
+	else if(typeof value === "number" &amp;&amp; isNaN(value)) {
 		return "NaN";
 	}
 	else if(value instanceof Date) {
@@ -2541,7 +2587,7 @@ utilities.compareDates = function compareDates(a, b) {
 	a = utilities.parseDate(a);
 	b = utilities.parseDate(b);
 
-	if(a === null && b === null) {
+	if(a === null &amp;&amp; b === null) {
 		return 0;
 	}
 
@@ -2579,13 +2625,13 @@ utilities.compareCasePercentage = function compareCasePercentage(value) {
 	var upperA = "A".charCodeAt();
 	var upperZ = "Z".charCodeAt();
 
-	for(var i = 0; i < value.length; i++) {
+	for(var i = 0; i &lt; value.length; i++) {
 		c = value.charCodeAt(i);
 
-		if(c >= lowerA && c <= lowerZ) {
+		if(c >= lowerA &amp;&amp; c &lt;= lowerZ) {
 			lower++;
 		}
-		else if(c >= upperA && c <= upperZ) {
+		else if(c >= upperA &amp;&amp; c &lt;= upperZ) {
 			upper++;
 		}
 	}
@@ -2674,7 +2720,7 @@ utilities.clone = function clone(value) {
 	else if(value instanceof Array) {
 		var copy = [];
 
-		for(var i = 0, length = value.length; i < length; i++) {
+		for(var i = 0, length = value.length; i &lt; length; i++) {
 			copy[i] = utilities.clone(value[i]);
 		}
 
@@ -2697,7 +2743,7 @@ utilities.clone = function clone(value) {
 
 		return new RegExp(value.source, flags);
 	}
-	else if(typeof Buffer !== "undefined" && value instanceof Buffer) {
+	else if(typeof Buffer !== "undefined" &amp;&amp; value instanceof Buffer) {
 		return Buffer.from instanceof Function ? Buffer.from(value) : new Buffer(value);
 	}
 	else if(value instanceof Object) {
@@ -2710,7 +2756,7 @@ utilities.clone = function clone(value) {
 
 			var properties = Object.keys(value);
 
-			for(var i = 0; i < properties.length; i++) {
+			for(var i = 0; i &lt; properties.length; i++) {
 				copy[properties[i]] = utilities.clone(value[properties[i]]);
 			}
 		}
@@ -2772,7 +2818,7 @@ utilities.merge = function merge(a, b, copy, deepMerge) {
 
 	deepMerge = utilities.parseBoolean(deepMerge, true);
 
-	for(var i = 0; i < attributes.length; i++) {
+	for(var i = 0; i &lt; attributes.length; i++) {
 		attribute = attributes[i];
 		value = newObject[attribute];
 
@@ -2783,7 +2829,7 @@ utilities.merge = function merge(a, b, copy, deepMerge) {
 			newValue = b[attribute];
 		}
 
-		if(deepMerge && utilities.isObject(value) && !Array.isArray(value) && utilities.isObject(newValue) && !Array.isArray(newValue)) {
+		if(deepMerge &amp;&amp; utilities.isObject(value) &amp;&amp; !Array.isArray(value) &amp;&amp; utilities.isObject(newValue) &amp;&amp; !Array.isArray(newValue)) {
 			newObject[attribute] = utilities.merge(value, newValue);
 		}
 		else {
@@ -3053,7 +3099,7 @@ utilities.truncateFileName = function truncateFileName(fileName, maxLength) {
 
 	maxLength = utilities.parseInteger(maxLength);
 
-	if(utilities.isInvalidNumber(maxLength) || maxLength < 0) {
+	if(utilities.isInvalidNumber(maxLength) || maxLength &lt; 0) {
 		return fileName;
 	}
 
@@ -3061,7 +3107,7 @@ utilities.truncateFileName = function truncateFileName(fileName, maxLength) {
 		return "";
 	}
 
-	if(fileName.length <= maxLength) {
+	if(fileName.length &lt;= maxLength) {
 		return fileName;
 	}
 
@@ -3076,7 +3122,7 @@ utilities.truncateFileName = function truncateFileName(fileName, maxLength) {
 		}
 	}
 
-	if(maxLength - (extension.length + (extension.length > 0 ? 1 : 0)) < 1) {
+	if(maxLength - (extension.length + (extension.length > 0 ? 1 : 0)) &lt; 1) {
 		return originalFileName.substring(0, maxLength);
 	}
 
@@ -3110,7 +3156,7 @@ utilities.prependSlash = function prependSlash(value, forwardSlash) {
 		return formattedValue;
 	}
 
-	if(formattedValue[0] !== "/" && formattedValue[0] !== "\\") {
+	if(formattedValue[0] !== "/" &amp;&amp; formattedValue[0] !== "\\") {
 		formattedValue = (forwardSlash ? "/" : "\\") + formattedValue;
 	}
 
@@ -3144,7 +3190,7 @@ utilities.appendSlash = function appendSlash(value, forwardSlash) {
 		return formattedValue;
 	}
 
-	if(formattedValue[formattedValue.length - 1] !== "/" && formattedValue[formattedValue.length - 1] !== "\\") {
+	if(formattedValue[formattedValue.length - 1] !== "/" &amp;&amp; formattedValue[formattedValue.length - 1] !== "\\") {
 		formattedValue += (forwardSlash ? "/" : "\\");
 	}
 
@@ -3177,7 +3223,7 @@ utilities.joinPaths = function joinPaths(paths, options) {
 		paths = Array.prototype.slice.call(arguments);
 	}
 
-	if(paths.length !== 0 && utilities.isObjectStrict(paths[paths.length - 1])) {
+	if(paths.length !== 0 &amp;&amp; utilities.isObjectStrict(paths[paths.length - 1])) {
 		options = paths.splice(paths.length - 1, 1)[0];
 	}
 
@@ -3187,13 +3233,13 @@ utilities.joinPaths = function joinPaths(paths, options) {
 
 	options.separator = utilities.trimString(options.separator);
 
-	if(options.separator !== "/" && options.separator !== "\\") {
+	if(options.separator !== "/" &amp;&amp; options.separator !== "\\") {
 		options.separator = "/";
 	}
 
 	var newPath = "";
 
-	for(var i = 0; i < paths.length; i++) {
+	for(var i = 0; i &lt; paths.length; i++) {
 		var path = utilities.trimString(paths[i]);
 
 		if(utilities.isEmptyString(path)) {
@@ -3243,7 +3289,7 @@ utilities.createQueryString = function createQueryString(value, includeQuestionM
 
 	var parameters = Object.keys(value).map(function(key) {
 		return encodeURIComponent(key) + "=" + encodeURIComponent(utilities.toString(value[key]));
-	}).join("&");
+	}).join("&amp;");
 
 	if(parameters.length === 0) {
 		return "";
@@ -3280,7 +3326,7 @@ utilities.createRange = function createRange(start, end) {
 
 	var range = [];
 
-	for(var i = formattedStart; i <= formattedEnd; i++) {
+	for(var i = formattedStart; i &lt;= formattedEnd; i++) {
 		range.push(i);
 	}
 
@@ -3320,10 +3366,10 @@ utilities.futureMonths = function futureMonths(date, prependZero) {
 
 	prependZero = utilities.parseBoolean(prependZero, false);
 
-	for(var i = 0; i < 12; i++) {
+	for(var i = 0; i &lt; 12; i++) {
 		if(i >= month) {
 			if(prependZero) {
-				months.push((i <= 8 ? "0" : "") + (i + 1));
+				months.push((i &lt;= 8 ? "0" : "") + (i + 1));
 			}
 			else {
 				months.push((i + 1).toString());
@@ -3354,7 +3400,7 @@ utilities.visibleElements = function visibleElements(elements) {
 
 	var visibleElements = [];
 
-	for(var i = 0; i < elements.length; i++) {
+	for(var i = 0; i &lt; elements.length; i++) {
 		if(utilities.isVisible(elements[i])) {
 			visibleElements.push(elements[i]);
 		}
@@ -3383,7 +3429,7 @@ utilities.hiddenElements = function hiddenElements(elements) {
 
 	var hiddenElements = [];
 
-	for(var i = 0; i < elements.length; i++) {
+	for(var i = 0; i &lt; elements.length; i++) {
 		if(utilities.isHidden(elements[i])) {
 			hiddenElements.push(elements[i]);
 		}
@@ -3412,7 +3458,7 @@ utilities.enabledElements = function enabledElements(elements) {
 
 	var enabledElements = [];
 
-	for(var i = 0; i < elements.length; i++) {
+	for(var i = 0; i &lt; elements.length; i++) {
 		if(utilities.isEnabled(elements[i])) {
 			enabledElements.push(elements[i]);
 		}
@@ -3441,7 +3487,7 @@ utilities.disabledElements = function disabledElements(elements) {
 
 	var disabledElements = [];
 
-	for(var i = 0; i < elements.length; i++) {
+	for(var i = 0; i &lt; elements.length; i++) {
 		if(utilities.isDisabled(elements[i])) {
 			disabledElements.push(elements[i]);
 		}
@@ -3476,7 +3522,7 @@ utilities.elementsWithAttribute = function elementsWithAttribute(elements, attri
 	attribute = attribute.trim();
 	hasAttribute = utilities.parseBoolean(hasAttribute, true);
 
-	for(var i = 0; i < elements.length; i++) {
+	for(var i = 0; i &lt; elements.length; i++) {
 		element = elements[i];
 
 		if(!utilities.isObject(element)) {
@@ -3570,14 +3616,14 @@ utilities.generateVersions = function generateVersions(version, prefix, suffix) 
 	var versions = [];
 	var value = null;
 
-	for(var i = 0; i < version.length; i++) {
+	for(var i = 0; i &lt; version.length; i++) {
 		value = "";
 
 		if(utilities.isNonEmptyString(prefix)) {
 			value += prefix;
 		}
 
-		for(var j = 0; j <= i; j++) {
+		for(var j = 0; j &lt;= i; j++) {
 			if(j > 0) {
 				value += "_";
 			}
@@ -3625,11 +3671,11 @@ utilities.parseVersion = function parseVersion(value, trimTrailingZeroes) {
 
 	var part = null;
 
-	for(var i = 0; i < versionData.length; i++) {
+	for(var i = 0; i &lt; versionData.length; i++) {
 		if(utilities.isInteger(versionData[i])) {
 			part = utilities.parseInteger(versionData[i]);
 
-			if(utilities.isInvalidNumber(part) || part < 0) {
+			if(utilities.isInvalidNumber(part) || part &lt; 0) {
 				continue;
 			}
 
@@ -3642,7 +3688,7 @@ utilities.parseVersion = function parseVersion(value, trimTrailingZeroes) {
 
 	if(utilities.parseBoolean(trimTrailingZeroes, false)) {
 		while(true) {
-			if(version.length <= 1) {
+			if(version.length &lt;= 1) {
 				break;
 			}
 
@@ -3697,7 +3743,7 @@ utilities.compareVersions = function compareVersions(v1, v2, caseSensitive) {
 				return 0;
 			}
 
-			for(var i = index; i < v2.length; i++) {
+			for(var i = index; i &lt; v2.length; i++) {
 				if(v2[i] !== "0") {
 					return -1;
 				}
@@ -3707,7 +3753,7 @@ utilities.compareVersions = function compareVersions(v1, v2, caseSensitive) {
 		}
 
 		if(index >= v2.length) {
-			for(var i = index; i < v1.length; i++) {
+			for(var i = index; i &lt; v1.length; i++) {
 				if(v1[i] !== "0") {
 					return 1;
 				}
@@ -3741,7 +3787,7 @@ utilities.compareVersions = function compareVersions(v1, v2, caseSensitive) {
 		if(formattedA > formattedB) {
 			return 1;
 		}
-		else if(formattedA < formattedB) {
+		else if(formattedA &lt; formattedB) {
 			return -1;
 		}
 
@@ -3750,3 +3796,30 @@ utilities.compareVersions = function compareVersions(v1, v2, caseSensitive) {
 };
 
 module.exports = utilities;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sat Apr 04 2020 14:22:40 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

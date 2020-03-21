@@ -10,9 +10,13 @@
 [![Contributors][contributors-image]][contributors-url]
 [![Pull Requests Welcome][pull-requests-image]][pull-requests-url]
 
-A collection of useful helper functions.
+A collection of useful JavaScript helper functions.
 
-## Client-Side Usage
+## Documentation
+
+Work-in-progress API documentation is available [here][documentation-url].
+
+## Web Usage
 
 ```html
 <script src="extra-utilities.js"></script>
@@ -22,12 +26,12 @@ A collection of useful helper functions.
 </script>
 ```
 
-## Server-Side Usage
+## Node.js Usage
 
 ```javascript
 const utilities = require("extra-utilities");
 
-utilities.isBoolean(false); // => true
+utilities.isValidNumber(NaN); // => false
 ```
 
 ## Installation
@@ -43,10 +47,20 @@ To build the distribution files for this module:
 ```bash
 npm run build
 ```
-or
+
+## Running Unit Tests
+
+To run the unit test suite for this module:
 ```bash
-gulp build
+npm run test
 ```
+
+## Generating Documentation
+```bash
+npm run docs
+```
+
+[documentation-url]: https://nitro404.github.io/extra-utilities/module-utilities.html
 
 [npm-url]: https://www.npmjs.com/package/extra-utilities
 [npm-version-image]: https://img.shields.io/npm/v/extra-utilities.svg

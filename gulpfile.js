@@ -4,8 +4,5 @@ fabricator.setup({
 	name: "Extra Utilities",
 	build: {
 		exportName: "Utilities"
-	},
-	base: {
-		directory: __dirname
 	}
 });
