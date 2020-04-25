@@ -2106,7 +2106,7 @@ utilities.formatObject = function formatObject(object, format, removeExtra, thro
  *
  * @function formatStringList
  * @param {(string|string[])} value - The string list to format.
- * @param {(boolean|null)} [stringify=null] - TODO_ARG_DESC
+ * @param {(boolean|null)} [stringify=null] - Determines if entries in the list should be stringified or not using {@link module:utilities.toString|toString}.
  * @returns {string} The formatted string list.
  * @see {@link module:utilities.parseStringList|parseStringList}
  * @since 1.0.0
@@ -2266,7 +2266,7 @@ utilities.trimNullTerminatedString = function trimNullTerminatedString(value, de
  *
  * @function trimWhitespace
  * @param {string} value - The string to trim whitespace characters from.
- * @param {boolean} trimNewlines - TODO_ARG_DESC.
+ * @param {boolean} [trimNewlines=false] - Determines of newlines characters should also be removed from the end of each line or not.
  * @param {(string|null)} [defaultValue=null] - The default value to return if the specified value is not a string.
  * @returns {(string|null)} TODO_RETURN_DESC
  * @see {@link module:utilities.isEmptyString|isEmptyString}
@@ -2398,7 +2398,7 @@ utilities.indentText = function indentText(value, amount, indentation, clearEmpt
  *
  * @function trimLeadingZeroes
  * @param {string} value - The string to remove leading zeroes from.
- * @returns {TODO_RETURN_TYPE} TODO_RETURN_DESC
+ * @returns {string} TODO_RETURN_DESC
  * @see {@link module:utilities.addLeadingZeroes|addLeadingZeroes}
  * @since 1.0.0
  * @memberOf module:utilities
@@ -3153,11 +3153,14 @@ utilities.appendSlash = function appendSlash(value, forwardSlash) {
 
 /**
  * TODO_FUNC_DESC
+ * A string with all of the path string arguments joined together. by a single instance of the specified separator character with no trailing separator character unless the original path is just a separator character.
+ * TODO_OPTIONS
+
  *
  * @function joinPaths
- * @param {...string|string[]} paths - TODO_ARG_DESC.
- * @param {Object} [options] - TODO_ARG_DESC.
- * @returns {string} TODO_RETURN_DESC
+ * @param {...string|string[]} paths - An collection of string arguments either passed directly to the function or as an array value.
+ * @param {Object} [options] - Configuration options when joining path strings together, either passed as the last argument to the function.or the last value in the array.
+ * @returns {string} A string with all of the path string arguments joined together.
  * @see {@link module:utilities.getFileName|getFileName}
  * @see {@link module:utilities.getFilePath|getFilePath}
  * @see {@link module:utilities.getFileNameNoExtension|getFileNameNoExtension}
