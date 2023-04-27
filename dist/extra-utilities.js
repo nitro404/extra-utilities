@@ -4,8 +4,6 @@
 	(global.utilities = factory());
 } (this, function() {
 
-	"use strict";
-
 	if(typeof require !== "undefined") {
 		if(typeof validator === "undefined") {
 			global.validator = require("validator");

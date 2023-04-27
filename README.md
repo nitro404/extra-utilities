@@ -1,10 +1,8 @@
 # Extra Utilities
 
 [![NPM version][npm-version-image]][npm-url]
-[![Build Status][build-status-image]][build-status-url]
 [![Coverage Status][coverage-image]][coverage-url]
 [![Known Vulnerabilities][vulnerabilities-image]][vulnerabilities-url]
-[![Dependencies][dependencies-image]][dependencies-url]
 [![Downloads][npm-downloads-image]][npm-url]
 [![Install Size][install-size-image]][install-size-url]
 [![Contributors][contributors-image]][contributors-url]
@@ -52,17 +50,11 @@ gulp build
 [npm-version-image]: https://img.shields.io/npm/v/extra-utilities.svg
 [npm-downloads-image]: http://img.shields.io/npm/dm/extra-utilities.svg
 
-[build-status-url]: https://travis-ci.org/nitro404/extra-utilities
-[build-status-image]: https://travis-ci.org/nitro404/extra-utilities.svg?branch=master
-
 [coverage-url]: https://coveralls.io/github/nitro404/extra-utilities?branch=master
 [coverage-image]: https://coveralls.io/repos/github/nitro404/extra-utilities/badge.svg?branch=master
 
 [vulnerabilities-url]: https://snyk.io/test/github/nitro404/extra-utilities?targetFile=package.json
 [vulnerabilities-image]: https://snyk.io/test/github/nitro404/extra-utilities/badge.svg?targetFile=package.json
-
-[dependencies-url]: https://david-dm.org/nitro404/extra-utilities
-[dependencies-image]: https://img.shields.io/david/nitro404/extra-utilities.svg
 
 [install-size-url]: https://packagephobia.now.sh/result?p=extra-utilities
 [install-size-image]: https://badgen.net/packagephobia/install/extra-utilities
